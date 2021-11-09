@@ -1,16 +1,59 @@
-import {Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton} from '@mui/material';
+import {Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Rating, Tooltip, tooltipClasses, Button} from '@mui/material';
 import {MoreVertIcon} from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 
+import { styled } from '@mui/material/styles';
+
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
+import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
+
+
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}));
+
 const HomeCard = ({postedData}) => {
 
-  console.log(postedData.text)
+ const customIcons = {
+  1: {
+    icon: <ThumbUpAltOutlinedIcon />,
+    label: 'ThumbUp',
+  },
+  2: {
+    icon: <FavoriteIcon />,
+    label: 'Favorite',
+  },
+  3: {
+    icon: <SentimentVeryDissatisfiedIcon />,
+    label: 'sad',
+  },
+  4: {
+    icon: <SentimentSatisfiedAltIcon />,
+    label: 'Satisfied',
+  },
+  5: {
+    icon: <SentimentVerySatisfiedIcon />,
+    label: 'Very Satisfied',
+  },
+};
 
-  const imgUrl = "https://media.istockphoto.com/photos/colorful-autumn-landscape-of-a-modern-city-by-the-river-picture-id896667814?k=20&m=896667814&s=612x612&w=0&h=ml5BaUKT14TnbZDwypUbgg-D8H0b6zj65QDIgAisVE0="
-  const userImageUrl = "https://media.istockphoto.com/photos/learn-to-love-yourself-first-picture-id1291208214?k=20&m=1291208214&s=612x612&w=0&h=WbHbwklzP81iAWV0dPlQWuBLxnbqJFk81a9OZG6qvSM="
+function IconContainer({value, ...other}) {
+  return <span {...other}>{customIcons[value].icon}</span>;
+}
 
     return (
         <>
@@ -36,7 +79,17 @@ const HomeCard = ({postedData}) => {
         </Typography>
       </CardContent>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+          <LightTooltip title={
+             <>
+            <Rating
+              name="highlight-selected-only"
+              IconContainerComponent={IconContainer}
+              highlightSelectedOnly
+            />
+          </>
+          } placement="top">
+          <Button>Like</Button>
+          </LightTooltip>
         </IconButton>
     </Card>
   </>
