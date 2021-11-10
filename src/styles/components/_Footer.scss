@@ -1,0 +1,19 @@
+.footerWrapper {
+  color: $green;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: $black;
+  height: 90px;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  align-items: center;
+  .icons {
+      cursor: pointer;
+  }
+  
+}
+
