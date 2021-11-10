@@ -4,6 +4,10 @@
     width: 100%;
     box-sizing: border-box;
     height: 90px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    z-index: 100;
     text-align: center;
     padding: 1rem 0 1rem 0;
     h1 {
