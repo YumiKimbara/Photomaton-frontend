@@ -41,10 +41,6 @@ const Register = () => {
     };
 
 
-    // const handleMouseDownPassword = (event) => {
-    //     event.preventDefault();
-    // };
-
     return (
         <Box
             component="form"
