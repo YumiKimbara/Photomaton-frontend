@@ -1,7 +1,7 @@
 import {Grid} from '@mui/material';
 
-
 import HomeCard from "./HomeCard.js";
+import Story from "./Story.js";
 
 
 const Home = () => {
@@ -60,6 +60,7 @@ const dummyData = [
   return (
     <>
     <div className="homeWrapper">
+      <Story/>
       <Grid container spacing={0}>
       {dummyData && dummyData.map((data) => {
       return <Grid item xs={12} sm={6} md={3} paddingTop={'10px'} paddingBottom={'10px'} ><HomeCard postedData={data} borderRadius={'0px'}/></Grid>

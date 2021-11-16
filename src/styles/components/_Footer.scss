@@ -1,10 +1,10 @@
 .footerWrapper {
-  color: $green;
+  color: $alternateColor;
   overflow: hidden;
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: $black;
+  background-color: $primaryColor;
   height: 70px;
   z-index: 100;
   display: flex;
@@ -16,6 +16,6 @@
       margin: 0;
       padding: 0 20px;
       color: #fff;
-      filter: drop-shadow(0 0 10px $green);
+      filter: drop-shadow(0 0 10px $alternateColor);
   }
 }

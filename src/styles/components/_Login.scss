@@ -1,0 +1,48 @@
+
+.Login-Area {
+    border: 1px solid $primaryColor;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 90%;
+    .Login-title{
+        text-align: center;
+    }
+    .Login-form {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        align-items: center;
+        vertical-align: middle;
+        font-size: 5.5vw;
+    }
+    .Login-forgot{
+        text-align: end;
+        font-weight: bold;
+        width: 85%;
+        margin: 10px auto;
+    }
+    .Login-button{
+        text-align: center;
+        margin: 15px 0 15px 0;
+    }
+    .Login-google {
+        text-align: center;
+        font-size: small;
+        margin: 10px 0 10px 0;
+    }
+    .Login-register {
+        text-align: center;
+        margin: 10px 0;
+        :last-child{
+            font-weight: bold;
+        }
+    }
+    p{
+        margin: 5px 0;
+    }
+}
+
