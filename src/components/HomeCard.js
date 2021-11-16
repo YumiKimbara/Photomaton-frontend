@@ -5,7 +5,8 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 
-import { styled } from '@mui/material/styles';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+// import {makeStyles} from '@mui/styles'
 
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
@@ -25,6 +26,42 @@ const LightTooltip = styled(({ className, ...props }) => (
     fontSize: 11,
   },
 }));
+
+const customButtonTheme = createTheme({
+ components: {
+    MuiButton: {
+      variants: [
+        {
+          props: { variant: "neonBtn" },
+          style: {
+            color: '#fff',
+            boxShadow: '0 0 10px #2BC20E',
+            fontSize: '12px',
+            borderRadius: '50px',
+            height: '4vh',
+            fontFamily: "Zen Kaku Gothic New, sans-serif",
+          }
+        }
+      ]      
+    }
+  }
+});
+
+const customCardTheme = createTheme({
+ components: {
+    MuiTypography: {
+      variants: [
+        {
+          props: { variant: "cardText" },
+          style: {
+              fontFamily: "Zen Kaku Gothic New, sans-serif",
+          }
+        }
+      ]      
+    }
+  }
+});
+
 
 const HomeCard = ({postedData}) => {
 
@@ -57,8 +94,10 @@ function IconContainer({value, ...other}) {
 
     return (
         <>
-     <Card sx={{ maxWidth: 345 }}>
+    <ThemeProvider theme={customCardTheme}>
+     <Card sx={{ maxWidth: 414 }}>
       <CardHeader
+        variant="cardText"
         avatar={
           <Avatar alt="User's picture" src={postedData.userImageUrl}>
             R
@@ -73,11 +112,7 @@ function IconContainer({value, ...other}) {
         image={postedData.imgUrl}
         alt="Posted image"
       />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {postedData.text}
-        </Typography>
-      </CardContent>
+      <ThemeProvider theme={customButtonTheme}>
         <IconButton aria-label="add to favorites">
           <LightTooltip title={
              <>
@@ -88,10 +123,19 @@ function IconContainer({value, ...other}) {
             />
           </>
           } placement="top">
-          <Button>Like</Button>
+          <div className="buttonWrapper">
+          <Button variant="neonBtn">Like</Button>
+          </div>
           </LightTooltip>
         </IconButton>
+        </ThemeProvider>
+      <CardContent>
+        <Typography variant="cardText" color="text.secondary">
+          {postedData.text}
+        </Typography>
+      </CardContent>
     </Card>
+    </ThemeProvider>
   </>
   )
 }

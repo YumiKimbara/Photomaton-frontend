@@ -60,9 +60,9 @@ const dummyData = [
   return (
     <>
     <div className="homeWrapper">
-      <Grid container spacing={3}>
+      <Grid container spacing={0}>
       {dummyData && dummyData.map((data) => {
-      return <Grid item xs={12} sm={6} md={3}><HomeCard postedData={data}/></Grid>
+      return <Grid item xs={12} sm={6} md={3} paddingTop={'10px'} paddingBottom={'10px'} ><HomeCard postedData={data} borderRadius={'0px'}/></Grid>
       })}
       </Grid>
     </div>
