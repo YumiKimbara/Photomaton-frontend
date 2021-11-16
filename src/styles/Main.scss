@@ -1,3 +1,9 @@
-@import 'GlobalVariables';
-@import 'Register';
-@import 'Login';
+@import "./base/color";
+@import "./base/base";
+@import './components/Register';
+@import './components/Login';
+@import "./components/Home";
+@import "./components/HomeCard";
+@import "./components/Header";
+@import "./components/Footer";
+@import "./components/Story";
