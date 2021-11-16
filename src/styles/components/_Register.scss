@@ -1,0 +1,39 @@
+
+.Register-Area {
+    border: 1px solid $primaryColor;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 90%;
+
+    .Register-title {
+        text-align: center;
+    }
+    .Register-form {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        align-items: center;
+        vertical-align: middle;
+        font-size: 5.5vw;
+    }
+    .Register-terms {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        font-size: small;
+        margin: 10px auto;
+    }
+    .Register-button {
+        text-align: center;
+        margin: 10px 0;
+    }
+    .Register-signIn {
+        text-align: center;
+        font-size: small;
+        margin: 40px 0 0 0;
+    }
+}
