@@ -2,6 +2,7 @@ import {Grid} from '@mui/material';
 
 import HomeCard from "./HomeCard.js";
 import Story from "./Story.js";
+import Notification from './Notification.js'
 
 
 const Home = () => {
@@ -60,6 +61,7 @@ const dummyData = [
   return (
     <>
     <div className="homeWrapper">
+    <Notification/>
       <Story/>
       <Grid container spacing={0}>
       {dummyData && dummyData.map((data) => {

@@ -10,7 +10,7 @@ const Footer = () => {
     <HomeIcon className="icons" sx={{ fontSize: 35 }}/>
     <SearchIcon className="icons" sx={{ fontSize: 35 }} />
     <ControlPointIcon className="icons" sx={{ fontSize: 35 }}/>
-    <FavoriteBorderIcon className="icons" sx={{ fontSize: 35 }}/>
+    <FavoriteBorderIcon className="icons" sx={{ fontSize: 35 }} onClick={() => alert('modal')}/>
     <AccountCircleIcon className="icons" sx={{ fontSize: 35 }}/>
     </div>
     </>
