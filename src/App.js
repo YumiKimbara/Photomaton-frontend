@@ -11,6 +11,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import Profile from "./components/profile/Profile";
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
         <Routes>
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
-          <Route path="/" element={<Home />} />
+          <Route exact path="/" element={<Home />} />
+          <Route path="profile" element={<Profile />} />
           {/* <Route path="/" element={<Home />} /> 
           <Route path="explore" element={<Explore />} />
           <Route path="profile" element={<Profile />} />

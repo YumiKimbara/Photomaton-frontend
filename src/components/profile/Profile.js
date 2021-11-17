@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import {Avatar, Button} from '@mui/material'
-import PhotoLink from './Photo';
+import React, { useState, useEffect, Suspense } from 'react';
+import {Avatar, Button, Grid} from '@mui/material'
+import UserInfo from './UserInfo';
+import PostPhotos from './PostPhotos';
 
 const Profile = () => {
     // Fake data start
@@ -27,27 +28,21 @@ const Profile = () => {
     console.log(imgData)
     // Fake data end
 
-    return (userData && imgData)?(
-        <>
-            {/* Header */}
-            <div className="user">
-                <Avatar src={userData.results[0].picture.large} />
-                <div className="userInfo">
-                    <h1>UserName</h1>
-                    <h4>UserID</h4>
-                    <Button variant="text">Friends</Button>
-                    <h3>PostCount</h3>
-                </div>
-            </div>
-            <hr />
-            <div className="posts">
-                {imgData.photos.map((obj) => {
-                    return <PhotoLink url={obj.src.small} />
-                })}
-            </div>
-
-            {/* Footer */}
-        </>
+    return (userData && imgData) ? (
+        <div className="profileWrapper">
+            <Grid container direction="column" spacing={2}>
+            <Grid item>
+                <UserInfo user={userData} />
+            </Grid>
+            <Grid item>
+                <hr />
+            </Grid>
+            <Grid item>
+                <PostPhotos img={imgData} />
+            </Grid>
+        </Grid>
+        </div>
+        
     ):(<div>Wait a sec</div>)
 }
 
