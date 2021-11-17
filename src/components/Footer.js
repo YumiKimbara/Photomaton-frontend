@@ -13,7 +13,9 @@ const Footer = () => {
                 <HomeIcon className="icons" sx={{ fontSize: 35 }}/>
             </IconButton>
             <SearchIcon className="icons" sx={{ fontSize: 35 }} />
-            <ControlPointIcon className="icons" sx={{ fontSize: 35 }}/>
+            <IconButton component={Link} to="/newPost">
+                <ControlPointIcon className="icons" sx={{ fontSize: 35 }}/>
+            </IconButton>
             <FavoriteBorderIcon className="icons" sx={{ fontSize: 35 }} />
             <IconButton component={Link} to="/profile">
                 <AccountCircleIcon className="icons" sx={{ fontSize: 35 }}/>

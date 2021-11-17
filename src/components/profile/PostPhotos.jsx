@@ -5,9 +5,12 @@ const PostPhotos = (props) => {
     return (
         <ImageList cols={3} rowHeight={164}>
             {props.img.photos.map((obj) =>
-                <ImageListItem key={obj.id} >
-                    <img src={obj.src.small} />
-                </ImageListItem>
+                <button  className="postImages">
+                    <ImageListItem key={obj.id}>
+                        <img src={obj.src.small} />
+                    </ImageListItem>
+
+                </button>
             )}
         </ImageList>
     )

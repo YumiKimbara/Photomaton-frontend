@@ -13,7 +13,7 @@ const Profile = () => {
         const userData = await userRes.json()
         setUserData(userData)
 
-        const imgRes = await fetch('https://api.pexels.com/v1/curated?per_page=5', {
+        const imgRes = await fetch('https://api.pexels.com/v1/curated?per_page=20', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -33,9 +33,6 @@ const Profile = () => {
             <Grid container direction="column" spacing={2}>
             <Grid item>
                 <UserInfo user={userData} />
-            </Grid>
-            <Grid item>
-                <hr />
             </Grid>
             <Grid item>
                 <PostPhotos img={imgData} />

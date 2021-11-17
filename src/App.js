@@ -12,6 +12,7 @@ import {
   Route
 } from "react-router-dom";
 import Profile from "./components/profile/Profile";
+import NewPost from "./components/newPost/NewPost";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route exact path="/" element={<Home />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="newPost" element={<NewPost />} />
           {/* <Route path="/" element={<Home />} /> 
           <Route path="explore" element={<Explore />} />
           <Route path="profile" element={<Profile />} />
