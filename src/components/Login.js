@@ -60,8 +60,9 @@ const Login = () => {
                     />
 
                     <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                        <InputLabel required htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput
+                            required
                             id="outlined-adornment-password"
                             type={values.showPassword ? 'text' : 'password'}
                             value={values.password}
@@ -83,6 +84,7 @@ const Login = () => {
                                 </InputAdornment>
                             }
                             label="Password"
+                            helperText="Please type your email or username"
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -106,7 +108,7 @@ const Login = () => {
                 <div className="Login-google">
                     <p>Or Login Witth </p>
                     <Link href="#" underline="none">
-                        <img src={Google} />
+                        <img src={Google} alt="google icon"/>
                     </Link>
                 </div>
                 <div className="Login-register">
