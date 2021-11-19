@@ -25,28 +25,25 @@ const dummyData = [
 ]
 
 const Notification = () => {
-     const [open, setOpen] = useState(false);
-     const handleOpen = () => setOpen(true);
-     const handleClose = () => setOpen(false);
      const modalSelecor = useSelector((state => state.modal))
      const dispatch = useDispatch();
 
-     console.log(modalSelecor)
-
     return <>
     <div>
-      <Modal
+      <Modal 
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={modalSelecor}
-        onClose={modalSelecor === false}
+        onClose={() => dispatch(toggleModal())}
         closeAfterTransition
-        BackdropComponent={Backdrop}
+        // BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        <Fade in={modalSelecor}>
+        <Fade in={modalSelecor} 
+        
+       >
           <Box 
            className="modalWindow"
           >
