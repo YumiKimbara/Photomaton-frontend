@@ -1,9 +1,7 @@
 import {Backdrop, Button, Box, Modal, Fade, Typography, Avatar} from '@mui/material';
-import {useState} from 'react'
-
-const style = {
- 
-};
+import {useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {toggleModal} from '../actions/actions'
 
 const dummyData = [
   {userImageUrl: "https://media.istockphoto.com/photos/learn-to-love-yourself-first-picture-id1291208214?k=20&m=1291208214&s=612x612&w=0&h=WbHbwklzP81iAWV0dPlQWuBLxnbqJFk81a9OZG6qvSM=",
@@ -27,27 +25,29 @@ const dummyData = [
 ]
 
 const Notification = () => {
-
      const [open, setOpen] = useState(false);
      const handleOpen = () => setOpen(true);
      const handleClose = () => setOpen(false);
+     const modalSelecor = useSelector((state => state.modal))
+     const dispatch = useDispatch();
+
+     console.log(modalSelecor)
 
     return <>
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
+        open={modalSelecor}
+        onClose={modalSelecor === false}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        <Fade in={open}>
-          <Box sx={style} 
+        <Fade in={modalSelecor}>
+          <Box 
            className="modalWindow"
           >
           {dummyData.map((data) => {
