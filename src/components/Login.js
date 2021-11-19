@@ -13,11 +13,13 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput'; import IconButton from '@mui/material/IconButton';
-
+import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
 
+    const navigate = useNavigate();
+    
     // Password visibility eventhandlers
     const [values, setValues] = React.useState({
         password: '',
@@ -39,7 +41,7 @@ const Login = () => {
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                '& .MuiTextField-root': { m: 1, width: '15ch' },
             }}
             noValidate
             autoComplete="off"
@@ -59,7 +61,7 @@ const Login = () => {
                         }}
                     />
 
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                    <FormControl sx={{ m: 1, width: '15ch' }} variant="outlined">
                         <InputLabel required htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput
                             required
@@ -84,7 +86,6 @@ const Login = () => {
                                 </InputAdornment>
                             }
                             label="Password"
-                            helperText="Please type your email or username"
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -93,20 +94,21 @@ const Login = () => {
                                 ),
                             }}
                         />
+                         <FormHelperText id="outlined-weight-helper-text">Please Type Your Password</FormHelperText>
                     </FormControl>
                 </div>
                 <div className="Login-forgot">
-                    <Link href="#" underline="none">
+                    <Link href="#" underline="none" onClick={()=> navigate("/forgotPassword")}>
                         {'Forgot Password?'}
                     </Link>
                 </div>
                 <div className="Login-button">
-                    <Button variant="contained" color="success">
+                    <Button variant="contained" color="success" onClick={()=> navigate("/")}>
                         Login
                     </Button>
                 </div>
                 <div className="Login-google">
-                    <p>Or Login Witth </p>
+                    <p>Or Login With </p>
                     <Link href="#" underline="none">
                         <img src={Google} alt="google icon"/>
                     </Link>
@@ -115,7 +117,7 @@ const Login = () => {
                     <p>
                         Don't have an account?
                     </p>
-                    <Link href="#" underline="none">
+                    <Link href="#" underline="none" onClick={()=> navigate("/register")}>
                         {' Register'}
                     </Link>
                 </div>
