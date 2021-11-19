@@ -33,7 +33,7 @@ const NewPost = () => {
                         className="postContent"
                         // label="Say something..."
                         multiline
-                        placeholder="Leave some coments..."
+                        placeholder="Write a caption"
                         rows={4}
                         value={content}
                         onChange={(event)=>setContent(event.target.value)}

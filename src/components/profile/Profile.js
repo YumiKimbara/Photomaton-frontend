@@ -7,6 +7,7 @@ const Profile = () => {
     // Fake data start
     const [userData, setUserData] = useState(null)
     const [imgData, setImgData] = useState(null)
+    // const [editStatus, SetEditStatus] = useState(true)
 
     useEffect(async () => {
         const userRes = await fetch('https://randomuser.me/api/?results=1')
@@ -29,18 +30,12 @@ const Profile = () => {
     // Fake data end
 
     return (userData && imgData) ? (
-        <div className="profileWrapper">
-            <Grid container direction="column" spacing={2}>
-            <Grid item>
-                <UserInfo user={userData} />
-            </Grid>
-            <Grid item>
-                <PostPhotos img={imgData} />
-            </Grid>
+        <Grid container className="profileWrapper" direction="column" spacing={2}>
+            <UserInfo user={userData} />
+            <PostPhotos img={imgData} />
         </Grid>
-        </div>
-        
     ):(<div>Wait a sec</div>)
+    
 }
 
 export default Profile
