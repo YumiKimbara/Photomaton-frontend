@@ -6,13 +6,15 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput'; import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import { useNavigate } from "react-router-dom";
 
-const Register = () => {
+const Register = () => {    
+
+    const navigate = useNavigate();
 
     // Password visibility eventhandlers
     const [values, setValues] = React.useState({
@@ -45,7 +47,7 @@ const Register = () => {
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                '& .MuiTextField-root': { m: 1, width: '15ch' },
             }}
             noValidate
             autoComplete="off"
@@ -60,7 +62,7 @@ const Register = () => {
                     <TextField required id="outlined-basic" label="Username" variant="outlined" />
                     <TextField required id="outlined-basic" label="Email" variant="outlined" />
 
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                    <FormControl sx={{ m: 1, width: '15ch' }} variant="outlined">
                         <InputLabel required htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput
                             required
@@ -83,7 +85,7 @@ const Register = () => {
                         />
                     </FormControl>
 
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                    <FormControl sx={{ m: 1, width: '15ch' }} variant="outlined">
                         <InputLabel required htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
                         <OutlinedInput
                             required
@@ -113,12 +115,12 @@ const Register = () => {
                     </Link></p>
                 </div>
                 <div className="Register-button">
-                    <Button variant="contained" color="success">
+                    <Button variant="contained" color="success" onClick={()=> navigate("/login")}>
                         Register
                     </Button>
                 </div>
                 <div className="Register-signIn">
-                    <p>Already have an account? <Link href="#" underline="none">
+                    <p>Already have an account? <Link href="#" underline="none" onClick={()=> navigate("/login")}>
                         {'Log In'}
                     </Link></p>
 
