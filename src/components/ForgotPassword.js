@@ -14,8 +14,6 @@ const ForgotPassword = () => {
 
     
     const [open, setOpen] = React.useState(false);
-    const [fullWidth, setFullWidth] = React.useState(false);
-    const [maxWidth, setMaxWidth] = React.useState('sm');
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -64,20 +62,18 @@ const ForgotPassword = () => {
             </div>
 
             <Dialog
-                fullWidth={fullWidth}
-                maxWidth={maxWidth}
                 open={open}
                 onClose={handleClose}
                 PaperProps={{
                     style: {
                       backgroundColor: "#151515",
-                      boxShadow: "0px 11px 15px -7px rgb(43 194 14 / 20%), 0px 24px 38px 3px rgb(43 194 14 / 14%), 0px 9px 46px 8px rgb(43 194 14 / 12%)"
+                      boxShadow: "0px 0px 15px 10px rgb(43 194 14 / 20%)"
                     },
                 }}
             >
                 <DialogContent>
                     <DialogContentText>
-                        We've received your request. You will receive email which includes your password in 24 hours.
+                        We've received your request. Please check your inbox.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
