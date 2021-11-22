@@ -10,13 +10,14 @@ import {toggleModal} from '../actions/actions'
 
 const Footer = () => {   
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     return <>
         <div className="footerWrapper">
             <HomeIcon className="icons" sx={{ fontSize: 35 }} onClick={()=> navigate("/")} />
             <SearchIcon className="icons" sx={{ fontSize: 35 }} onClick={()=> navigate("/explore")}/>
             <ControlPointIcon className="icons" sx={{ fontSize: 35 }} />
-            <FavoriteBorderIcon className="icons" sx={{ fontSize: 35 }} />
+            <FavoriteBorderIcon className="icons" sx={{ fontSize: 35 }} onClick={() => dispatch(toggleModal())}/>
             <AccountCircleIcon className="icons" sx={{ fontSize: 35 }} onClick={()=> navigate("/login")}/>
         </div>
     </>
