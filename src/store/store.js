@@ -1,4 +1,5 @@
-import { createStore } from "redux";
-import modalReducer from "../reducers/reducers.js"
+import { configureStore } from "@reduxjs/toolkit";
 
-export const store = createStore(modalReducer)
+export const store = configureStore({
+  reducer: {},
+});
