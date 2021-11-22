@@ -2,7 +2,6 @@
 
 html,
 body {
-  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-family: 'Zen Kaku Gothic New', sans-serif !important;
 }
-
 
