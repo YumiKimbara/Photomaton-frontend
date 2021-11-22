@@ -23,7 +23,6 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="forgotPassword" element={<ForgotPassword />} />
           <Route path="/" element={<Home />} />
-          {/* <Route path="/" element={<Home />} /> 
           <Route path="explore" element={<Explore />} />
           {/* <Route path="profile" element={<Profile />} />
           <Route path="message" element={<Message />} /> */}
