@@ -1,0 +1,11 @@
+.profileWrapper {
+  .postImages {
+    overflow: hidden;
+    outline: none;
+    border: none;
+  }
+  .icons {
+    color: #fff;
+    filter: drop-shadow(0 0 10px $alternateColor);
+  }
+}
