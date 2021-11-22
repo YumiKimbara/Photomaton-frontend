@@ -1,3 +1,4 @@
+import { RouterOutlined } from "@mui/icons-material";
 import React from "react";
 import Home from "./components/Home";
 import Header from "./components/Header.js"
@@ -11,6 +12,11 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+
+import Profile from "./components/profile/Profile";
+import NewPost from "./components/newPost/NewPost";
+import EditProfile from "./components/profile/EditProfile";
+import Friends from "./components/Friends";
 import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
@@ -21,6 +27,13 @@ function App() {
         <Routes>
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
+          <Route exact path="/" element={<Home />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="newPost" element={<NewPost />} />
+          <Route path="editProfile" element={<EditProfile />} />
+          <Route path="friends" element={<Friends />} />
+          <Route path="explore" element={<Explore />} />
+          {/* <Route path="/" element={<Home />} /> 
           <Route path="forgotPassword" element={<ForgotPassword />} />
           <Route path="/" element={<Home />} />
           <Route path="explore" element={<Explore />} />
