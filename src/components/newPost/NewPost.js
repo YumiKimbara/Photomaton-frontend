@@ -1,12 +1,35 @@
 import { Check, Close, CloudUpload } from '@mui/icons-material';
-import { Grid, IconButton, TextField, Typography } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import { Grid, IconButton, TextField, Typography, Button } from '@mui/material';
+import React, { useState, useEffect, useRef } from 'react';
 
 const NewPost = () => {
+    const imageRef = useRef(null)
     const [content, setContent] = useState('')
     useEffect(() => {
         console.log(content)
     }, [content])
+    
+    const createNewPost = async (e) => {
+        e.preventDefault();
+        console.log('submit')
+        try {
+            const res = await fetch('http://localhost:5000/posts', {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                description: content
+                })
+            });
+
+        const postJsonData = await res.json();
+        console.log("postJsonData", postJsonData);
+        }catch(err) {
+            console.error(err)
+        }
+    } 
+
     return (
         <div className="newPostWrapper">
             <Grid container>
@@ -20,11 +43,16 @@ const NewPost = () => {
                     </IconButton>
                 </Grid>
                 <Grid item>
-                    <form className="imgUpload">
-                        <label for="chooseFile">
+                    <form className="imgUpload" onSubmit={(e) => {createNewPost(e)}}>
+                        <label htmlFor="chooseFile">
                             <CloudUpload id="uploadIcon"/>
                         </label>
-                        <input id="chooseFile" type="file" />
+                        <input id="chooseFile" type="file" accept="image/png, image/jpeg" ref={imageRef} onChange={() => console.log(
+                            console.log(imageRef.current.value)
+                        )} />
+                        <Grid>
+                        <Button variant="contained" color="primary">Upload</Button>
+                        </Grid>
                     </form>
                 </Grid>
                 <Grid container justifyContent="center" >
@@ -44,8 +72,6 @@ const NewPost = () => {
                         }}
                     />
                 </Grid>
-
-
             </Grid>
         </div>
     )
