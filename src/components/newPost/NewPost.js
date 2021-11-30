@@ -11,6 +11,8 @@ const NewPost = () => {
   const [imageURL, setImageURL] = useState("");
   const dispatch = useDispatch();
   const newPosts = useSelector((state) => state);
+  const [file, setFile] = useState("");
+  const [imagePreviewUrl, setImagePreviewUrl] = useState("");
 
   console.log("newPosts", newPosts);
 
@@ -21,14 +23,25 @@ const NewPost = () => {
   const setImageURLHandler = (e) => {
     console.log(e.target.files);
     if (!e.target.files) return;
-    setImageURL(e.target.files[0]);
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      setFile(file);
+      setImagePreviewUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+    setImageURL(e.target.files);
   };
 
   const createNewPost = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("imageURL", imageURL);
+
+    for (let i = 0; i < imageURL.length; i++) {
+      formData.append(`imageURL`, imageURL[i].name);
+    }
     formData.append("description", content);
+
     axios
       .post("http://localhost:5000/posts", formData)
       .then((res) => {
@@ -75,6 +88,7 @@ const NewPost = () => {
               onChange={(e) => {
                 setImageURLHandler(e);
               }}
+              multiple
             />
             <Grid container justifyContent="center">
               <TextField
@@ -94,6 +108,22 @@ const NewPost = () => {
               />
             </Grid>
           </form>
+        </Grid>
+        <Grid>
+          {imageURL &&
+            [imageURL].map((image, i) => {
+              console.log(image);
+              return (
+                <div>
+                  <p>{image[i].name}</p>
+                  <img
+                    className="previewImages"
+                    src={imagePreviewUrl}
+                    alt="newPostImage"
+                  />
+                </div>
+              );
+            })}
         </Grid>
       </Grid>
     </div>
