@@ -1,4 +1,4 @@
 import { createStore } from "redux";
-import modalReducer from "../reducers/reducers.js"
+import reducer from "../reducers/reducers.js";
 
-export const store = createStore(modalReducer)
+export const store = createStore(reducer);

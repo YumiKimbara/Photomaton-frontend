@@ -1,11 +1,18 @@
 import { Check, Close, CloudUpload } from "@mui/icons-material";
 import { Grid, IconButton, TextField, Typography } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { storeNewPost } from "../../actions/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const NewPost = () => {
+  const imageRef = useRef(null);
   const [content, setContent] = useState("");
   const [imageURL, setImageURL] = useState("");
+  const dispatch = useDispatch();
+  const newPosts = useSelector((state) => state);
+
+  console.log("newPosts", newPosts);
 
   useEffect(() => {
     console.log(content);
@@ -26,6 +33,7 @@ const NewPost = () => {
       .post("http://localhost:5000/posts", formData)
       .then((res) => {
         console.log("res", res);
+        dispatch(storeNewPost(res.data));
       })
       .catch((err) => console.error(err));
   };
@@ -46,17 +54,16 @@ const NewPost = () => {
           <Typography variant="h5" color="white">
             New Post
           </Typography>
-          <IconButton>
+          <IconButton
+            onClick={(e) => {
+              createNewPost(e);
+            }}
+          >
             <Check className="icons"></Check>
           </IconButton>
         </Grid>
         <Grid item>
-          <form
-            className="imgUpload"
-            onSubmit={(e) => {
-              createNewPost(e);
-            }}
-          >
+          <form className="imgUpload">
             <label htmlFor="chooseFile">
               <CloudUpload id="uploadIcon" />
             </label>
@@ -64,6 +71,7 @@ const NewPost = () => {
               id="chooseFile"
               type="file"
               accept="image/png, image/jpeg"
+              ref={imageRef}
               onChange={(e) => {
                 setImageURLHandler(e);
               }}
@@ -84,11 +92,6 @@ const NewPost = () => {
                   color: "red",
                 }}
               />
-            </Grid>
-            <Grid>
-              <button variant="contained" color="primary">
-                Upload
-              </button>
             </Grid>
           </form>
         </Grid>
