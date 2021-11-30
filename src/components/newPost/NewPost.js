@@ -34,21 +34,40 @@ const NewPost = () => {
   };
 
   const createNewPost = (e) => {
+    if (imageURL.length === 0 || content.length === 0) return;
     e.preventDefault();
     const formData = new FormData();
 
     for (let i = 0; i < imageURL.length; i++) {
-      formData.append(`imageURL`, imageURL[i].name);
+      console.log("imageURL[i]", imageURL[i]);
+      formData.append("file", imageURL[i]);
     }
-    formData.append("description", content);
+    // formData.append("description", content);
+    //first parameter must be file
+    // formData.append("file", imageURL);
+    formData.append("upload_preset", "photomaton");
+    formData.append("cloud_name", "drvfa2o9f");
+
+    const config = {
+      method: "POST",
+      body: formData,
+    };
 
     axios
-      .post("http://localhost:5000/posts", formData)
-      .then((res) => {
-        console.log("res", res);
-        dispatch(storeNewPost(res.data));
+      .post("https://api.cloudinary.com/v1_1/drvfa2o9f/image/upload", formData)
+      //   .then((res) => res.json())
+      .then((data) => {
+        console.log("data.url.toString()", data.data.url.toString());
       })
       .catch((err) => console.error(err));
+
+    // axios
+    //   .post("http://localhost:5000/posts", formData)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     dispatch(storeNewPost(res.data));
+    //   })
+    //   .catch((err) => console.error(err));
   };
 
   return (
@@ -109,25 +128,26 @@ const NewPost = () => {
             </Grid>
           </form>
         </Grid>
-        <Grid>
-          {imageURL &&
-            [imageURL].map((image, i) => {
-              console.log(image);
-              return (
-                <div>
-                  <p>{image[i].name}</p>
-                  <img
-                    className="previewImages"
-                    src={imagePreviewUrl}
-                    alt="newPostImage"
-                  />
-                </div>
-              );
-            })}
-        </Grid>
       </Grid>
     </div>
   );
 };
 
 export default NewPost;
+
+// <Grid>
+// {imageURL &&
+//   [imageURL].map((image, i) => {
+//     console.log(image);
+//     return (
+//       <div>
+//         <p>{image[i].name}</p>
+//         <img
+//           className="previewImages"
+//           src={imagePreviewUrl}
+//           alt="newPostImage"
+//         />
+//       </div>
+//     );
+//   })}
+// </Grid>
