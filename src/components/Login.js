@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
 
     const navigate = useNavigate();
-    
+
     // Password visibility eventhandlers
     const [values, setValues] = React.useState({
         password: '',
@@ -94,30 +94,30 @@ const Login = () => {
                                 ),
                             }}
                         />
-                         <FormHelperText id="outlined-weight-helper-text">Please Type Your Password</FormHelperText>
+                        <FormHelperText id="outlined-weight-helper-text">Please Type Your Password</FormHelperText>
                     </FormControl>
                 </div>
                 <div className="Login-forgot">
-                    <Link href="#" underline="none" onClick={()=> navigate("/forgotPassword")}>
+                    <Link href="#" underline="none" onClick={() => navigate("/forgotPassword")}>
                         {'Forgot Password?'}
                     </Link>
                 </div>
                 <div className="Login-button">
-                    <Button variant="contained" color="success" onClick={()=> navigate("/")}>
+                    <Button variant="contained" color="success" onClick={() => navigate("/")}>
                         Login
                     </Button>
                 </div>
                 <div className="Login-google">
                     <p>Or Login With </p>
                     <Link href="#" underline="none">
-                        <img src={Google} alt="google icon"/>
+                        <img src={Google} alt="google icon" />
                     </Link>
                 </div>
                 <div className="Login-register">
                     <p>
                         Don't have an account?
                     </p>
-                    <Link href="#" underline="none" onClick={()=> navigate("/register")}>
+                    <Link href="#" underline="none" onClick={() => navigate("/register")}>
                         {' Register'}
                     </Link>
                 </div>
