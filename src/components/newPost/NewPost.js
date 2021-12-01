@@ -28,18 +28,15 @@ const NewPost = () => {
   const setImageURLHandler = (e) => {
     const files = e.target.files;
 
-    let url = [];
     Object.keys(files).forEach((i) => {
       const file = files[i];
       const reader = new FileReader();
       reader.onload = () => {
-        url.push(reader.result);
+        setImagePreviewUrl((prev) => [...prev, reader.result]);
       };
       reader.readAsDataURL(file);
     });
-    setImagePreviewUrl(url);
   };
-  console.log("imagePreviewUr", imagePreviewUrl);
 
   const createNewPost = (e) => {
     if (imageURL.length === 0 || content.length === 0) return;
@@ -47,7 +44,6 @@ const NewPost = () => {
 
     for (let i = 0; i < imageURL.length; i++) {
       const formData = new FormData();
-      console.log("imageURL", imageURL);
       //first parameter must be file
       formData.append("file", imageURL[i]);
       formData.append("upload_preset", "photomaton");
@@ -133,22 +129,18 @@ const NewPost = () => {
                 }}
               />
             </Grid>
-            <Grid>
-              {imagePreviewUrl &&
-                imagePreviewUrl.map((image, i) => {
-                  return (
-                    <div>
-                      <img
-                        className="previewImages"
-                        src={image}
-                        alt="newPostImage"
-                      />
-                    </div>
-                  );
-                })}
-            </Grid>
           </form>
         </Grid>
+      </Grid>
+      <Grid>
+        <Carousel>
+          {imagePreviewUrl &&
+            imagePreviewUrl.map((image) => {
+              return (
+                <img className="previewImages" src={image} alt="newPostImage" />
+              );
+            })}
+        </Carousel>
       </Grid>
     </div>
   );
