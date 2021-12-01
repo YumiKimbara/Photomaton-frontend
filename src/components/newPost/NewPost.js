@@ -27,6 +27,7 @@ const NewPost = () => {
 
   const setImageURLHandler = (e) => {
     const files = e.target.files;
+    setImageURL(files);
 
     Object.keys(files).forEach((i) => {
       const file = files[i];
@@ -36,6 +37,12 @@ const NewPost = () => {
       };
       reader.readAsDataURL(file);
     });
+  };
+
+  const clearNewPostHandler = () => {
+    setImagePreviewUrl("");
+    setImageURL("");
+    setContent("");
   };
 
   const createNewPost = (e) => {
@@ -83,7 +90,7 @@ const NewPost = () => {
           direction="row"
           justifyContent="space-between"
         >
-          <IconButton>
+          <IconButton onClick={clearNewPostHandler}>
             <Close className="icons"></Close>
           </IconButton>
           <Typography variant="h5" color="white">
