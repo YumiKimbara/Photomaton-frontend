@@ -4,22 +4,25 @@ import {
   IconButton,
   TextField,
   Typography,
-  Paper,
+  Snackbar,
   Button,
 } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 import Carousel from "react-material-ui-carousel";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { storeNewPost } from "../../actions/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
 const NewPost = () => {
-  const imageRef = useRef(null);
   const [content, setContent] = useState("");
   const [imageURL, setImageURL] = useState("");
+  const [completePosting, setCompletePosting] = useState(false);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState("");
+
   const dispatch = useDispatch();
   const newPosts = useSelector((state) => state);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState("");
 
   useEffect(() => {
     console.log(content);
@@ -55,10 +58,6 @@ const NewPost = () => {
       formData.append("file", imageURL[i]);
       formData.append("upload_preset", "photomaton");
       formData.append("cloud_name", "drvfa2o9f");
-      const config = {
-        method: "POST",
-        body: formData,
-      };
 
       axios
         .post(
@@ -75,13 +74,38 @@ const NewPost = () => {
       .post("http://localhost:5000/posts", { description: content })
       .then((res) => {
         console.log("res", res);
+        setCompletePosting(true);
         // dispatch(storeNewPost(res.data));
       })
       .catch((err) => console.error(err));
   };
 
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const closeCompletePostingMessage = () => {
+    setTimeout(() => setCompletePosting(false), 2500);
+  };
+
   return (
     <div className="newPostWrapper">
+      {completePosting && (
+        <div>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={completePosting}
+          >
+            <Alert
+              onClose={closeCompletePostingMessage()}
+              severity="success"
+              sx={{ width: "100%" }}
+            >
+              Posted Successfully!
+            </Alert>
+          </Snackbar>
+        </div>
+      )}
       <Grid container>
         <Grid
           container
@@ -113,7 +137,6 @@ const NewPost = () => {
               id="chooseFile"
               type="file"
               accept="image/png, image/jpeg"
-              ref={imageRef}
               onChange={(e) => {
                 setImageURLHandler(e);
               }}
@@ -144,7 +167,12 @@ const NewPost = () => {
           {imagePreviewUrl &&
             imagePreviewUrl.map((image) => {
               return (
-                <img className="previewImages" src={image} alt="newPostImage" />
+                <img
+                  className="previewImages"
+                  key={uuidv4()}
+                  src={image}
+                  alt="newPostImage"
+                />
               );
             })}
         </Carousel>
