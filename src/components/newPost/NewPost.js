@@ -1,5 +1,13 @@
 import { Check, Close, CloudUpload } from "@mui/icons-material";
-import { Grid, IconButton, TextField, Typography } from "@mui/material";
+import {
+  Grid,
+  IconButton,
+  TextField,
+  Typography,
+  Paper,
+  Button,
+} from "@mui/material";
+import Carousel from "react-material-ui-carousel";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { storeNewPost } from "../../actions/actions";
@@ -11,63 +19,62 @@ const NewPost = () => {
   const [imageURL, setImageURL] = useState("");
   const dispatch = useDispatch();
   const newPosts = useSelector((state) => state);
-  const [file, setFile] = useState("");
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
-
-  console.log("newPosts", newPosts);
 
   useEffect(() => {
     console.log(content);
   }, [content]);
 
   const setImageURLHandler = (e) => {
-    console.log(e.target.files);
-    if (!e.target.files) return;
-    let reader = new FileReader();
-    let file = e.target.files[0];
-    reader.onloadend = () => {
-      setFile(file);
-      setImagePreviewUrl(reader.result);
-    };
-    reader.readAsDataURL(file);
-    setImageURL(e.target.files);
+    const files = e.target.files;
+
+    let url = [];
+    Object.keys(files).forEach((i) => {
+      const file = files[i];
+      const reader = new FileReader();
+      reader.onload = () => {
+        url.push(reader.result);
+      };
+      reader.readAsDataURL(file);
+    });
+    setImagePreviewUrl(url);
   };
+  console.log("imagePreviewUr", imagePreviewUrl);
 
   const createNewPost = (e) => {
     if (imageURL.length === 0 || content.length === 0) return;
     e.preventDefault();
-    const formData = new FormData();
 
     for (let i = 0; i < imageURL.length; i++) {
-      console.log("imageURL[i]", imageURL[i]);
+      const formData = new FormData();
+      console.log("imageURL", imageURL);
+      //first parameter must be file
       formData.append("file", imageURL[i]);
-    }
-    // formData.append("description", content);
-    //first parameter must be file
-    // formData.append("file", imageURL);
-    formData.append("upload_preset", "photomaton");
-    formData.append("cloud_name", "drvfa2o9f");
+      formData.append("upload_preset", "photomaton");
+      formData.append("cloud_name", "drvfa2o9f");
+      const config = {
+        method: "POST",
+        body: formData,
+      };
 
-    const config = {
-      method: "POST",
-      body: formData,
-    };
+      axios
+        .post(
+          "https://api.cloudinary.com/v1_1/drvfa2o9f/image/upload",
+          formData
+        )
+        .then((data) => {
+          console.log("data.url.toString()", data.data.url.toString());
+        })
+        .catch((err) => console.error(err));
+    }
 
     axios
-      .post("https://api.cloudinary.com/v1_1/drvfa2o9f/image/upload", formData)
-      //   .then((res) => res.json())
-      .then((data) => {
-        console.log("data.url.toString()", data.data.url.toString());
+      .post("http://localhost:5000/posts", { description: content })
+      .then((res) => {
+        console.log("res", res);
+        // dispatch(storeNewPost(res.data));
       })
       .catch((err) => console.error(err));
-
-    // axios
-    //   .post("http://localhost:5000/posts", formData)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     dispatch(storeNewPost(res.data));
-    //   })
-    //   .catch((err) => console.error(err));
   };
 
   return (
@@ -126,6 +133,20 @@ const NewPost = () => {
                 }}
               />
             </Grid>
+            <Grid>
+              {imagePreviewUrl &&
+                imagePreviewUrl.map((image, i) => {
+                  return (
+                    <div>
+                      <img
+                        className="previewImages"
+                        src={image}
+                        alt="newPostImage"
+                      />
+                    </div>
+                  );
+                })}
+            </Grid>
           </form>
         </Grid>
       </Grid>
@@ -134,20 +155,3 @@ const NewPost = () => {
 };
 
 export default NewPost;
-
-// <Grid>
-// {imageURL &&
-//   [imageURL].map((image, i) => {
-//     console.log(image);
-//     return (
-//       <div>
-//         <p>{image[i].name}</p>
-//         <img
-//           className="previewImages"
-//           src={imagePreviewUrl}
-//           alt="newPostImage"
-//         />
-//       </div>
-//     );
-//   })}
-// </Grid>
