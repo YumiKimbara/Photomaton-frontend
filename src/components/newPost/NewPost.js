@@ -10,7 +10,7 @@ import MuiAlert from "@mui/material/Alert";
 import Carousel from "react-material-ui-carousel";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import { storeNewPost } from "../../actions/newPostActions";
+import { storeNewPost } from "../../actions/newPostActions";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
@@ -19,9 +19,15 @@ const NewPost = () => {
   const [imageURL, setImageURL] = useState("");
   const [completePosting, setCompletePosting] = useState(false);
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
+  const [image, setImage] = useState("")
 
   const dispatch = useDispatch();
-  const newPosts = useSelector((state) => state);
+  // const newPosts = useSelector((state) => state.modalReducer);
+  // const imageAddress = newPosts.newPost
+  const logIn = useSelector((state => state.userLogin))
+  const userId = logIn.userInfo._id
+
+  // console.log('newPosts', newPosts.newPost);
 
   useEffect(() => {
     console.log(content);
@@ -65,22 +71,30 @@ const NewPost = () => {
         )
         .then((data) => {
           console.log("data.url.toString()", data.data.url.toString());
+          // setImage(data.data.url.toString())
+          // dispatch(storeNewPost(data.data.url.toString()));
+          submitHandler(data.data.url.toString());
+
         })
         .catch((err) => console.error(err));
     }
 
+    // console.log("imageAddress", imageAddress)
+  };
+
+  const submitHandler = (imgUrl) => {
+    console.log('imgUrl', imgUrl)
     axios
-      .post("api/post", { description: content })
+      .post("api/post", { userId: userId, description: content, imageUrl: imgUrl })
       .then((res) => {
         console.log("res", res);
         setCompletePosting(true);
-        // dispatch(storeNewPost(res.data));
       })
       .then(() => {
         clearNewPostHandler();
       })
       .catch((err) => console.error(err));
-  };
+  }
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
