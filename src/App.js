@@ -1,17 +1,15 @@
 import { RouterOutlined } from "@mui/icons-material";
 import React from "react";
 import Home from "./components/Home";
-import Header from "./components/Header.js"
-import Footer from "./components/Footer.js"
-import Register from "./components/Register"
-import '../src/styles/Main.scss'
+import Header from "./components/Header.js";
+import Footer from "./components/Footer.js";
+import Register from "./components/Register";
+import Notification from "./components/Notification.js";
+import "../src/styles/Main.scss";
 import Login from "./components/Login";
 import Explore from "./components/Explore";
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Profile from "./components/profile/Profile";
 import NewPost from "./components/newPost/NewPost";
@@ -20,10 +18,13 @@ import Friends from "./components/Friends";
 import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
+  const toggleNotification = useSelector((state) => state.modalReducer);
+
   return (
     <>
       <BrowserRouter>
-      <Header />
+        <Header />
+        {toggleNotification.modal && <Notification />}
         <Routes>
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
@@ -40,7 +41,7 @@ function App() {
           {/* <Route path="profile" element={<Profile />} />
           <Route path="message" element={<Message />} /> */}
         </Routes>
-      <Footer />
+        <Footer />
       </BrowserRouter>
     </>
   );

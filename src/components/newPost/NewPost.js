@@ -10,7 +10,7 @@ import MuiAlert from "@mui/material/Alert";
 import Carousel from "react-material-ui-carousel";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { storeNewPost } from "../../actions/actions";
+// import { storeNewPost } from "../../actions/newPostActions";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
@@ -70,7 +70,7 @@ const NewPost = () => {
     }
 
     axios
-      .post("http://localhost:3333/posts", { description: content })
+      .post("api/post", { description: content })
       .then((res) => {
         console.log("res", res);
         setCompletePosting(true);

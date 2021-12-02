@@ -6,10 +6,9 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { IconButton } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { toggleModal } from "../actions/actions";
+import { toggleModal } from "../actions/newPostActions";
 
 const Footer = () => {
-  //test
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
