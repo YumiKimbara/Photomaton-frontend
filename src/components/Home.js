@@ -4,6 +4,7 @@ import HomeCard from "./HomeCard.js";
 import Story from "./Story.js";
 
 const Home = () => {
+  //test
   const dummyData = [
     {
       userImageUrl:
