@@ -5,11 +5,10 @@ import {
   TextField,
   Typography,
   Snackbar,
-  Button,
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import Carousel from "react-material-ui-carousel";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { storeNewPost } from "../../actions/actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -76,6 +75,9 @@ const NewPost = () => {
         console.log("res", res);
         setCompletePosting(true);
         // dispatch(storeNewPost(res.data));
+      })
+      .then(() => {
+        clearNewPostHandler();
       })
       .catch((err) => console.error(err));
   };
