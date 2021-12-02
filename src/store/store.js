@@ -1,3 +1,7 @@
+//import { createStore } from "redux";
+//import reducer from "../reducers/reducers.js";
+
+//export const store = createStore(reducer);
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import modalReducer from "../reducers/reducers.js"
@@ -26,5 +30,3 @@ const store = createStore(
 
 
 export default store;
-
-

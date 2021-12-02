@@ -1,17 +1,23 @@
 const initialModalState = {
-  modal: false
-}
+  modal: false,
+  newPost: [],
+};
 
-const modalReducer = (state = initialModalState, action) => {
-  switch(action.type) {
-      case "TOGGLE_MODAL":
+const reducer = (state = initialModalState, action) => {
+  switch (action.type) {
+    case "TOGGLE_MODAL":
       return {
-          ...state,
-          modal: !state.modal,
-      }
-      default: 
+        ...state,
+        modal: !state.modal,
+      };
+    case "STORE_NEW_POST":
+      return {
+        ...state,
+        newPost: action.newPost,
+      };
+    default:
       return state;
   }
-}
+};
 
-export default modalReducer;
+export default reducer;
