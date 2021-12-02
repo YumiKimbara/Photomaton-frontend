@@ -1,13 +1,4 @@
-import {
-  Backdrop,
-  Button,
-  Box,
-  Modal,
-  Fade,
-  Typography,
-  Avatar,
-} from "@mui/material";
-import { useState } from "react";
+import { Box, Modal, Fade, Avatar } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleModal } from "../actions/newPostActions";
 
@@ -58,7 +49,7 @@ const dummyData = [
 ];
 
 const Notification = () => {
-  const modalSelecor = useSelector((state) => state.modal);
+  const modalSelecor = useSelector((state) => state.modalReducer);
   const dispatch = useDispatch();
 
   return (
@@ -70,7 +61,6 @@ const Notification = () => {
           open={modalSelecor}
           onClose={() => dispatch(toggleModal())}
           closeAfterTransition
-          // BackdropComponent={Backdrop}
           BackdropProps={{
             timeout: 500,
           }}
