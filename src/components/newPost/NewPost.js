@@ -70,7 +70,7 @@ const NewPost = () => {
     }
 
     axios
-      .post("http://localhost:5000/posts", { description: content })
+      .post("http://localhost:3333/posts", { description: content })
       .then((res) => {
         console.log("res", res);
         setCompletePosting(true);
