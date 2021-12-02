@@ -51,15 +51,14 @@ const Login = () => {
         if (userInfo) {
             navigate("/")
         }
-    }, [navigate, userInfo])
+    }, [userInfo])
 
     const submitHandler = async (e) => {
         e.preventDefault();
         dispatch(login(email, password))
     }
 
-    console.log(email)
-    console.log(password)
+
     return (
         <Box
             component="form"
