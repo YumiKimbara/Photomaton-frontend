@@ -5,12 +5,13 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { IconButton } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { toggleModal } from '../actions/actions'
+import { useDispatch } from "react-redux";
+import { toggleModal } from "../actions/actions";
 
 const Footer = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  //test
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <>
