@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import { toggleModal } from "../actions/actions";
 
 const Footer = () => {
-  //test
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
