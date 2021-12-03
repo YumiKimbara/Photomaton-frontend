@@ -20,7 +20,8 @@ const NewPost = () => {
   const [completePosting, setCompletePosting] = useState(false);
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
   const [image, setImage] = useState("");
-  const [imageUrls, setImageUrls] = useState("");
+  // const [imageUrls, setImageUrls] = useState("");
+  const [created, setCreated] = useState("");
 
   const dispatch = useDispatch();
   const logIn = useSelector((state => state.userLogin))
@@ -48,6 +49,8 @@ const NewPost = () => {
     setImagePreviewUrl("");
     setImageURL("");
     setContent("");
+    // setImageUrls("");
+    setCreated(true);
   };
 
   const createNewPost = (e) => {
@@ -71,21 +74,23 @@ const NewPost = () => {
           console.log("data.url.toString()", data.data.url.toString());
           // setImage(data.data.url.toString())
           // dispatch(storeNewPost(data.data.url.toString()))
-          setImageUrls(prev => [...prev, data.data.url.toString()])
+          //  setImageUrls((prev) => [...prev, data.data.url.toString()])
+            submitHandler(data.data.url.toString(), imageURL.length)
+    //imageUrls.length !== 0 && submitHandler(imageUrls);
+
         })
         .catch((err) => console.error(err));
     }
+    // setCreated(imageUrls);
   };
 
-  useEffect(() => {
-    console.log("imageUrls", imageUrls)
-    submitHandler(imageUrls);
-  }, [imageUrls])
+  let imgUrls = [];
+  const submitHandler = (imgUrl, imageUrlsLength) => {
+    imgUrls.push(imgUrl)
 
-  const submitHandler = (imgUrl) => {
-    console.log('imgUrl', imgUrl)
-    axios
-      .post("api/post", { userId: userId, description: content, imageUrl: imgUrl })
+    if(imageUrlsLength === imgUrls.length) {
+      axios
+      .post("api/post", { userId: userId, description: content, imageUrl: imgUrls })
       .then((res) => {
         console.log("res", res);
         setCompletePosting(true);
@@ -94,6 +99,7 @@ const NewPost = () => {
         clearNewPostHandler();
       })
       .catch((err) => console.error(err));
+    }
   }
 
   const Alert = React.forwardRef(function Alert(props, ref) {
