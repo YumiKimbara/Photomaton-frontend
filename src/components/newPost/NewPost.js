@@ -19,6 +19,7 @@ const NewPost = () => {
   const [imageDetails, setImageDetails] = useState("");
   const [completePosting, setCompletePosting] = useState(false);
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
+  const [newPostError, setNewPostError] = useState(false);
 
   const dispatch = useDispatch();
   const logIn = useSelector((state => state.userLogin));
@@ -31,6 +32,7 @@ const NewPost = () => {
   }, [content]);
 
   const setImagePreviewUrlHandler = (e) => {
+    if (e.target.files.length !== 0 && content.length !== 0) setNewPostError(false);
     const files = e.target.files;
     setImageDetails(files);
 
@@ -51,7 +53,12 @@ const NewPost = () => {
   };
 
   const storeImagesHandler = (e) => {
-    if (imageDetails.length === 0 || content.length === 0) return;
+    if (imageDetails.length === 0 || content.length === 0) {
+      setNewPostError(true);
+      return;
+    } else {
+      setNewPostError(false);
+    }
     e.preventDefault();
 
     for (let i = 0; i < imageDetails.length; i++) {
@@ -91,6 +98,8 @@ const NewPost = () => {
     }
   }
 
+  console.log("newPostError", newPostError)
+
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -113,6 +122,22 @@ const NewPost = () => {
               sx={{ width: "100%" }}
             >
               Posted Successfully!
+            </Alert>
+          </Snackbar>
+        </div>
+      )}
+      {newPostError && (
+        <div>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={newPostError}
+          >
+            <Alert
+              onClose={!newPostError}
+              severity="info"
+              sx={{ width: "100%" }}
+            >
+              Please select images and write a caption
             </Alert>
           </Snackbar>
         </div>
@@ -162,7 +187,10 @@ const NewPost = () => {
                 placeholder="Write a caption"
                 rows={4}
                 value={content}
-                onChange={(event) => setContent(event.target.value)}
+                onChange={(event) => {
+                  if (event.target.value.length !== 0 && imageDetails.length !== 0) setNewPostError(false);
+                  setContent(event.target.value);
+                  }}
                 variant="standard"
                 style={{
                   backgroundColor: "white",
