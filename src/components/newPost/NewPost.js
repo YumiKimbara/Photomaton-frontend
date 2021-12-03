@@ -19,15 +19,12 @@ const NewPost = () => {
   const [imageURL, setImageURL] = useState("");
   const [completePosting, setCompletePosting] = useState(false);
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
-  const [image, setImage] = useState("")
+  const [image, setImage] = useState("");
+  const [imageUrls, setImageUrls] = useState("");
 
   const dispatch = useDispatch();
-  // const newPosts = useSelector((state) => state.modalReducer);
-  // const imageAddress = newPosts.newPost
   const logIn = useSelector((state => state.userLogin))
   const userId = logIn.userInfo._id
-
-  // console.log('newPosts', newPosts.newPost);
 
   useEffect(() => {
     console.log(content);
@@ -57,6 +54,7 @@ const NewPost = () => {
     if (imageURL.length === 0 || content.length === 0) return;
     e.preventDefault();
 
+    // let imageUrls = []
     for (let i = 0; i < imageURL.length; i++) {
       const formData = new FormData();
       //first parameter must be file
@@ -72,15 +70,17 @@ const NewPost = () => {
         .then((data) => {
           console.log("data.url.toString()", data.data.url.toString());
           // setImage(data.data.url.toString())
-          // dispatch(storeNewPost(data.data.url.toString()));
-          submitHandler(data.data.url.toString());
-
+          // dispatch(storeNewPost(data.data.url.toString()))
+          setImageUrls(prev => [...prev, data.data.url.toString()])
         })
         .catch((err) => console.error(err));
     }
-
-    // console.log("imageAddress", imageAddress)
   };
+
+  useEffect(() => {
+    console.log("imageUrls", imageUrls)
+    submitHandler(imageUrls);
+  }, [imageUrls])
 
   const submitHandler = (imgUrl) => {
     console.log('imgUrl', imgUrl)
