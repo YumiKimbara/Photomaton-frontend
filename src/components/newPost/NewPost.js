@@ -6,6 +6,7 @@ import {
   Typography,
   Snackbar,
 } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert from "@mui/material/Alert";
 import Carousel from "react-material-ui-carousel";
 import React, { useState, useEffect } from "react";
@@ -104,6 +105,10 @@ const NewPost = () => {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  const newPostErrorAction = (
+    <CloseIcon fontSize="small" onClick={() => setNewPostError(false)} />
+  )
+
   const closeCompletePostingMessage = () => {
     setTimeout(() => setCompletePosting(false), 2500);
   };
@@ -136,6 +141,7 @@ const NewPost = () => {
               onClose={!newPostError}
               severity="info"
               sx={{ width: "100%" }}
+              action={newPostErrorAction}
             >
               Please select images and write a caption
             </Alert>
