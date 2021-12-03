@@ -1,6 +1,6 @@
 import { Box, Modal, Fade, Avatar } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleModal } from "../actions/newPostActions";
+import { toggleModal } from "../actions/modalActions";
 
 const dummyData = [
   {
