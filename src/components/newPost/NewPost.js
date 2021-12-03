@@ -10,7 +10,7 @@ import MuiAlert from "@mui/material/Alert";
 import Carousel from "react-material-ui-carousel";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { storeNewPost } from "../../actions/newPostActions";
+import { storeNewPost } from "../../actions/modalActions";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 

@@ -10,11 +10,6 @@ const reducer = (state = initialModalState, action) => {
         ...state,
         modal: !state.modal,
       };
-    case "STORE_NEW_POST":
-      return {
-        ...state,
-        newPost: action.newPost,
-      };
     default:
       return state;
   }

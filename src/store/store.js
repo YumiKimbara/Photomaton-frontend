@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import modalReducer from "../reducers/newPostReducers.js";
+import modalReducer from "../reducers/modalReducers.js";
 import {
   userLoginReducer,
   userRegisterReducer,
