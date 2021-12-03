@@ -99,8 +99,6 @@ const NewPost = () => {
     }
   }
 
-  console.log("newPostError", newPostError)
-
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -111,6 +109,10 @@ const NewPost = () => {
 
   const closeCompletePostingMessage = () => {
     setTimeout(() => setCompletePosting(false), 2500);
+  };
+
+  const closeNewPostErrorMessage = () => {
+    setNewPostError(false);
   };
 
   return (
@@ -138,7 +140,7 @@ const NewPost = () => {
             open={newPostError}
           >
             <Alert
-              onClose={!newPostError}
+              onClose={closeNewPostErrorMessage}
               severity="info"
               sx={{ width: "100%" }}
               action={newPostErrorAction}
