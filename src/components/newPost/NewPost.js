@@ -16,24 +16,23 @@ import { v4 as uuidv4 } from "uuid";
 
 const NewPost = () => {
   const [content, setContent] = useState("");
-  const [imageURL, setImageURL] = useState("");
+  const [imageDetails, setImageDetails] = useState("");
   const [completePosting, setCompletePosting] = useState(false);
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
-  const [image, setImage] = useState("");
-  // const [imageUrls, setImageUrls] = useState("");
-  const [created, setCreated] = useState("");
 
   const dispatch = useDispatch();
-  const logIn = useSelector((state => state.userLogin))
-  const userId = logIn.userInfo._id
+  const logIn = useSelector((state => state.userLogin));
+  const userId = logIn.userInfo._id;
+  let imgUrls = [];
+
 
   useEffect(() => {
     console.log(content);
   }, [content]);
 
-  const setImageURLHandler = (e) => {
+  const setImagePreviewUrlHandler = (e) => {
     const files = e.target.files;
-    setImageURL(files);
+    setImageDetails(files);
 
     Object.keys(files).forEach((i) => {
       const file = files[i];
@@ -47,21 +46,18 @@ const NewPost = () => {
 
   const clearNewPostHandler = () => {
     setImagePreviewUrl("");
-    setImageURL("");
+    setImageDetails("");
     setContent("");
-    // setImageUrls("");
-    setCreated(true);
   };
 
-  const createNewPost = (e) => {
-    if (imageURL.length === 0 || content.length === 0) return;
+  const storeImagesHandler = (e) => {
+    if (imageDetails.length === 0 || content.length === 0) return;
     e.preventDefault();
 
-    // let imageUrls = []
-    for (let i = 0; i < imageURL.length; i++) {
+    for (let i = 0; i < imageDetails.length; i++) {
       const formData = new FormData();
       //first parameter must be file
-      formData.append("file", imageURL[i]);
+      formData.append("file", imageDetails[i]);
       formData.append("upload_preset", "photomaton");
       formData.append("cloud_name", "drvfa2o9f");
 
@@ -71,26 +67,19 @@ const NewPost = () => {
           formData
         )
         .then((data) => {
-          console.log("data.url.toString()", data.data.url.toString());
-          // setImage(data.data.url.toString())
-          // dispatch(storeNewPost(data.data.url.toString()))
-          //  setImageUrls((prev) => [...prev, data.data.url.toString()])
-            submitHandler(data.data.url.toString(), imageURL.length)
-    //imageUrls.length !== 0 && submitHandler(imageUrls);
-
+          const imgUrl = data.data.url.toString();
+          createNewPostHandler(imgUrl, imageDetails.length);
         })
         .catch((err) => console.error(err));
     }
-    // setCreated(imageUrls);
   };
 
-  let imgUrls = [];
-  const submitHandler = (imgUrl, imageUrlsLength) => {
+  const createNewPostHandler = (imgUrl, imageUrlsLength) => {
     imgUrls.push(imgUrl)
 
     if(imageUrlsLength === imgUrls.length) {
       axios
-      .post("api/post", { userId: userId, description: content, imageUrl: imgUrls })
+      .post("api/post", { userId: userId, content: content, imageUrl: imgUrls })
       .then((res) => {
         console.log("res", res);
         setCompletePosting(true);
@@ -144,7 +133,7 @@ const NewPost = () => {
           </Typography>
           <IconButton
             onClick={(e) => {
-              createNewPost(e);
+              storeImagesHandler(e);
             }}
           >
             <Check className="icons"></Check>
@@ -160,7 +149,7 @@ const NewPost = () => {
               type="file"
               accept="image/png, image/jpeg"
               onChange={(e) => {
-                setImageURLHandler(e);
+                setImagePreviewUrlHandler(e);
               }}
               multiple
             />
