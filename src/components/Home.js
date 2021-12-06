@@ -1,9 +1,18 @@
+import { useEffect } from "react";
 import { Grid } from "@mui/material";
-
 import HomeCard from "./HomeCard.js";
 import Story from "./Story.js";
+import axios from "axios";
 
 const Home = () => {
+  useEffect(() => {
+    const getAllPosts = async () => {
+      const { data } = await axios.get("api/post");
+      console.log(data);
+    };
+    getAllPosts();
+  }, []);
+
   const dummyData = [
     {
       userImageUrl:
