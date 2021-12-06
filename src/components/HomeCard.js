@@ -107,7 +107,7 @@ const HomeCard = ({ postedData }) => {
           <CardHeader
             variant="cardText"
             avatar={
-              <Avatar alt="User's picture" src={postedData.userImageUrl}>
+              <Avatar alt="User's picture" src={postedData.imageUrl[0]}>
                 R
               </Avatar>
             }
@@ -117,7 +117,7 @@ const HomeCard = ({ postedData }) => {
           <CardMedia
             component="img"
             height="194"
-            image={postedData.imgUrl}
+            image={postedData.imageUrl[0]}
             alt="Posted image"
           />
           <ThemeProvider theme={customButtonTheme}>
@@ -142,7 +142,7 @@ const HomeCard = ({ postedData }) => {
           </ThemeProvider>
           <CardContent>
             <Typography variant="cardText" color="text.secondary">
-              {postedData.text}
+              {postedData.content}
             </Typography>
           </CardContent>
         </Card>
