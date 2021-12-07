@@ -19,9 +19,10 @@ const Home = () => {
     <>
       <div className="homeWrapper">
         <Story />
-        <Grid container spacing={0}>
+        <Grid container spacing={0} direction="column-reverse">
           {allPosts &&
-            allPosts.map((allPosts) => {
+            allPosts.map((post) => {
+              console.log("post", post);
               return (
                 <Grid
                   item
@@ -31,7 +32,11 @@ const Home = () => {
                   paddingTop={"10px"}
                   paddingBottom={"10px"}
                 >
-                  <HomeCard postedData={allPosts} borderRadius={"0px"} />
+                  <HomeCard
+                    postedData={post}
+                    // allPostsData={allPosts}
+                    borderRadius={"0px"}
+                  />
                 </Grid>
               );
             })}

@@ -16,6 +16,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
+import Carousel from "react-material-ui-carousel";
 
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -100,6 +101,10 @@ const HomeCard = ({ postedData }) => {
     return <span {...other}>{customIcons[value].icon}</span>;
   }
 
+  // let reversedPosts = allPostsData;
+  // // reversedPosts.push(postedData);
+  // console.log("reversedPosts", reversedPosts);
+
   return (
     <>
       <ThemeProvider theme={customCardTheme}>
@@ -114,12 +119,18 @@ const HomeCard = ({ postedData }) => {
             title="Shrimp and Chorizo Paella"
             subheader="September 14, 2016"
           />
-          <CardMedia
-            component="img"
-            height="194"
-            image={postedData.imageUrl[0]}
-            alt="Posted image"
-          />
+          <Carousel>
+            {postedData.imageUrl.map((image) => {
+              return (
+                <CardMedia
+                  component="img"
+                  height="194"
+                  image={image}
+                  alt="Posted image"
+                />
+              );
+            })}
+          </Carousel>
           <ThemeProvider theme={customButtonTheme}>
             <IconButton aria-label="add to favorites">
               <LightTooltip
