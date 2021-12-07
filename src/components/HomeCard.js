@@ -154,7 +154,7 @@ const HomeCard = ({ postedData }) => {
               </LightTooltip>
             </IconButton>
           </ThemeProvider>
-          <CardContent>
+          <CardContent className="content">
             <Typography variant="cardText" color="text.secondary">
               {postedData.content}
             </Typography>
