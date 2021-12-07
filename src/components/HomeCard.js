@@ -101,10 +101,6 @@ const HomeCard = ({ postedData }) => {
     return <span {...other}>{customIcons[value].icon}</span>;
   }
 
-  // let reversedPosts = allPostsData;
-  // // reversedPosts.push(postedData);
-  // console.log("reversedPosts", reversedPosts);
-
   return (
     <>
       <ThemeProvider theme={customCardTheme}>
@@ -119,12 +115,19 @@ const HomeCard = ({ postedData }) => {
             title="Shrimp and Chorizo Paella"
             subheader="September 14, 2016"
           />
-          <Carousel>
+          <Carousel
+            autoPlay={false}
+            animation="slide"
+            indicators={postedData.imageUrl.length === 1 ? false : true}
+            navButtonsAlwaysInvisible={
+              postedData.imageUrl.length === 1 ? true : false
+            }
+          >
             {postedData.imageUrl.map((image) => {
               return (
                 <CardMedia
                   component="img"
-                  height="194"
+                  height="280"
                   image={image}
                   alt="Posted image"
                 />

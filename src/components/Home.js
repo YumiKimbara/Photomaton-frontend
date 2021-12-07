@@ -32,11 +32,7 @@ const Home = () => {
                   paddingTop={"10px"}
                   paddingBottom={"10px"}
                 >
-                  <HomeCard
-                    postedData={post}
-                    // allPostsData={allPosts}
-                    borderRadius={"0px"}
-                  />
+                  <HomeCard postedData={post} borderRadius={"0px"} />
                 </Grid>
               );
             })}
