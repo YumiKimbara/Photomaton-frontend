@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -13,33 +13,57 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput'; import IconButton from '@mui/material/IconButton';
-
-
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from '../actions/userActions';
 
 const Login = () => {
 
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const dispatch = useDispatch();
+
+    const userLogin = useSelector(state => state.userLogin);
+    const { loading, error, userInfo } = userLogin;
+
     // Password visibility eventhandlers
-    const [values, setValues] = React.useState({
-        password: '',
-        showPassword: false,
-    });
+    // const [values, setValues] = useState({
+    //     password: '',
+    //     showPassword: false,
+    // });
 
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
+    // const handleChange = (prop) => (event) => {
+    //     setValues({ ...values, [prop]: event.target.value });
+    // };
 
-    const handleClickShowPassword = () => {
-        setValues({
-            ...values,
-            showPassword: !values.showPassword,
-        });
-    };
+    // const handleClickShowPassword = () => {
+    //     setValues({
+    //         ...values,
+    //         showPassword: !values.showPassword,
+    //     });
+    // };
+
+    // Backend Implemention
+
+    useEffect(() => {
+        if (userInfo) {
+            navigate("/")
+        }
+    }, [userInfo])
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        dispatch(login(email, password))
+    }
+
 
     return (
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                '& .MuiTextField-root': { m: 1, width: '15ch' },
             }}
             noValidate
             autoComplete="off"
@@ -49,7 +73,7 @@ const Login = () => {
                     <h2>Login</h2>
                 </div>
                 <div className="Login-form">
-                    <TextField required id="outlined-basic" label="Email or Username" variant="outlined" helperText="Please type your email or username"
+                    <TextField required id="outlined-basic" label="Email" value={email} onChange={(e) => setEmail(e.target.value)} variant="outlined" helperText="Please type your email or username"
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -59,13 +83,15 @@ const Login = () => {
                         }}
                     />
 
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <FormControl sx={{ m: 1, width: '15ch' }} variant="outlined">
+                        <InputLabel required htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput
+                            required
                             id="outlined-adornment-password"
-                            type={values.showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            onChange={handleChange('password')}
+                            // type={values.showPassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            // onInput={handleChange('password')}
                             startAdornment={
                                 <InputAdornment position="start">
                                     <LockIcon />
@@ -75,10 +101,10 @@ const Login = () => {
                                 <InputAdornment position="end">
                                     <IconButton
                                         aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
+                                        // onClick={handleClickShowPassword}
                                         edge="end"
                                     >
-                                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        {/* {values.showPassword ? <VisibilityOff /> : <Visibility />} */}
                                     </IconButton>
                                 </InputAdornment>
                             }
@@ -91,29 +117,30 @@ const Login = () => {
                                 ),
                             }}
                         />
+                        <FormHelperText id="outlined-weight-helper-text">Please Type Your Password</FormHelperText>
                     </FormControl>
                 </div>
                 <div className="Login-forgot">
-                    <Link href="#" underline="none">
+                    <Link href="#" underline="none" onClick={() => navigate("/forgotPassword")}>
                         {'Forgot Password?'}
                     </Link>
                 </div>
                 <div className="Login-button">
-                    <Button variant="contained" color="success">
+                    <Button variant="contained" color="success" onClick={submitHandler}>
                         Login
                     </Button>
                 </div>
                 <div className="Login-google">
-                    <p>Or Login Witth </p>
+                    <p>Or Login With </p>
                     <Link href="#" underline="none">
-                        <img src={Google} />
+                        <img src={Google} alt="google icon" />
                     </Link>
                 </div>
                 <div className="Login-register">
                     <p>
                         Don't have an account?
                     </p>
-                    <Link href="#" underline="none">
+                    <Link href="#" underline="none" onClick={() => navigate("/register")}>
                         {' Register'}
                     </Link>
                 </div>
