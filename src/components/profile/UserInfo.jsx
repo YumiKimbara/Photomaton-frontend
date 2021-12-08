@@ -7,11 +7,11 @@ const UserInfo = (props) => {
     return (
         <Grid container spacing={2} width="95vw" margin="30px auto">
             <Grid item alignSelf="center">
-                <Avatar sx={{height: '90px', width: '90px'}} src={props.user.results[0].picture.large} />
+                <Avatar sx={{height: '90px', width: '90px'}} src='https://img.favpng.com/8/19/8/united-states-avatar-organization-information-png-favpng-J9DvUE98TmbHSUqsmAgu3FpGw.jpg' />
             </Grid>
             <Grid item>
-                <Typography variant="h4" color="white">Username</Typography>
-                <Typography variant="subtitle2" marginLeft="5px" color="white">UserID • PostCount</Typography>
+                <Typography variant="h4" color="white">{props.user.userName}</Typography>
+                {/* <Typography variant="subtitle2" marginLeft="5px" color="white">{props.user.id}</Typography> */}
                 <Grid item display="flex" justifyContent="start">
                     <IconButton component={Link} to="/friends">
                         <PeopleAlt className="icons" />

@@ -37,8 +37,8 @@ const TitleBar = (props) => {
                 break
             case 'submit':
                 setrightBtnTag(
-                    <IconButton>
-                        <Check className='barIcon' onClick={props.onClick}/>
+                    <IconButton onClick={props.onClick}>
+                        <Check className='barIcon' />
                     </IconButton>
                 )
                 break
