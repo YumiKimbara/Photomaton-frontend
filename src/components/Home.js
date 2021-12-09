@@ -16,7 +16,7 @@ const Home = () => {
     const getAllPosts = async () => {
       const { data } = await axios.get("api/post");
       setAllPosts(data);
-      setLoadedPosts(data.slice(0, loadedPostsNum));
+      setLoadedPosts(data.reverse().slice(0, loadedPostsNum));
     };
     getAllPosts();
   }, []);
@@ -27,7 +27,7 @@ const Home = () => {
       return;
     } else if (loadedPosts.length <= allPosts.length) {
       setLoadedPostsNum((prev) => (prev += 5));
-      setLoadedPosts(allPosts.slice(0, loadedPostsNum));
+      setLoadedPosts(allPosts.reverse().slice(0, loadedPostsNum));
     }
   };
 
@@ -46,7 +46,7 @@ const Home = () => {
             </p>
           }
         >
-          <Grid container spacing={0} direction="column-reverse">
+          <Grid container spacing={0} direction="column">
             {loadedPosts &&
               loadedPosts.map((post) => {
                 return (
