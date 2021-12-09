@@ -6,7 +6,7 @@ import {
   Typography,
   Snackbar,
 } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import MuiAlert from "@mui/material/Alert";
 import Carousel from "react-material-ui-carousel";
 import React, { useState, useEffect } from "react";
@@ -23,17 +23,17 @@ const NewPost = () => {
   const [newPostError, setNewPostError] = useState(false);
 
   const dispatch = useDispatch();
-  const logIn = useSelector((state => state.userLogin));
+  const logIn = useSelector((state) => state.userLogin);
   const userId = logIn.userInfo._id;
   let imgUrls = [];
-
 
   useEffect(() => {
     console.log(content);
   }, [content]);
 
   const setImagePreviewUrlHandler = (e) => {
-    if (e.target.files.length !== 0 && content.length !== 0) setNewPostError(false);
+    if (e.target.files.length !== 0 && content.length !== 0)
+      setNewPostError(false);
     const files = e.target.files;
     setImageDetails(files);
 
@@ -83,21 +83,26 @@ const NewPost = () => {
   };
 
   const createNewPostHandler = (imgUrl, imageUrlsLength) => {
-    imgUrls.push(imgUrl)
+    imgUrls.push(imgUrl);
 
-    if(imageUrlsLength === imgUrls.length) {
+    if (imageUrlsLength === imgUrls.length) {
       axios
-      .post("api/post", { userId: userId, content: content, imageUrl: imgUrls })
-      .then((res) => {
-        console.log("res", res);
-        setCompletePosting(true);
-      })
-      .then(() => {
-        clearNewPostHandler();
-      })
-      .catch((err) => console.error(err));
+        .post("api/post", {
+          userId: userId,
+          content: content,
+          imageUrl: imgUrls,
+          userName: logIn.userInfo.userName,
+        })
+        .then((res) => {
+          console.log("res", res);
+          setCompletePosting(true);
+        })
+        .then(() => {
+          clearNewPostHandler();
+        })
+        .catch((err) => console.error(err));
     }
-  }
+  };
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -105,7 +110,7 @@ const NewPost = () => {
 
   const newPostErrorAction = (
     <CloseIcon fontSize="small" onClick={() => setNewPostError(false)} />
-  )
+  );
 
   const closeCompletePostingMessage = () => {
     setTimeout(() => setCompletePosting(false), 2500);
@@ -196,9 +201,13 @@ const NewPost = () => {
                 rows={4}
                 value={content}
                 onChange={(event) => {
-                  if (event.target.value.length !== 0 && imageDetails.length !== 0) setNewPostError(false);
+                  if (
+                    event.target.value.length !== 0 &&
+                    imageDetails.length !== 0
+                  )
+                    setNewPostError(false);
                   setContent(event.target.value);
-                  }}
+                }}
                 variant="standard"
                 style={{
                   backgroundColor: "white",

@@ -1,16 +1,11 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   Card,
   CardHeader,
   CardMedia,
   CardContent,
-  CardActions,
   Avatar,
   IconButton,
-  Rating,
-  Tooltip,
-  tooltipClasses,
-  Button,
 } from "@mui/material";
 import { MoreVertIcon } from "@mui/icons-material/MoreVert";
 import Typography from "@mui/material/Typography";
@@ -110,6 +105,8 @@ const HomeCard = ({ postedData }) => {
     setFavorite((prev) => !prev);
   };
 
+  console.log(postedData.userName);
+
   return (
     <>
       <ThemeProvider theme={customCardTheme}>
@@ -117,11 +114,9 @@ const HomeCard = ({ postedData }) => {
           <CardHeader
             variant="cardText"
             avatar={
-              <Avatar alt="User's picture" src={postedData.imageUrl[0]}>
-                R
-              </Avatar>
+              <Avatar alt="User's picture" src={postedData.imageUrl[0]} />
             }
-            title="Shrimp and Chorizo Paella"
+            title={postedData.userName}
             subheader="September 14, 2016"
           />
           <Carousel
