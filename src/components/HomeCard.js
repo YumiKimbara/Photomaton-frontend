@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -12,7 +13,6 @@ import {
   Button,
 } from "@mui/material";
 import { MoreVertIcon } from "@mui/icons-material/MoreVert";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
@@ -26,17 +26,21 @@ import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
-const LightTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.white,
-    color: "rgba(0, 0, 0, 0.87)",
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
-  },
-}));
+import { v4 as uuidv4 } from "uuid";
+
+// const LightTooltip = styled(({ className, ...props }) => (
+//   <Tooltip {...props} classes={{ popper: className }} />
+// ))(({ theme }) => ({
+//   [`& .${tooltipClasses.tooltip}`]: {
+//     backgroundColor: theme.palette.common.white,
+//     color: "rgba(0, 0, 0, 0.87)",
+//     boxShadow: theme.shadows[1],
+//     fontSize: 11,
+//   },
+// }));
 
 const customButtonTheme = createTheme({
   components: {
@@ -74,32 +78,37 @@ const customCardTheme = createTheme({
 });
 
 const HomeCard = ({ postedData }) => {
-  const customIcons = {
-    1: {
-      icon: <ThumbUpAltOutlinedIcon />,
-      label: "ThumbUp",
-    },
-    2: {
-      icon: <FavoriteIcon />,
-      label: "Favorite",
-    },
-    3: {
-      icon: <SentimentVeryDissatisfiedIcon />,
-      label: "sad",
-    },
-    4: {
-      icon: <SentimentSatisfiedAltIcon />,
-      label: "Satisfied",
-    },
-    5: {
-      icon: <SentimentVerySatisfiedIcon />,
-      label: "Very Satisfied",
-    },
-  };
+  const [favorite, setFavorite] = useState(false);
+  // const customIcons = {
+  //   1: {
+  //     icon: <ThumbUpAltOutlinedIcon />,
+  //     label: "ThumbUp",
+  //   },
+  //   2: {
+  //     icon: <FavoriteIcon />,
+  //     label: "Favorite",
+  //   },
+  //   3: {
+  //     icon: <SentimentVeryDissatisfiedIcon />,
+  //     label: "sad",
+  //   },
+  //   4: {
+  //     icon: <SentimentSatisfiedAltIcon />,
+  //     label: "Satisfied",
+  //   },
+  //   5: {
+  //     icon: <SentimentVerySatisfiedIcon />,
+  //     label: "Very Satisfied",
+  //   },
+  // };
 
-  function IconContainer({ value, ...other }) {
-    return <span {...other}>{customIcons[value].icon}</span>;
-  }
+  // function IconContainer({ value, ...other }) {
+  //   return <span {...other}>{customIcons[value].icon}</span>;
+  // }
+
+  const favoriteHandler = () => {
+    setFavorite((prev) => !prev);
+  };
 
   return (
     <>
@@ -126,6 +135,7 @@ const HomeCard = ({ postedData }) => {
             {postedData.imageUrl.map((image) => {
               return (
                 <CardMedia
+                  key={uuidv4()}
                   component="img"
                   height="280"
                   image={image}
@@ -136,22 +146,14 @@ const HomeCard = ({ postedData }) => {
           </Carousel>
           <ThemeProvider theme={customButtonTheme}>
             <IconButton aria-label="add to favorites">
-              <LightTooltip
-                title={
-                  <>
-                    <Rating
-                      name="highlight-selected-only"
-                      IconContainerComponent={IconContainer}
-                      highlightSelectedOnly
-                    />
-                  </>
-                }
-                placement="top"
-              >
-                <div className="buttonWrapper">
-                  <Button variant="neonBtn">Like</Button>
-                </div>
-              </LightTooltip>
+              {favorite ? (
+                <FavoriteIcon variant="neonBtn" onClick={favoriteHandler} />
+              ) : (
+                <FavoriteBorderIcon
+                  variant="neonBtn"
+                  onClick={favoriteHandler}
+                />
+              )}
             </IconButton>
           </ThemeProvider>
           <CardContent className="content">
