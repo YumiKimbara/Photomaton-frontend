@@ -26,6 +26,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import { v4 as uuidv4 } from "uuid";
 
+const moment = require("moment-timezone");
+
 // const LightTooltip = styled(({ className, ...props }) => (
 //   <Tooltip {...props} classes={{ popper: className }} />
 // ))(({ theme }) => ({
@@ -73,6 +75,12 @@ const customCardTheme = createTheme({
 });
 
 const HomeCard = ({ postedData }) => {
+  const timestamp = moment(postedData.createdAt)
+    .utc()
+    .local()
+    .format("YYYY/MM/DD HH:mm");
+  console.log("timestamp", timestamp);
+
   const [favorite, setFavorite] = useState(false);
   // const customIcons = {
   //   1: {
@@ -105,8 +113,6 @@ const HomeCard = ({ postedData }) => {
     setFavorite((prev) => !prev);
   };
 
-  console.log(postedData.userName);
-
   return (
     <>
       <ThemeProvider theme={customCardTheme}>
@@ -117,7 +123,7 @@ const HomeCard = ({ postedData }) => {
               <Avatar alt="User's picture" src={postedData.imageUrl[0]} />
             }
             title={postedData.userName}
-            subheader="September 14, 2016"
+            subheader={timestamp}
           />
           <Carousel
             autoPlay={false}
