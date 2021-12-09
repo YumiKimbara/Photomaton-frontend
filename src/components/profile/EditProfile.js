@@ -1,16 +1,20 @@
-import { Avatar, FormControl, Grid, Input, InputLabel, Button } from '@mui/material';
+import { Avatar, FormControl, Grid, Input, InputLabel, Button, IconButton, Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import TitleBar from '../TitleBar';
+// import TitleBar from '../TitleBar';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { Edit } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import { Check, Close } from '@mui/icons-material';
 
 const EditProfile = () => {
-    const [info, setInfo] = useState(null)
+    // const [info, setInfo] = useState(null)
     const [userData, setUserData] = useState(null)
+    const [imgDetails, setImgDetails] = useState(null)
+    const [preImgUrl, setPreImgUrl] = useState('')
     const token = JSON.parse(localStorage.getItem('userInfo')).token
     const navigate = useNavigate();
 
+    // Get user info from DB and show it as inital info
     useEffect(async () => {
         const response = await axios.get('http://localhost:3333/api/users/getInfo', {
             headers: {
@@ -19,52 +23,85 @@ const EditProfile = () => {
         })
         const data = response.data.data
         setUserData(data)
-        setInfo({firstName: data.firstName, lastName: data.lastName, userName: data.userName, bio: ''})
+        setPreImgUrl(data.avatarUrl)
     }, [])
 
-    useEffect(() => {
-        console.log(info)
-    })
-
-
-    const handleSubmit = async(data) => {
-        const response = await axios.post('http://localhost:3333/api/users/editUser/', data, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
+    // Get upload image data and Create a preview image
+    const handleImgPreview = (e) => {
+        const file = e.target.files[0];
+        setImgDetails(file)
+        const reader = new FileReader();
+        reader.onload = ((img) => {
+            setPreImgUrl(reader.result)
         })
-        console.log('Info', data)
-        // console.log(response)
+        reader.readAsDataURL(file);
+    }
+
+    const handleSubmit = async () => {
+        //Update Avatar Image to cloudinary and get image url
+        const formData = new FormData();
+        formData.append('file', imgDetails);
+        formData.append('upload_preset', 'photomaton');
+        formData.append('cloud_name', 'da4jkejdx');
+        let imgUrl = userData.avatarUrl;
+        try {
+            const cloudinaryRes = await axios.post('https://api.cloudinary.com/v1_1/da4jkejdx/image/upload', formData)
+            imgUrl = cloudinaryRes.data.url.toString()
+        } catch (e){
+            console.error(e)
+        }
+        // Update info to DB
+        updateUserInfo(imgUrl)
+        // Return to last page
         navigate(-1)
     }
 
-    return userData && info?(
+    const updateUserInfo = async (imgUrl) => {
+        // Update user info
+        try {
+            const response = await axios.post('http://localhost:3333/api/users/editUser/', { ...userData, avatarUrl: imgUrl}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            console.log('response:', response)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    return userData?(
         <Grid container className='editProfileWrapper'>
-            <TitleBar
+            {/* Passing parameters to Child component not working??? */}
+            {/* <TitleBar
                 title="Edit Profile"
                 leftBtn={{ type: "close", url: "/profile" }}
                 rightBtn={{ type: "submit" }}
-                onClick={()=>handleSubmit(info)}
-            />
+                onClick={()=>handleSubmit()}
+            /> */}
 
-            <Avatar alt='' src='https://img.favpng.com/8/19/8/united-states-avatar-organization-information-png-favpng-J9DvUE98TmbHSUqsmAgu3FpGw.jpg' />
+            <Grid container className="titleBarWrapper" margin='10px 0'>
+                <Grid container width="100vw" display="flex" direction="row" justifyContent="space-between" alignItems="center">
+                    <IconButton component={Link} to='/profile'>
+                        <Close className='barIcon' />
+                    </IconButton>
+                    <Typography variant="h5" color="white">Edit Profile</Typography>
+                    <IconButton>
+                        <Check className='barIcon' onClick={handleSubmit}/>
+                    </IconButton>
+                </Grid>
+            </Grid>
 
-            <label htmlFor="chooseFile">
-                <Edit className="icons" />
+            <label id="avatarLabel" htmlFor="chooseFile">
+                <Avatar id="avatarImg" alt='' src={preImgUrl} />
             </label>
             <input
                 id="chooseFile"
                 type="file"
                 accept="image/png, image/jpeg"
-                onChange={(e) => {
-                    // setImagePreviewUrlHandler(e);
-                    
-                }}
+                onChange={(e)=>handleImgPreview(e)}
             />
-
-            {/* Info update test */}
-            {/* <Button color="error" onClick={handleSubmit}>Submit</Button> */}
 
             <Grid container width='100vw' height='70vh' display='flex' direction='column' justifyContent='space-evenly' alignItems='center'>
                     <FormControl variant='standard'>
@@ -73,7 +110,7 @@ const EditProfile = () => {
                         style={{color: 'white'}}
                         id='username'
                         defaultValue={userData.userName}
-                        onChange={(e) => setInfo({ ...info, userName: e.target.value })}
+                        onChange={(e) => setUserData({ ...userData, userName: e.target.value })}
                     ></Input>
                     </FormControl>
                     <FormControl variant='standard'>
@@ -82,7 +119,7 @@ const EditProfile = () => {
                         style={{color: 'white'}}
                         id='firstName'
                         defaultValue={userData.firstName}
-                        onChange={(e) => setInfo({ ...info, firstName: e.target.value })}
+                        onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
                     ></Input>
                     </FormControl>
                     <FormControl variant='standard'>
@@ -91,7 +128,7 @@ const EditProfile = () => {
                         style={{color: 'white'}}
                         id='lastName'
                         defaultValue={userData.lastName}
-                        onChange={(e) => setInfo({ ...info, lastName: e.target.value })}
+                        onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
                     ></Input>
                     </FormControl>
                     <FormControl variant='standard'>
@@ -100,7 +137,7 @@ const EditProfile = () => {
                         style={{color: 'white'}}
                         id='bio'
                         defaultValue={userData.bio}
-                        onChange={(e) => setInfo({ ...info, bio: e.target.value })}
+                        onChange={(e) => setUserData({ ...userData, bio: e.target.value })}
                     ></Input>
                     </FormControl>
             </Grid>

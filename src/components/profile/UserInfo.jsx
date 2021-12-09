@@ -7,7 +7,7 @@ const UserInfo = (props) => {
     return (
         <Grid container spacing={2} width="95vw" margin="30px auto">
             <Grid item alignSelf="center">
-                <Avatar sx={{height: '90px', width: '90px'}} src='https://img.favpng.com/8/19/8/united-states-avatar-organization-information-png-favpng-J9DvUE98TmbHSUqsmAgu3FpGw.jpg' />
+                <Avatar sx={{height: '90px', width: '90px'}} src={props.user.avatarUrl} />
             </Grid>
             <Grid item>
                 <Typography variant="h4" color="white">{props.user.userName}</Typography>
