@@ -5,14 +5,15 @@ import PostPhotos from './PostPhotos';
 import axios from 'axios';
 
 const Profile = () => {
-    // Fake data start
+    const [isUser, setIsUser] = useState(true)
     const [userData, setUserData] = useState(null)
-    const [imgData, setImgData] = useState(null)
-    // const [editStatus, SetEditStatus] = useState(true)
+    const [postData, setPostData] = useState(null)
     const token = JSON.parse(localStorage.getItem('userInfo')).token
+    const userID = JSON.parse(localStorage.getItem('userInfo'))._id
 
     useEffect(async () => {
-        const userRes = await axios.get('http://localhost:3333/api/users/getInfo', {
+        // Fetch user data
+        const userRes = await axios.get('http://localhost:3333/api/users/getUser', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -20,28 +21,14 @@ const Profile = () => {
         const userData = userRes.data.data
         setUserData(userData)
 
-        // console.log(userData)
-
-        const imgRes = await fetch('https://api.pexels.com/v1/curated?per_page=20', {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                Authorization: '563492ad6f91700001000001e4ec3e797aff44bebec8c4976b825340'
-            }
-        })
-        const imgData = await imgRes.json()
-        setImgData(imgData)
+        // Fetch user posts
+        const postsRes = await axios.get(`http://localhost:3333/api/post/getPost/${userID}`)
     }, [])
 
-    // console.log(userData)
-    // console.log(imgData)
-    // console.log(JSON.parse(token))
-    // Fake data end
-
-    return (userData && imgData) ? (
+    return (userData && postData) ? (
         <Grid container className="profileWrapper" direction="column" spacing={2}>
             <UserInfo user={userData} />
-            <PostPhotos img={imgData} />
+            <PostPhotos img={postData} />
         </Grid>
     ):(<div>Wait a sec</div>)
     

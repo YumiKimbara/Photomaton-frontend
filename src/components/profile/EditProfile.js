@@ -16,7 +16,7 @@ const EditProfile = () => {
 
     // Get user info from DB and show it as inital info
     useEffect(async () => {
-        const response = await axios.get('http://localhost:3333/api/users/getInfo', {
+        const response = await axios.get('http://localhost:3333/api/users/getUser', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
