@@ -16,6 +16,8 @@ import OutlinedInput from '@mui/material/OutlinedInput'; import IconButton from 
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from '../actions/userActions';
+import ErrorMessage from './errorMessage/ErrorMessage';
+
 
 const Login = () => {
 
@@ -29,21 +31,11 @@ const Login = () => {
     const { loading, error, userInfo } = userLogin;
 
     // Password visibility eventhandlers
-    // const [values, setValues] = useState({
-    //     password: '',
-    //     showPassword: false,
-    // });
+    const [visibility, setVisibility] = useState(false)
 
-    // const handleChange = (prop) => (event) => {
-    //     setValues({ ...values, [prop]: event.target.value });
-    // };
-
-    // const handleClickShowPassword = () => {
-    //     setValues({
-    //         ...values,
-    //         showPassword: !values.showPassword,
-    //     });
-    // };
+    const handleClickShowPassword = () => {
+        setVisibility(!visibility)
+    };
 
     // Backend Implemention
 
@@ -68,6 +60,7 @@ const Login = () => {
             noValidate
             autoComplete="off"
         >
+            {error && <ErrorMessage error={error} />}
             <div className="Login-Area">
                 <div className="Login-title">
                     <h2>Login</h2>
@@ -88,10 +81,10 @@ const Login = () => {
                         <OutlinedInput
                             required
                             id="outlined-adornment-password"
-                            // type={values.showPassword ? 'text' : 'password'}
+                            type={visibility ? 'text' : 'password'}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            // onInput={handleChange('password')}
+
                             startAdornment={
                                 <InputAdornment position="start">
                                     <LockIcon />
@@ -101,10 +94,10 @@ const Login = () => {
                                 <InputAdornment position="end">
                                     <IconButton
                                         aria-label="toggle password visibility"
-                                        // onClick={handleClickShowPassword}
+                                        onClick={handleClickShowPassword}
                                         edge="end"
                                     >
-                                        {/* {values.showPassword ? <VisibilityOff /> : <Visibility />} */}
+                                        {visibility ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
                                 </InputAdornment>
                             }

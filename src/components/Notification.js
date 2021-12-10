@@ -52,13 +52,17 @@ const Notification = () => {
   const modalSelecor = useSelector((state) => state.modalReducer);
   const dispatch = useDispatch();
 
+  const userLogin = useSelector(state => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+
   return (
     <>
       <div>
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
-          open={modalSelecor}
+          open={userInfo ? modalSelecor : null}
           onClose={() => dispatch(toggleModal())}
           closeAfterTransition
           BackdropProps={{
