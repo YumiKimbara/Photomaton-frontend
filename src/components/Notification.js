@@ -1,6 +1,6 @@
 import { Box, Modal, Fade, Avatar } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleModal } from "../actions/modalActions";
+import { notificationModal } from "../actions/modalActions";
 
 const dummyData = [
   {
@@ -49,7 +49,9 @@ const dummyData = [
 ];
 
 const Notification = () => {
-  const modalSelecor = useSelector((state) => state.modalReducer);
+  const notificationSelector = useSelector(
+    (state) => state.modalReducer.notificationModal
+  );
   const dispatch = useDispatch();
 
   return (
@@ -58,14 +60,14 @@ const Notification = () => {
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
-          open={modalSelecor}
-          onClose={() => dispatch(toggleModal())}
+          open={notificationSelector}
+          onClose={() => dispatch(notificationModal())}
           closeAfterTransition
           BackdropProps={{
             timeout: 500,
           }}
         >
-          <Fade in={modalSelecor}>
+          <Fade in={notificationSelector}>
             <Box className="modalWindow">
               {dummyData.map((data) => {
                 return (

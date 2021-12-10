@@ -1,4 +1,9 @@
 import { useState, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { commentModal } from "../actions/modalActions";
+
+import axios from "axios";
+
 import {
   Card,
   CardHeader,
@@ -6,6 +11,9 @@ import {
   CardContent,
   Avatar,
   IconButton,
+  Box,
+  Modal,
+  Fade,
 } from "@mui/material";
 import { MoreVertIcon } from "@mui/icons-material/MoreVert";
 import Typography from "@mui/material/Typography";
@@ -23,6 +31,7 @@ import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfi
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -75,13 +84,17 @@ const customCardTheme = createTheme({
 });
 
 const HomeCard = ({ postedData }) => {
+  const dispatch = useDispatch();
+  const modalSelecor = useSelector((state) => state.modalReducer.commentModal);
+  const [favorite, setFavorite] = useState(false);
+  const [comment, setComment] = useState(null);
+
+  console.log("postData", postedData);
+
   const timestamp = moment(postedData.createdAt)
     .utc()
     .local()
     .format("YYYY/MM/DD HH:mm");
-  console.log("timestamp", timestamp);
-
-  const [favorite, setFavorite] = useState(false);
   // const customIcons = {
   //   1: {
   //     icon: <ThumbUpAltOutlinedIcon />,
@@ -113,8 +126,66 @@ const HomeCard = ({ postedData }) => {
     setFavorite((prev) => !prev);
   };
 
+  const submitCommentHandler = (e) => {
+    e.preventDefault();
+    console.log("comment", comment);
+    if (comment) {
+      axios
+        .put("api/updatePost", {
+          ...postedData,
+          id: postedData._id,
+          comment: comment,
+        })
+        .then((res) => {
+          console.log("res", res);
+        })
+        .catch((err) => console.error(err));
+    }
+
+    // axios
+    //   .post("api/post", {
+    //     userId: userId,
+    //     content: content,
+    //     imageUrl: imgUrls,
+    //     userName: logIn.userInfo.userName,
+    //   })
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     setCompletePosting(true);
+    //   })
+    //   .then(() => {
+    //     clearNewPostHandler();
+    //   })
+    //   .catch((err) => console.error(err));
+  };
+
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={modalSelecor}
+        onClose={() => dispatch(commentModal())}
+        closeAfterTransition
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={modalSelecor}>
+          <Box className="modalWindow">
+            <form onSubmit={(e) => submitCommentHandler(e)}>
+              <label htmlFor="comment">Comments</label>
+              <input
+                type="text"
+                name="comment"
+                id="comment"
+                placeholder="write your comment here..."
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </form>
+          </Box>
+        </Fade>
+      </Modal>
       <ThemeProvider theme={customCardTheme}>
         <Card sx={{ maxWidth: 414 }}>
           <CardHeader
@@ -155,6 +226,9 @@ const HomeCard = ({ postedData }) => {
                   onClick={favoriteHandler}
                 />
               )}
+            </IconButton>
+            <IconButton aria-label="open chatbox">
+              <ChatBubbleOutlineIcon onClick={() => dispatch(commentModal())} />
             </IconButton>
           </ThemeProvider>
           <CardContent className="content">

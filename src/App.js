@@ -18,13 +18,15 @@ import Friends from "./components/Friends";
 import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
-  const toggleNotification = useSelector((state) => state.modalReducer);
+  const toggleNotification = useSelector(
+    (state) => state.modalReducer.notificationModal
+  );
 
   return (
     <>
       <BrowserRouter>
         <Header />
-        {toggleNotification.modal && <Notification />}
+        {toggleNotification && <Notification />}
         <Routes>
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />

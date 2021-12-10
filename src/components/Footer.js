@@ -6,7 +6,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { IconButton } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { toggleModal } from "../actions/modalActions";
+import { notificationModal } from "../actions/modalActions";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const Footer = () => {
         <FavoriteBorderIcon
           className="icons"
           sx={{ fontSize: 35 }}
-          onClick={() => dispatch(toggleModal())}
+          onClick={() => dispatch(notificationModal())}
         />
         <AccountCircleIcon
           className="icons"
@@ -50,7 +50,7 @@ const Footer = () => {
 //             <HomeIcon className="icons" sx={{ fontSize: 35 }} onClick={() => navigate("/")} />
 //             <SearchIcon className="icons" sx={{ fontSize: 35 }} onClick={() => navigate("/explore")} />
 //             <ControlPointIcon className="icons" sx={{ fontSize: 35 }} onClick={() => navigate("/newPost")} />
-//             <FavoriteBorderIcon className="icons" sx={{ fontSize: 35 }} onClick={() => dispatch(toggleModal())} />
+//             <FavoriteBorderIcon className="icons" sx={{ fontSize: 35 }} onClick={() => dispatch(notificationModal())} />
 //             <AccountCircleIcon className="icons" sx={{ fontSize: 35 }} onClick={() => navigate("/profile")} />
 //         </div>
 
