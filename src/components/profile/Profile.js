@@ -1,7 +1,10 @@
 import React, { useState, useEffect, Suspense } from 'react';
-import {Avatar, Button, Grid} from '@mui/material'
+import { Avatar, Button, Grid } from '@mui/material'
 import UserInfo from './UserInfo';
 import PostPhotos from './PostPhotos';
+
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
     // Fake data start
@@ -29,13 +32,28 @@ const Profile = () => {
     console.log(imgData)
     // Fake data end
 
+    // User Login Check, if the user is not logged in, redirect to login page
+
+    const navigate = useNavigate();
+    const userLogin = useSelector(state => state.userLogin);
+    const { loading, error, userInfo } = userLogin;
+
+    useEffect(() => {
+        if (userInfo) {
+            navigate("/profile")
+        } else {
+            navigate("/login")
+        }
+    }, [userInfo])
+
+
     return (userData && imgData) ? (
         <Grid container className="profileWrapper" direction="column" spacing={2}>
             <UserInfo user={userData} />
             <PostPhotos img={imgData} />
         </Grid>
-    ):(<div>Wait a sec</div>)
-    
+    ) : (<div>Wait a sec</div>)
+
 }
 
 export default Profile
