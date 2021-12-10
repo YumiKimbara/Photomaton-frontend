@@ -5,6 +5,9 @@ import PostPhotos from './PostPhotos';
 import axios from 'axios';
 import { useParams } from 'react-router';
 
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 const Profile = () => {
     const [userData, setUserData] = useState(null)
     const [postData, setPostData] = useState([])
@@ -33,11 +36,12 @@ const Profile = () => {
 
     return (userData) ? (
         <Grid container className="profileWrapper" direction="column" spacing={2} sx={{width:'100vw', margin: '0'}}>
+
             <UserInfo user={userData} />
             <PostPhotos img={postData} />
         </Grid>
-    ):(<div>Wait a sec</div>)
-    
+    ) : (<div>Wait a sec</div>)
+
 }
 
 export default Profile

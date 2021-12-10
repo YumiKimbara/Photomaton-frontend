@@ -21,7 +21,7 @@ const Header = () => {
     return <>
         <div className="headerWrapper">
             <img className="logo" src={logo} alt="logo" className="textLogo" />
-            <button onClick={logoutHandler} className="headerIcon"><LogoutIcon style={{ fontSize: "20px" }} /></button>
+            <button onClick={logoutHandler} className="headerIcon" style={{ visibility: userInfo ? 'visible' : 'hidden' }}><LogoutIcon style={{ fontSize: "20px" }} /></button>
         </div>
     </>
 }

@@ -1,5 +1,7 @@
 import { Grid } from "@mui/material";
-
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import HomeCard from "./HomeCard.js";
 import Story from "./Story.js";
 
@@ -118,6 +120,20 @@ const Home = () => {
       text: "user 4 text",
     },
   ];
+
+  const navigate = useNavigate();
+  const userLogin = useSelector(state => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+
+  // User Login Check, if the user is not logged in, redirect to login page
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/")
+    } else {
+      navigate("/login")
+    }
+  }, [userInfo])
 
   return (
     <>
