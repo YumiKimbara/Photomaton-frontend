@@ -7,12 +7,16 @@ import { IconButton } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../actions/modalActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Footer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [userID, setUserId] = useState(JSON.parse(localStorage.getItem('userInfo')._id))
+  const [userID, setUserId] = useState('')
+
+  useEffect(() => {
+    setUserId('/' + JSON.parse(localStorage.getItem('userInfo'))._id)
+  }, [])
 
   return (
     <>
@@ -40,7 +44,7 @@ const Footer = () => {
         <AccountCircleIcon
           className="icons"
           sx={{ fontSize: 35 }}
-          onClick={() => navigate(`/profile/${userID}`)}
+          onClick={() => navigate(`/profile${userID}`)}
         />
       </div>
     </>

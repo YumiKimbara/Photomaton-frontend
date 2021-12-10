@@ -1,32 +1,38 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Avatar, Button, Grid} from '@mui/material'
 import UserInfo from './UserInfo';
 import PostPhotos from './PostPhotos';
 import axios from 'axios';
+import { useParams } from 'react-router';
 
 const Profile = () => {
-    const [isUser, setIsUser] = useState(true)
     const [userData, setUserData] = useState(null)
-    const [postData, setPostData] = useState(null)
-    const token = JSON.parse(localStorage.getItem('userInfo')).token
-    const userID = JSON.parse(localStorage.getItem('userInfo'))._id
+    const [postData, setPostData] = useState([])
+    // const token = JSON.parse(localStorage.getItem('userInfo')).token
+    const { id } = useParams();
 
+    
     useEffect(async () => {
         // Fetch user data
-        const userRes = await axios.get('http://localhost:3333/api/users/getUser', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        const userData = userRes.data.data
-        setUserData(userData)
+        try {
+            const userRes = await axios.get(`http://localhost:3333/api/users/getUser/${id}`)
+            setUserData(userRes.data.data)
+        } catch (error) {
+            console.log(error)
+        }
 
         // Fetch user posts
-        const postsRes = await axios.get(`http://localhost:3333/api/post/getPost/${userID}`)
-    }, [])
+        try {
+            const postsRes = await axios.get(`http://localhost:3333/api/post/getPost/${id}`)
+            setPostData(postsRes.data.data)
+            console.log(postsRes.data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }, [id])
 
-    return (userData && postData) ? (
-        <Grid container className="profileWrapper" direction="column" spacing={2}>
+    return (userData) ? (
+        <Grid container className="profileWrapper" direction="column" spacing={2} sx={{width:'100vw', margin: '0'}}>
             <UserInfo user={userData} />
             <PostPhotos img={postData} />
         </Grid>

@@ -1,4 +1,4 @@
-import { Avatar, FormControl, Grid, Input, InputLabel, Button, IconButton, Typography } from '@mui/material';
+import { Avatar, FormControl, Grid, Input, InputLabel, Button, IconButton, Typography, Modal, Box } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 // import TitleBar from '../TitleBar';
 import axios from 'axios';
@@ -11,16 +11,14 @@ const EditProfile = () => {
     const [userData, setUserData] = useState(null)
     const [imgDetails, setImgDetails] = useState(null)
     const [preImgUrl, setPreImgUrl] = useState('')
-    const token = JSON.parse(localStorage.getItem('userInfo')).token
+    const [isSaving, setIsSaving] = useState(false)
+    // const token = JSON.parse(localStorage.getItem('userInfo')).token
     const navigate = useNavigate();
+    const userID = JSON.parse(localStorage.getItem('userInfo'))._id
 
     // Get user info from DB and show it as inital info
     useEffect(async () => {
-        const response = await axios.get('http://localhost:3333/api/users/getUser', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        const response = await axios.get(`http://localhost:3333/api/users/getUser/${userID}`)
         const data = response.data.data
         setUserData(data)
         setPreImgUrl(data.avatarUrl)
@@ -47,25 +45,28 @@ const EditProfile = () => {
         try {
             const cloudinaryRes = await axios.post('https://api.cloudinary.com/v1_1/da4jkejdx/image/upload', formData)
             imgUrl = cloudinaryRes.data.url.toString()
+            alert('cloudinary hit', imgUrl)
         } catch (e){
             console.error(e)
         }
         // Update info to DB
         updateUserInfo(imgUrl)
-        // Return to last page
-        navigate(-1)
+        
+        // Return to profile page
+        // Open saving modal
+        setIsSaving(true)
+        // Wait for data saving
+        setTimeout(() => {
+            navigate(`/profile/${userID}`)
+        }, 2000)
+        
     }
 
     const updateUserInfo = async (imgUrl) => {
         // Update user info
         try {
-            const response = await axios.post('http://localhost:3333/api/users/editUser/', { ...userData, avatarUrl: imgUrl}, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            console.log('response:', response)
+            const response = await axios.post(`http://localhost:3333/api/users/editUser/${userID}`, { ...userData, avatarUrl: imgUrl})
+            console.log('userID: ', userID)
         } catch (e) {
             console.error(e)
         }
@@ -141,6 +142,28 @@ const EditProfile = () => {
                     ></Input>
                     </FormControl>
             </Grid>
+
+            <Modal  className='savingModal' open={isSaving}>
+                <Box
+                    elevation={3}
+                    className='savingBox'
+                    style={{
+                        borderRadius: "5px",
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width:'60%',
+                        backgroundColor:'white',
+                        boxShadow:'24',
+                        padding: '30px',
+                        textAlign:'center'
+                        
+                    }}
+                >
+                    <Typography variant='h6'>Saving...</Typography>
+                </Box>
+            </Modal>
 
         </Grid>
     ) : (<div>Waitting...</div>)
