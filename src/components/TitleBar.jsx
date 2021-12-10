@@ -8,6 +8,11 @@ const TitleBar = (props) => {
     const [leftBtnTag, setLeftBtnTag] = useState('')
     const [rightBtnTag, setrightBtnTag] = useState('')
 
+
+    const checkVal = () => {
+        props.onClick();
+    }
+
     useEffect(() => {
         // left button
         switch (props.leftBtn.type) {
@@ -38,7 +43,7 @@ const TitleBar = (props) => {
             case 'submit':
                 setrightBtnTag(
                     <IconButton>
-                        <Check className='barIcon' />
+                        <Check className='barIcon' onClick={checkVal}/>
                     </IconButton>
                 )
                 break

@@ -1,56 +1,44 @@
-import React, { useState, useEffect, Suspense } from 'react';
-import { Avatar, Button, Grid } from '@mui/material'
+import React, { useState, useEffect } from 'react';
+import {Avatar, Button, Grid} from '@mui/material'
 import UserInfo from './UserInfo';
 import PostPhotos from './PostPhotos';
+import axios from 'axios';
+import { useParams } from 'react-router';
 
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-    // Fake data start
     const [userData, setUserData] = useState(null)
-    const [imgData, setImgData] = useState(null)
-    // const [editStatus, SetEditStatus] = useState(true)
+    const [postData, setPostData] = useState([])
+    // const token = JSON.parse(localStorage.getItem('userInfo')).token
+    const { id } = useParams();
 
+    
     useEffect(async () => {
-        const userRes = await fetch('https://randomuser.me/api/?results=1')
-        const userData = await userRes.json()
-        setUserData(userData)
-
-        const imgRes = await fetch('https://api.pexels.com/v1/curated?per_page=20', {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                Authorization: '563492ad6f91700001000001e4ec3e797aff44bebec8c4976b825340'
-            }
-        })
-        const imgData = await imgRes.json()
-        setImgData(imgData)
-    }, [])
-
-    console.log(userData)
-    console.log(imgData)
-    // Fake data end
-
-    // User Login Check, if the user is not logged in, redirect to login page
-
-    const navigate = useNavigate();
-    const userLogin = useSelector(state => state.userLogin);
-    const { loading, error, userInfo } = userLogin;
-
-    useEffect(() => {
-        if (userInfo) {
-            navigate("/profile")
-        } else {
-            navigate("/login")
+        // Fetch user data
+        try {
+            const userRes = await axios.get(`http://localhost:3333/api/users/getUser/${id}`)
+            setUserData(userRes.data.data)
+        } catch (error) {
+            console.log(error)
         }
-    }, [userInfo])
 
+        // Fetch user posts
+        try {
+            const postsRes = await axios.get(`http://localhost:3333/api/post/getPost/${id}`)
+            setPostData(postsRes.data.data)
+            console.log(postsRes.data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }, [id])
 
-    return (userData && imgData) ? (
-        <Grid container className="profileWrapper" direction="column" spacing={2}>
+    return (userData) ? (
+        <Grid container className="profileWrapper" direction="column" spacing={2} sx={{width:'100vw', margin: '0'}}>
+
             <UserInfo user={userData} />
-            <PostPhotos img={imgData} />
+            <PostPhotos img={postData} />
         </Grid>
     ) : (<div>Wait a sec</div>)
 
