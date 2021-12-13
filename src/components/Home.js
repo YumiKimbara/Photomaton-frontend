@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid, Box, Modal, Fade, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import HomeCard from "./HomeCard.js";
 import Story from "./Story.js";
 import axios from "axios";
@@ -69,6 +70,19 @@ const Home = () => {
         .catch((err) => console.error(err));
     }
   };
+
+  const navigate = useNavigate();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  // User Login Check, if the user is not logged in, redirect to login page
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
+    } else {
+      navigate("/login");
+    }
+  }, [userInfo]);
 
   return (
     <>

@@ -31,10 +31,10 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
           <Route exact path="/" element={<Home />} />
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile/:id" element={<Profile />} />
           <Route path="newPost" element={<NewPost />} />
           <Route path="editProfile" element={<EditProfile />} />
-          <Route path="friends" element={<Friends />} />
+          <Route path="friends/:id" element={<Friends />} />
           <Route path="explore" element={<Explore />} />
           {/* <Route path="/" element={<Home />} /> 
           <Route path="forgotPassword" element={<ForgotPassword />} />

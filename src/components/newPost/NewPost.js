@@ -14,6 +14,7 @@ import axios from "axios";
 import { storeNewPost } from "../../actions/modalActions";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const NewPost = () => {
   const [content, setContent] = useState("");
@@ -119,6 +120,19 @@ const NewPost = () => {
   const closeNewPostErrorMessage = () => {
     setNewPostError(false);
   };
+
+  const navigate = useNavigate();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  // User Login Check, if the user is not logged in, redirect to login page
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/newPost");
+    } else {
+      navigate("/login");
+    }
+  }, [userInfo]);
 
   return (
     <div className="newPostWrapper">
