@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { commentModal } from "../actions/modalActions";
 
@@ -82,11 +82,20 @@ const customCardTheme = createTheme({
 
 const HomeCard = ({ postedData, setObjectId }) => {
   const dispatch = useDispatch();
+  const userID = JSON.parse(localStorage.getItem("userInfo"))._id;
   // const modalSelecor = useSelector((state) => state.modalReducer.commentModal);
   // const loginSelecor = useSelector((state) => state.userLogin.userInfo);
   const [favorite, setFavorite] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState(null);
+
   // const [comment, setComment] = useState(null);
   // const [objectId, setObjectId] = useState(null);
+
+  useEffect(async () => {
+    const response = await axios.get(`api/users/getUser/${userID}`);
+    const data = response.data.data;
+    setAvatarUrl(data.avatarUrl);
+  }, []);
 
   const timestamp = moment(postedData.createdAt)
     .utc()
@@ -131,6 +140,8 @@ const HomeCard = ({ postedData, setObjectId }) => {
   //   //   .catch((err) => console.error(err));
   // };
 
+  console.log("postedData", postedData.userId, userID);
+
   return (
     <>
       <ThemeProvider theme={customCardTheme}>
@@ -138,7 +149,10 @@ const HomeCard = ({ postedData, setObjectId }) => {
           <CardHeader
             variant="cardText"
             avatar={
-              <Avatar alt="User's picture" src={postedData.imageUrl[0]} />
+              <Avatar
+                alt="User's picture"
+                src={postedData.userId === userID ? avatarUrl : ""}
+              />
             }
             title={postedData.userName}
             subheader={timestamp}

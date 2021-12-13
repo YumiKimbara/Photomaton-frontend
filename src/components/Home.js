@@ -21,6 +21,8 @@ const Home = () => {
   const [comment, setComment] = useState(null);
   const [objectId, setObjectId] = useState(null);
 
+  console.log("loginSelecor", loginSelecor);
+
   useEffect(() => {
     const getAllPosts = async () => {
       const { data } = await axios.get("api/post");
@@ -176,11 +178,7 @@ const Home = () => {
                     paddingTop={"10px"}
                     paddingBottom={"10px"}
                   >
-                    <HomeCard
-                      postedData={post}
-                      setObjectId={setObjectId}
-                      borderRadius={"0px"}
-                    />
+                    <HomeCard postedData={post} setObjectId={setObjectId} />
                   </Grid>
                 );
               })}
