@@ -112,6 +112,7 @@ const Home = () => {
                 {allPosts && !allPosts.data
                   ? allPosts.map((post) => {
                       if (post._id === objectId) {
+                        console.log(post);
                         return (
                           post.comment &&
                           post.comment.map((comm) => {
@@ -123,6 +124,7 @@ const Home = () => {
                   : allPosts.data
                   ? allPosts.data.map((post) => {
                       if (post._id === objectId) {
+                        console.log(post);
                         return (
                           post.comment &&
                           post.comment.map((comm) => {
