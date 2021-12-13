@@ -1,5 +1,6 @@
-import * as React from 'react';
-
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Explore = () => {
   const itemData = [
@@ -53,6 +54,19 @@ const Explore = () => {
     },
   ];
 
+  const navigate = useNavigate();
+  const userLogin = useSelector(state => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+
+  // User Login Check, if the user is not logged in, redirect to login page
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/explore")
+    } else {
+      navigate("/login")
+    }
+  }, [userInfo])
 
   return (
     <>

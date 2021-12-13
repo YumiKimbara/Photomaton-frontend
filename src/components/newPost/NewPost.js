@@ -14,6 +14,7 @@ import axios from "axios";
 import { storeNewPost } from "../../actions/modalActions";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const NewPost = () => {
   const [content, setContent] = useState("");
@@ -85,17 +86,17 @@ const NewPost = () => {
   const createNewPostHandler = (imgUrl, imageUrlsLength) => {
     imgUrls.push(imgUrl)
 
-    if(imageUrlsLength === imgUrls.length) {
+    if (imageUrlsLength === imgUrls.length) {
       axios
-      .post("api/post", { userId: userId, content: content, imageUrl: imgUrls })
-      .then((res) => {
-        console.log("res", res);
-        setCompletePosting(true);
-      })
-      .then(() => {
-        clearNewPostHandler();
-      })
-      .catch((err) => console.error(err));
+        .post("api/post", { userId: userId, content: content, imageUrl: imgUrls })
+        .then((res) => {
+          console.log("res", res);
+          setCompletePosting(true);
+        })
+        .then(() => {
+          clearNewPostHandler();
+        })
+        .catch((err) => console.error(err));
     }
   }
 
@@ -114,6 +115,20 @@ const NewPost = () => {
   const closeNewPostErrorMessage = () => {
     setNewPostError(false);
   };
+
+  const navigate = useNavigate();
+  const userLogin = useSelector(state => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+
+  // User Login Check, if the user is not logged in, redirect to login page
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/newPost")
+    } else {
+      navigate("/login")
+    }
+  }, [userInfo])
 
   return (
     <div className="newPostWrapper">
@@ -198,7 +213,7 @@ const NewPost = () => {
                 onChange={(event) => {
                   if (event.target.value.length !== 0 && imageDetails.length !== 0) setNewPostError(false);
                   setContent(event.target.value);
-                  }}
+                }}
                 variant="standard"
                 style={{
                   backgroundColor: "white",

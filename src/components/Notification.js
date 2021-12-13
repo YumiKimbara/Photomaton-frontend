@@ -19,10 +19,11 @@ const Notification = () => {
   }, [])
 
   return notification?(
+
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
-          open={modalSelecor}
+          open={userInfo ? modalSelecor : null}
           onClose={() => dispatch(toggleModal())}
           closeAfterTransition
           BackdropProps={{
