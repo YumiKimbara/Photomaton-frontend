@@ -11,9 +11,6 @@ import {
   CardContent,
   Avatar,
   IconButton,
-  Box,
-  Modal,
-  Fade,
 } from "@mui/material";
 import { MoreVertIcon } from "@mui/icons-material/MoreVert";
 import Typography from "@mui/material/Typography";
@@ -83,109 +80,59 @@ const customCardTheme = createTheme({
   },
 });
 
-const HomeCard = ({ postedData }) => {
+const HomeCard = ({ postedData, setObjectId }) => {
   const dispatch = useDispatch();
-  const modalSelecor = useSelector((state) => state.modalReducer.commentModal);
+  // const modalSelecor = useSelector((state) => state.modalReducer.commentModal);
+  // const loginSelecor = useSelector((state) => state.userLogin.userInfo);
   const [favorite, setFavorite] = useState(false);
-  const [comment, setComment] = useState(null);
-
-  console.log("postData", postedData);
+  // const [comment, setComment] = useState(null);
+  // const [objectId, setObjectId] = useState(null);
 
   const timestamp = moment(postedData.createdAt)
     .utc()
     .local()
     .format("YYYY/MM/DD HH:mm");
-  // const customIcons = {
-  //   1: {
-  //     icon: <ThumbUpAltOutlinedIcon />,
-  //     label: "ThumbUp",
-  //   },
-  //   2: {
-  //     icon: <FavoriteIcon />,
-  //     label: "Favorite",
-  //   },
-  //   3: {
-  //     icon: <SentimentVeryDissatisfiedIcon />,
-  //     label: "sad",
-  //   },
-  //   4: {
-  //     icon: <SentimentSatisfiedAltIcon />,
-  //     label: "Satisfied",
-  //   },
-  //   5: {
-  //     icon: <SentimentVerySatisfiedIcon />,
-  //     label: "Very Satisfied",
-  //   },
-  // };
-
-  // function IconContainer({ value, ...other }) {
-  //   return <span {...other}>{customIcons[value].icon}</span>;
-  // }
 
   const favoriteHandler = () => {
     setFavorite((prev) => !prev);
   };
 
-  const submitCommentHandler = (e) => {
-    e.preventDefault();
-    console.log("comment", comment);
-    if (comment) {
-      axios
-        .put("api/updatePost", {
-          ...postedData,
-          id: postedData._id,
-          comment: comment,
-        })
-        .then((res) => {
-          console.log("res", res);
-        })
-        .catch((err) => console.error(err));
-    }
+  // const submitCommentHandler = () => {
+  //   objectId && console.log("objectId", objectId);
 
-    // axios
-    //   .post("api/post", {
-    //     userId: userId,
-    //     content: content,
-    //     imageUrl: imgUrls,
-    //     userName: logIn.userInfo.userName,
-    //   })
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     setCompletePosting(true);
-    //   })
-    //   .then(() => {
-    //     clearNewPostHandler();
-    //   })
-    //   .catch((err) => console.error(err));
-  };
+  //   if (comment) {
+  //     axios
+  //       .put("api/updatePost", {
+  //         ...postedData,
+  //         id: objectId,
+  //         postedBy: loginSelecor.userName,
+  //         comment: comment,
+  //       })
+  //       .then((res) => {
+  //         console.log("res", res);
+  //       })
+  //       .catch((err) => console.error(err));
+  //   }
+
+  //   // axios
+  //   //   .post("api/post", {
+  //   //     userId: userId,
+  //   //     content: content,
+  //   //     imageUrl: imgUrls,
+  //   //     userName: logIn.userInfo.userName,
+  //   //   })
+  //   //   .then((res) => {
+  //   //     console.log("res", res);
+  //   //     setCompletePosting(true);
+  //   //   })
+  //   //   .then(() => {
+  //   //     clearNewPostHandler();
+  //   //   })
+  //   //   .catch((err) => console.error(err));
+  // };
 
   return (
     <>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={modalSelecor}
-        onClose={() => dispatch(commentModal())}
-        closeAfterTransition
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={modalSelecor}>
-          <Box className="modalWindow">
-            <form onSubmit={(e) => submitCommentHandler(e)}>
-              <label htmlFor="comment">Comments</label>
-              <input
-                type="text"
-                name="comment"
-                id="comment"
-                placeholder="write your comment here..."
-                onChange={(e) => setComment(e.target.value)}
-              />
-            </form>
-          </Box>
-        </Fade>
-      </Modal>
       <ThemeProvider theme={customCardTheme}>
         <Card sx={{ maxWidth: 414 }}>
           <CardHeader
@@ -228,7 +175,12 @@ const HomeCard = ({ postedData }) => {
               )}
             </IconButton>
             <IconButton aria-label="open chatbox">
-              <ChatBubbleOutlineIcon onClick={() => dispatch(commentModal())} />
+              <ChatBubbleOutlineIcon
+                onClick={() => {
+                  dispatch(commentModal());
+                  setObjectId(postedData._id);
+                }}
+              />
             </IconButton>
           </ThemeProvider>
           <CardContent className="content">
