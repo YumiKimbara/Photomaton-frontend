@@ -15,8 +15,12 @@ const Footer = () => {
   const [userID, setUserId] = useState('')
 
   useEffect(() => {
-    setUserId('/' + JSON.parse(localStorage.getItem('userInfo'))._id)
-  }, [])
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    if (userInfo) {
+      setUserId('/' + userInfo._id)
+      
+    }
+  })
 
   return (
     <>

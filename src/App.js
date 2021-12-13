@@ -32,7 +32,7 @@ function App() {
           <Route path="profile/:id" element={<Profile />} />
           <Route path="newPost" element={<NewPost />} />
           <Route path="editProfile" element={<EditProfile />} />
-          <Route path="friends" element={<Friends />} />
+          <Route path="friends/:id" element={<Friends />} />
           <Route path="explore" element={<Explore />} />
           {/* <Route path="/" element={<Home />} /> 
           <Route path="forgotPassword" element={<ForgotPassword />} />

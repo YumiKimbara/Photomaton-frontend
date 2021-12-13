@@ -1,10 +1,55 @@
 import { Edit, PeopleAlt } from '@mui/icons-material';
 import { Avatar, Button, Grid, IconButton, Typography } from '@mui/material';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 const UserInfo = (props) => {
+    const navigate = useNavigate();
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const [friendRequestBtn, setFriendRequestBtn] = useState(<div></div>)
+
+    useEffect(() => {
+        if (userInfo._id === props.user._id) {
+            setFriendRequestBtn(
+                <Grid item display="flex" justifyContent="start">
+                    <Button onClick={()=>navigate(`/friends/${props.user._id}`)}>Friends</Button>
+                    <Button onClick={()=>navigate(`/editProfile`)}>Edit profile</Button>
+                </Grid>
+            )
+        } else {
+            if (props.user.friends.friendsList.some((item) => item.userID === userInfo._id)) {
+                setFriendRequestBtn(
+                    <Grid item display="flex" justifyContent="start">
+                        <Button onClick={()=>navigate(`/friends/${props.user._id}`)}>Friends</Button>
+                        <Button onClick={removeFriend}>Unfriend</Button>
+                    </Grid>
+                )
+            } else {
+                setFriendRequestBtn(
+                    <Grid item display="flex" justifyContent="start">
+                        {/* <Button onClick={()=>navigate(`/friends/${props.user._id}`)}>Friends</Button> */}
+                        <Button onClick={addFriend}>Add Friend</Button>
+                    </Grid>
+                )
+            }
+        }
+    }, [])
+
+    const removeFriend = async() => {
+        const res = await axios.put('http://localhost:3333/api/users/friendRemove', {
+            senderID: userInfo._id,
+            receiverID: props.user._id
+        })
+        window.location.reload();
+    }
+
+    const addFriend = async () => {
+        const res = await axios.put('http://localhost:3333/api/users/friendRequest', {
+            senderID: userInfo._id,
+            receiverID: props.user._id
+        })
+    }
 
     return (
         <Grid container spacing={2} sx={{ width:"96vw", margin:"3vh auto" }}>
@@ -13,18 +58,7 @@ const UserInfo = (props) => {
             </Grid>
             <Grid item xs={8}>
                 <Typography variant="h6" color="white">{props.user.userName}</Typography>
-                {/* <Typography variant="subtitle2" marginLeft="5px" color="white">{props.user.id}</Typography> */}
-                
-                {userInfo._id == props.user._id ? (
-                    <Grid item display="flex" justifyContent="start">
-                    <IconButton component={Link} to="/friends">
-                        <PeopleAlt className="icons" />
-                    </IconButton> 
-                    <IconButton component={Link} to="/editProfile">
-                        <Edit className="icons" />
-                    </IconButton> 
-                </Grid>
-                ):(<div></div>)}
+                {friendRequestBtn}
             </Grid>
             <Grid item xs={12}>
                 <Typography

@@ -84,7 +84,7 @@ const EditProfile = () => {
 
             <Grid container className="titleBarWrapper" margin='10px 0'>
                 <Grid container width="100vw" display="flex" direction="row" justifyContent="space-between" alignItems="center">
-                    <IconButton component={Link} to='/profile'>
+                    <IconButton onClick={() => navigate(`/profile/${userID}`)}>
                         <Close className='barIcon' />
                     </IconButton>
                     <Typography variant="h5" color="white">Edit Profile</Typography>
