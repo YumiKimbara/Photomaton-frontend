@@ -80,25 +80,16 @@ const customCardTheme = createTheme({
   },
 });
 
-const HomeCard = ({ postedData, setObjectId }) => {
+const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
   const dispatch = useDispatch();
-  const userID = JSON.parse(localStorage.getItem("userInfo"))._id;
+  const userID = JSON.parse(localStorage.getItem("userInfo"))
+    ? JSON.parse(localStorage.getItem("userInfo"))._id
+    : "";
   // const modalSelecor = useSelector((state) => state.modalReducer.commentModal);
   // const loginSelecor = useSelector((state) => state.userLogin.userInfo);
   const [favorite, setFavorite] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState(null);
 
-  // const [comment, setComment] = useState(null);
-  // const [objectId, setObjectId] = useState(null);
-
-  useEffect(() => {
-    const getUsersAvatar = async () => {
-      const response = await axios.get(`api/users/getUser/${userID}`);
-      const data = response.data.data;
-      setAvatarUrl(data.avatarUrl);
-    };
-    getUsersAvatar();
-  }, []);
+  console.log("avatarAndUserId", avatarAndUserId);
 
   const timestamp = moment(postedData.createdAt)
     .utc()
@@ -147,17 +138,21 @@ const HomeCard = ({ postedData, setObjectId }) => {
     <>
       <ThemeProvider theme={customCardTheme}>
         <Card sx={{ maxWidth: 414 }}>
-          <CardHeader
-            variant="cardText"
-            avatar={
-              <Avatar
-                alt="User's picture"
-                src={postedData.userId === userID ? avatarUrl : ""}
-              />
-            }
-            title={postedData.userName}
-            subheader={timestamp}
-          />
+          {avatarAndUserId &&
+            avatarAndUserId.map((data) => {
+              return (
+                data.id === postedData.userId && (
+                  <CardHeader
+                    variant="cardText"
+                    title={postedData.userName}
+                    avatar={
+                      <Avatar alt="User's picture" src={data.avatarUrl} />
+                    }
+                    subheader={timestamp}
+                  />
+                )
+              );
+            })}
           <Carousel
             autoPlay={false}
             animation="slide"

@@ -38,3 +38,13 @@
   }
   padding: 0.5rem;
 }
+
+.commentsInput {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  input {
+    padding: 0.5rem;
+    border-radius: 5px;
+  }
+}

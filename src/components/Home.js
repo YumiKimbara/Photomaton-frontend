@@ -22,7 +22,9 @@ const Home = () => {
   const [objectId, setObjectId] = useState(null);
   const [avatarAndUserId, setAvatarAndUserId] = useState(null);
 
-  const userID = JSON.parse(localStorage.getItem("userInfo"))._id;
+  const userID = JSON.parse(localStorage.getItem("userInfo"))
+    ? JSON.parse(localStorage.getItem("userInfo"))._id
+    : "";
 
   useEffect(() => {
     const getAllPosts = async () => {
@@ -121,22 +123,24 @@ const Home = () => {
                   submitCommentHandler();
                 }}
               >
-                <label htmlFor="comment">Comments</label>
-                <input
-                  type="text"
-                  name="comment"
-                  id="comment"
-                  placeholder="write your comment here..."
-                  onChange={(e) => setComment(e.target.value)}
-                />
-                <Button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    submitCommentHandler();
-                  }}
-                >
-                  Submit
-                </Button>
+                <div className="commentsInput">
+                  <label htmlFor="comment"></label>
+                  <input
+                    type="text"
+                    name="comment"
+                    id="comment"
+                    placeholder="Add a comment..."
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      submitCommentHandler();
+                    }}
+                  >
+                    Post
+                  </Button>
+                </div>
               </form>
               <div>
                 {allPosts && !allPosts.data
@@ -218,7 +222,11 @@ const Home = () => {
                     paddingTop={"10px"}
                     paddingBottom={"10px"}
                   >
-                    <HomeCard postedData={post} setObjectId={setObjectId} />
+                    <HomeCard
+                      postedData={post}
+                      setObjectId={setObjectId}
+                      avatarAndUserId={avatarAndUserId}
+                    />
                   </Grid>
                 );
               })}
