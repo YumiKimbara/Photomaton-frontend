@@ -91,10 +91,13 @@ const HomeCard = ({ postedData, setObjectId }) => {
   // const [comment, setComment] = useState(null);
   // const [objectId, setObjectId] = useState(null);
 
-  useEffect(async () => {
-    const response = await axios.get(`api/users/getUser/${userID}`);
-    const data = response.data.data;
-    setAvatarUrl(data.avatarUrl);
+  useEffect(() => {
+    const getUsersAvatar = async () => {
+      const response = await axios.get(`api/users/getUser/${userID}`);
+      const data = response.data.data;
+      setAvatarUrl(data.avatarUrl);
+    };
+    getUsersAvatar();
   }, []);
 
   const timestamp = moment(postedData.createdAt)
@@ -139,8 +142,6 @@ const HomeCard = ({ postedData, setObjectId }) => {
   //   //   })
   //   //   .catch((err) => console.error(err));
   // };
-
-  console.log("postedData", postedData.userId, userID);
 
   return (
     <>

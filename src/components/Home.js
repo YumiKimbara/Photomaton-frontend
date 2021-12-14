@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Grid, Box, Modal, Fade, Button } from "@mui/material";
+import { Grid, Box, Modal, Fade, Button, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import HomeCard from "./HomeCard.js";
 import Story from "./Story.js";
@@ -20,8 +20,9 @@ const Home = () => {
   const [loadedPosts, setLoadedPosts] = useState("");
   const [comment, setComment] = useState(null);
   const [objectId, setObjectId] = useState(null);
+  const [avatarAndUserId, setAvatarAndUserId] = useState(null);
 
-  console.log("loginSelecor", loginSelecor);
+  const userID = JSON.parse(localStorage.getItem("userInfo"))._id;
 
   useEffect(() => {
     const getAllPosts = async () => {
@@ -86,6 +87,19 @@ const Home = () => {
     }
   }, [userInfo]);
 
+  useEffect(() => {
+    const getUsersAvatar = async () => {
+      const response = await axios.get(`api/users/getUser/`);
+      const data = response.data.data;
+      const getAvatarAndUserId = data.map((userData) => {
+        return { avatarUrl: userData.avatarUrl, id: userData._id };
+      });
+
+      setAvatarAndUserId(getAvatarAndUserId);
+    };
+    getUsersAvatar();
+  }, []);
+
   return (
     <>
       <div className="homeWrapper">
@@ -128,11 +142,24 @@ const Home = () => {
                 {allPosts && !allPosts.data
                   ? allPosts.map((post) => {
                       if (post._id === objectId) {
-                        console.log(post);
                         return (
                           post.comment &&
                           post.comment.map((comm) => {
-                            return <p>{comm.text}</p>;
+                            return (
+                              <div className="modalLayout">
+                                {avatarAndUserId.map((data) => {
+                                  return (
+                                    data.id === comm.postedBy && (
+                                      <Avatar
+                                        alt="User's picture"
+                                        src={data.avatarUrl}
+                                      />
+                                    )
+                                  );
+                                })}
+                                <p>{comm.text}</p>
+                              </div>
+                            );
                           })
                         );
                       }
@@ -140,11 +167,24 @@ const Home = () => {
                   : allPosts.data
                   ? allPosts.data.map((post) => {
                       if (post._id === objectId) {
-                        console.log(post);
                         return (
                           post.comment &&
                           post.comment.map((comm) => {
-                            return <p>{comm.text}</p>;
+                            return (
+                              <div className="modalLayout">
+                                {avatarAndUserId.map((data) => {
+                                  return (
+                                    data.id === comm.postedBy && (
+                                      <Avatar
+                                        alt="User's picture"
+                                        src={data.avatarUrl}
+                                      />
+                                    )
+                                  );
+                                })}
+                                <p>{comm.text}</p>
+                              </div>
+                            );
                           })
                         );
                       }
