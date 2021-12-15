@@ -5,11 +5,13 @@ import PostPhotos from './PostPhotos';
 import axios from 'axios';
 import { useParams } from 'react-router';
 
+
 const Profile = () => {
     const [userData, setUserData] = useState(null)
     const [postData, setPostData] = useState([])
     // const token = JSON.parse(localStorage.getItem('userInfo')).token
     const { id } = useParams();
+    
 
     
     useEffect(async () => {

@@ -1,4 +1,4 @@
-import { Box, Modal, Fade, Avatar } from "@mui/material";
+import { Box, Button, Modal, Fade, Avatar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleModal } from "../actions/modalActions";
@@ -8,17 +8,40 @@ const Notification = () => {
   const modalSelecor = useSelector((state) => state.modalReducer);
   const dispatch = useDispatch();
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-  const [notification, setNotification] = useState(null)
+  const [friendReq, setFriendReq] = useState([])
   // const [friendRequest, setFriendRequest] = useState([])
   // const [likes, setLikes] = useState([])
   // const [comments, setComments] = useState([])
-
+  
+  
   useEffect(async() => {
-    const res = await axios.get(`http://localhost:3333/api/users/getNotifications/${userInfo._id}`)
-    // setNotification(res.data.data.friends)
+    const res = await axios.get(`http://localhost:3333/api/users/getUser/${userInfo._id}`)
+    setFriendReq(res.data.data.friends.request)
+    console.log(res)
+    
   }, [])
 
-  return notification?(
+  const handleAccept = async(senderID) => {
+    const res = await axios.put('http://localhost:3333/api/users/friendAccept', {
+      senderID: senderID,
+      receiverID: userInfo._id
+    })
+    dispatch(toggleModal())
+    console.log('Accept:', senderID, userInfo._id)
+    console.log(res)
+  }
+
+  const handleReject = async(senderID) => {
+    const res = await axios.put('http://localhost:3333/api/users/friendReject', {
+      senderID: senderID,
+      receiverID: userInfo._id
+    })
+    dispatch(toggleModal())
+    console.log('Reject', senderID, userInfo._id)
+    console.log(res)
+  }
+
+  return (
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -31,13 +54,24 @@ const Notification = () => {
         >
           <Fade in={modalSelecor}>
             <Box className="modalWindow">
-              
+            {friendReq.map((obj) => {
+              return (
+                <div key={obj.userID} className="friendRequest">
+                  <Avatar alt='' src={obj.avatarUrl} />
+                  <Typography variant='body2'>{obj.userName} sent a friend request</Typography>
+                  <Button onClick={()=>handleAccept(obj.userID)}>Accept</Button>
+                  <Button onClick={()=>handleReject(obj.userID)}>Reject</Button>
+                </div>
+                  )
+            })}
+            <hr/>
+              <div className="latestEvent">
+
+              </div>
             </Box>
           </Fade>
         </Modal>
-  ) : (
-      <div>waiting....</div>
-  );
+  )
 };
 
 export default Notification;

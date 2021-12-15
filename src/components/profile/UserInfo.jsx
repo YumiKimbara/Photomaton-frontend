@@ -3,11 +3,13 @@ import { Avatar, Button, Grid, IconButton, Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+// import { io } from 'socket.io-client';
 
 const UserInfo = (props) => {
     const navigate = useNavigate();
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const [friendRequestBtn, setFriendRequestBtn] = useState(<div></div>)
+    // const socket = io('http://localhost:5000')
 
     useEffect(() => {
         if (userInfo._id === props.user._id) {
@@ -25,10 +27,15 @@ const UserInfo = (props) => {
                         <Button onClick={removeFriend}>Unfriend</Button>
                     </Grid>
                 )
+            } else if (props.user.friends.request.some((item)=>item.userID === userInfo._id)){
+                setFriendRequestBtn(
+                    <Grid item display="flex" justifyContent="start">
+                        <Button disabled='true'>Pending</Button>
+                    </Grid>
+                )
             } else {
                 setFriendRequestBtn(
                     <Grid item display="flex" justifyContent="start">
-                        {/* <Button onClick={()=>navigate(`/friends/${props.user._id}`)}>Friends</Button> */}
                         <Button onClick={addFriend}>Add Friend</Button>
                     </Grid>
                 )
@@ -49,6 +56,8 @@ const UserInfo = (props) => {
             senderID: userInfo._id,
             receiverID: props.user._id
         })
+        window.location.reload();
+        // socket.emit('addFriend', ())
     }
 
     return (

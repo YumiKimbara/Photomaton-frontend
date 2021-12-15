@@ -66,12 +66,12 @@ const NewPost = () => {
       const formData = new FormData();
       //first parameter must be file
       formData.append("file", imageDetails[i]);
-      formData.append("upload_preset", "photomaton");
-      formData.append("cloud_name", "drvfa2o9f");
+      formData.append('upload_preset', 'photomaton');
+      formData.append('cloud_name', 'da4jkejdx');
 
       axios
         .post(
-          "https://api.cloudinary.com/v1_1/drvfa2o9f/image/upload",
+          "https://api.cloudinary.com/v1_1/da4jkejdx/image/upload",
           formData
         )
         .then((data) => {
@@ -87,7 +87,7 @@ const NewPost = () => {
 
     if(imageUrlsLength === imgUrls.length) {
       axios
-      .post("api/post", { userId: userId, content: content, imageUrl: imgUrls })
+      .post("http://localhost:3333/api/post/uploadPost", { userId: userId, content: content, imageUrl: imgUrls })
       .then((res) => {
         console.log("res", res);
         setCompletePosting(true);
