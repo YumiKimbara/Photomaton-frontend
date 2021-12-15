@@ -22,8 +22,6 @@ const Notification = () => {
     // setNotification(res.data.data.friends)
   }, []);
 
-  console.log(notificationSelector);
-
   return notificationSelector ? (
     <Modal
       aria-labelledby="transition-modal-title"

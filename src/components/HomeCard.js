@@ -85,8 +85,6 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
   // const loginSelecor = useSelector((state) => state.userLogin.userInfo);
   const [favorite, setFavorite] = useState(false);
 
-  console.log("avatarAndUserId", avatarAndUserId);
-
   const timestamp = moment(postedData.createdAt)
     .utc()
     .local()
