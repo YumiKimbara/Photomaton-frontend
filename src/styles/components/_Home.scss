@@ -1,8 +1,61 @@
 .homeWrapper {
-  margin-bottom: 90px; 
+  margin-bottom: 90px;
 
   h1 {
     color: $alternateColor;
   }
 }
 
+.loading {
+  color: $alternateColor;
+  text-align: center;
+}
+
+.loaded {
+  color: $alternateColor;
+  text-align: center;
+}
+
+.modalWindow {
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  background-color: $secondaryColor;
+  box-shadow: 24;
+  padding: 30px;
+  overflow: scroll;
+  height: 60%;
+}
+
+.modalLayout {
+  display: flex;
+  align-items: center;
+  p {
+    padding-left: 1rem;
+  }
+  padding: 0.5rem;
+}
+
+.commentsInput {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 10px;
+  input {
+    padding: 0.5rem;
+    border-radius: 50px;
+    border: none;
+    box-shadow: 0 5px 12px #cad4e2, -3px -1px 12px #fff;
+    cursor: pointer;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.cardWrapper {
+  min-height: 450px;
+}

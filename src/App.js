@@ -19,13 +19,15 @@ import ResetPassword from "./components/ResetPassword";
 import ResetPasswordForm from "./components/ResetPasswordForm";
 
 function App() {
-  const toggleNotification = useSelector((state) => state.modalReducer);
+  const toggleNotification = useSelector(
+    (state) => state.modalReducer.notificationModal
+  );
 
   return (
     <>
       <BrowserRouter>
         <Header />
-        {toggleNotification.modal && <Notification />}
+        {toggleNotification && <Notification />}
         <Routes>
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
