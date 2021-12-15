@@ -14,11 +14,10 @@ const Notification = () => {
   // const [friendRequest, setFriendRequest] = useState([])
   // const [likes, setLikes] = useState([])
   // const [comments, setComments] = useState([])
-
-  useEffect(async () => {
-    const res = await axios.get(
-      `http://localhost:3333/api/users/getNotifications/${userInfo._id}`
-    );
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+  useEffect(async() => {
+    const res = await axios.get(`http://localhost:3333/api/users/getNotifications/${userInfo._id}`)
     // setNotification(res.data.data.friends)
   }, []);
 

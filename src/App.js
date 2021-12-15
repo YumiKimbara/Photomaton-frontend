@@ -15,7 +15,8 @@ import Profile from "./components/profile/Profile";
 import NewPost from "./components/newPost/NewPost";
 import EditProfile from "./components/profile/EditProfile";
 import Friends from "./components/Friends";
-import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
+import ResetPasswordForm from "./components/ResetPasswordForm";
 
 function App() {
   const toggleNotification = useSelector(
@@ -36,8 +37,9 @@ function App() {
           <Route path="editProfile" element={<EditProfile />} />
           <Route path="friends/:id" element={<Friends />} />
           <Route path="explore" element={<Explore />} />
+          <Route path="resetpassword/:userId/:token" element={<ResetPasswordForm />} />
+          <Route path="resetpassword" element={<ResetPassword />} />
           {/* <Route path="/" element={<Home />} /> 
-          <Route path="forgotPassword" element={<ForgotPassword />} />
           <Route path="/" element={<Home />} />
           <Route path="explore" element={<Explore />} />
           {/* <Route path="profile" element={<Profile />} />
