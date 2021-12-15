@@ -11,8 +11,11 @@ import { commentModal } from "../actions/modalActions";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const modalSelecor = useSelector((state) => state.modalReducer.commentModal);
   const loginSelecor = useSelector((state) => state.userLogin.userInfo);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
 
   const [allPosts, setAllPosts] = useState("");
   const [hasMore, setHasMore] = useState(true);
@@ -70,15 +73,12 @@ const Home = () => {
           console.log("res", res);
           axios.get("api/post").then((data) => {
             setAllPosts(data);
+            setComment("");
           });
         })
         .catch((err) => console.error(err));
     }
   };
-
-  const navigate = useNavigate();
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
 
   // User Login Check, if the user is not logged in, redirect to login page
   useEffect(() => {
@@ -133,6 +133,8 @@ const Home = () => {
                     onChange={(e) => setComment(e.target.value)}
                   />
                   <Button
+                    className="postButton"
+                    variant="contained"
                     onClick={(e) => {
                       e.preventDefault();
                       submitCommentHandler();
@@ -155,6 +157,9 @@ const Home = () => {
                                   return (
                                     data.id === comm.postedBy && (
                                       <Avatar
+                                        onClick={() =>
+                                          navigate(`/profile/${comm.postedBy}`)
+                                        }
                                         alt="User's picture"
                                         src={data.avatarUrl}
                                       />
@@ -180,6 +185,9 @@ const Home = () => {
                                   return (
                                     data.id === comm.postedBy && (
                                       <Avatar
+                                        onClick={() =>
+                                          navigate(`/profile/${comm.postedBy}`)
+                                        }
                                         alt="User's picture"
                                         src={data.avatarUrl}
                                       />

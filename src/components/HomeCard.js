@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { commentModal } from "../actions/modalActions";
 
 import axios from "axios";
@@ -20,12 +21,6 @@ import Carousel from "react-material-ui-carousel";
 
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
-import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
-import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
-import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -82,6 +77,7 @@ const customCardTheme = createTheme({
 
 const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userID = JSON.parse(localStorage.getItem("userInfo"))
     ? JSON.parse(localStorage.getItem("userInfo"))._id
     : "";
@@ -146,7 +142,11 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
                     variant="cardText"
                     title={postedData.userName}
                     avatar={
-                      <Avatar alt="User's picture" src={data.avatarUrl} />
+                      <Avatar
+                        onClick={() => navigate(`/profile/${data.id}`)}
+                        alt="User's picture"
+                        src={data.avatarUrl}
+                      />
                     }
                     subheader={timestamp}
                   />
