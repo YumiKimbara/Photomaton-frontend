@@ -1,5 +1,6 @@
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCES, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from "../constants/userConstants";
+import { USER_FORGOTPASSWORD_FAIL, USER_FORGOTPASSWORD_REQUEST, USER_FORGOTPASSWORD_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCES, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from "../constants/userConstants";
 import axios from "axios";
+import { useParams } from "react-router";
 
 
 export const login = (email, password) => async (dispatch) => {
@@ -66,3 +67,32 @@ export const register = (firstName, lastName, userName, email, password) => asyn
         });
     };
 };
+
+export const userForgotPassword = (email) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_FORGOTPASSWORD_REQUEST });
+
+        const config = {
+            headers: {
+                "Context-type": "application/json"
+            }
+        }
+
+        const { data } = await axios.post(
+            "api/users/resetpassword",
+            { email },
+            config
+        )
+
+        dispatch({ type: USER_FORGOTPASSWORD_SUCCESS, payload: data })
+    } catch (error) {
+        dispatch({
+            type: USER_FORGOTPASSWORD_FAIL,
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        });
+    }
+}
+
+

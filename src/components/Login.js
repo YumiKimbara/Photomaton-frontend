@@ -114,7 +114,7 @@ const Login = () => {
                     </FormControl>
                 </div>
                 <div className="Login-forgot">
-                    <Link href="#" underline="none" onClick={() => navigate("/forgotPassword")}>
+                    <Link href="#" underline="none" onClick={() => navigate("/resetPassword")}>
                         {'Forgot Password?'}
                     </Link>
                 </div>
