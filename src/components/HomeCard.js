@@ -94,42 +94,38 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
     setFavorite((prev) => !prev);
   };
 
-  // const submitCommentHandler = () => {
-  //   objectId && console.log("objectId", objectId);
+  const postLikeHandler = (id) => {
+    axios
+      .put("api/postLike", {
+        ...postedData,
+        likedBy: userID,
+        likedPostId: id,
+      })
+      .then((res) => {
+        console.log("res", res);
+        if (postedData.likes.includes(userID)) return;
+      })
+      .catch((err) => console.error(err));
+  };
 
-  //   if (comment) {
-  //     axios
-  //       .put("api/updatePost", {
-  //         ...postedData,
-  //         id: objectId,
-  //         postedBy: loginSelecor.userName,
-  //         comment: comment,
-  //       })
-  //       .then((res) => {
-  //         console.log("res", res);
-  //       })
-  //       .catch((err) => console.error(err));
-  //   }
-
-  //   // axios
-  //   //   .post("api/post", {
-  //   //     userId: userId,
-  //   //     content: content,
-  //   //     imageUrl: imgUrls,
-  //   //     userName: logIn.userInfo.userName,
-  //   //   })
-  //   //   .then((res) => {
-  //   //     console.log("res", res);
-  //   //     setCompletePosting(true);
-  //   //   })
-  //   //   .then(() => {
-  //   //     clearNewPostHandler();
-  //   //   })
-  //   //   .catch((err) => console.error(err));
-  // };
+  const deleteLikeHandler = (id) => {
+    alert("deleted");
+    axios
+      .put("api/deleteLike", {
+        ...postedData,
+        likedBy: userID,
+        likedPostId: id,
+      })
+      .then((res) => {
+        console.log("res", res);
+        if (!postedData.likes.includes(userID)) return;
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
     <>
+      {console.log("postedData.likes", postedData.likes)}
       <ThemeProvider theme={customCardTheme}>
         <Card sx={{ maxWidth: 414 }}>
           {avatarAndUserId &&
@@ -174,11 +170,22 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
           <ThemeProvider theme={customButtonTheme}>
             <IconButton aria-label="add to favorites">
               {favorite ? (
-                <FavoriteIcon variant="neonBtn" onClick={favoriteHandler} />
+                <FavoriteIcon
+                  variant="neonBtn"
+                  onClick={() => (
+                    console.log(favorite),
+                    favoriteHandler(),
+                    deleteLikeHandler(postedData._id)
+                  )}
+                />
               ) : (
                 <FavoriteBorderIcon
                   variant="neonBtn"
-                  onClick={favoriteHandler}
+                  onClick={() => (
+                    console.log(favorite),
+                    favoriteHandler(),
+                    postLikeHandler(postedData._id)
+                  )}
                 />
               )}
             </IconButton>
@@ -191,6 +198,7 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
               />
             </IconButton>
           </ThemeProvider>
+          <div>{postedData.likes.length} likes</div>
           <CardContent className="content">
             <Typography variant="cardText" color="text.secondary">
               {postedData.content}

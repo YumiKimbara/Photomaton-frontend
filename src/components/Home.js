@@ -62,7 +62,7 @@ const Home = () => {
 
     if (comment) {
       axios
-        .put("api/updatePost", {
+        .put("api/postComment", {
           ...selectedPost[0],
           id: objectId,
           userCommentId: loginSelecor._id,
