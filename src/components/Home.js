@@ -157,9 +157,10 @@ const Home = () => {
                                   return (
                                     data.id === comm.postedBy && (
                                       <Avatar
-                                        onClick={() =>
-                                          navigate(`/profile/${comm.postedBy}`)
-                                        }
+                                        onClick={() => {
+                                          dispatch(commentModal());
+                                          navigate(`/profile/${comm.postedBy}`);
+                                        }}
                                         alt="User's picture"
                                         src={data.avatarUrl}
                                       />
@@ -185,9 +186,10 @@ const Home = () => {
                                   return (
                                     data.id === comm.postedBy && (
                                       <Avatar
-                                        onClick={() =>
-                                          navigate(`/profile/${comm.postedBy}`)
-                                        }
+                                        onClick={() => {
+                                          dispatch(commentModal());
+                                          navigate(`/profile/${comm.postedBy}`);
+                                        }}
                                         alt="User's picture"
                                         src={data.avatarUrl}
                                       />
