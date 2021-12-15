@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { commentModal } from "../actions/modalActions";
 
@@ -13,13 +13,10 @@ import {
   Avatar,
   IconButton,
 } from "@mui/material";
-import { MoreVertIcon } from "@mui/icons-material/MoreVert";
 import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Collapse from "@mui/material/Collapse";
 import Carousel from "react-material-ui-carousel";
 
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -28,17 +25,6 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { v4 as uuidv4 } from "uuid";
 
 const moment = require("moment-timezone");
-
-// const LightTooltip = styled(({ className, ...props }) => (
-//   <Tooltip {...props} classes={{ popper: className }} />
-// ))(({ theme }) => ({
-//   [`& .${tooltipClasses.tooltip}`]: {
-//     backgroundColor: theme.palette.common.white,
-//     color: "rgba(0, 0, 0, 0.87)",
-//     boxShadow: theme.shadows[1],
-//     fontSize: 11,
-//   },
-// }));
 
 const customButtonTheme = createTheme({
   components: {
@@ -81,8 +67,6 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
   const userID = JSON.parse(localStorage.getItem("userInfo"))
     ? JSON.parse(localStorage.getItem("userInfo"))._id
     : "";
-  // const modalSelecor = useSelector((state) => state.modalReducer.commentModal);
-  // const loginSelecor = useSelector((state) => state.userLogin.userInfo);
   const [favorite, setFavorite] = useState(false);
 
   const timestamp = moment(postedData.createdAt)
@@ -127,7 +111,7 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
     <>
       {console.log("postedData.likes", postedData.likes)}
       <ThemeProvider theme={customCardTheme}>
-        <Card sx={{ maxWidth: 414 }}>
+        <Card sx={{ maxWidth: 414 }} className="cardWrapper">
           {avatarAndUserId &&
             avatarAndUserId.map((data) => {
               return (
@@ -160,7 +144,7 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
                 <CardMedia
                   key={uuidv4()}
                   component="img"
-                  height="280"
+                  height="220"
                   image={image}
                   alt="Posted image"
                 />

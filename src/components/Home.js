@@ -8,6 +8,7 @@ import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { v4 as uuidv4 } from "uuid";
 import { commentModal } from "../actions/modalActions";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,17 @@ const Home = () => {
   const userID = JSON.parse(localStorage.getItem("userInfo"))
     ? JSON.parse(localStorage.getItem("userInfo"))._id
     : "";
+
+  const breakPointsTheme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 414,
+        md: 700,
+        lg: 1000,
+      },
+    },
+  });
 
   useEffect(() => {
     const getAllPosts = async () => {
@@ -219,28 +231,31 @@ const Home = () => {
             </p>
           }
         >
-          <Grid container spacing={0} direction="column">
-            {loadedPosts &&
-              loadedPosts.map((post) => {
-                return (
-                  <Grid
-                    key={uuidv4()}
-                    item
-                    xs={12}
-                    sm={6}
-                    md={3}
-                    paddingTop={"10px"}
-                    paddingBottom={"10px"}
-                  >
-                    <HomeCard
-                      postedData={post}
-                      setObjectId={setObjectId}
-                      avatarAndUserId={avatarAndUserId}
-                    />
-                  </Grid>
-                );
-              })}
-          </Grid>
+          <ThemeProvider theme={breakPointsTheme}>
+            <Grid container spacing={2} alignItems="center" justify="center">
+              {loadedPosts &&
+                loadedPosts.map((post) => {
+                  return (
+                    <Grid
+                      key={uuidv4()}
+                      item
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      lg={3}
+                      paddingTop={"10px"}
+                      paddingBottom={"10px"}
+                    >
+                      <HomeCard
+                        postedData={post}
+                        setObjectId={setObjectId}
+                        avatarAndUserId={avatarAndUserId}
+                      />
+                    </Grid>
+                  );
+                })}
+            </Grid>
+          </ThemeProvider>
         </InfiniteScroll>
       </div>
     </>

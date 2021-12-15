@@ -233,19 +233,21 @@ const NewPost = () => {
         </Grid>
       </Grid>
       <Grid>
-        <Carousel>
-          {imagePreviewUrl &&
-            imagePreviewUrl.map((image) => {
-              return (
-                <img
-                  className="previewImages"
-                  key={uuidv4()}
-                  src={image}
-                  alt="newPostImage"
-                />
-              );
-            })}
-        </Carousel>
+        <div className="previewImageWrapper">
+          <Carousel>
+            {imagePreviewUrl &&
+              imagePreviewUrl.map((image) => {
+                return (
+                  <img
+                    className="previewImages"
+                    key={uuidv4()}
+                    src={image}
+                    alt="newPostImage"
+                  />
+                );
+              })}
+          </Carousel>
+        </div>
       </Grid>
     </div>
   );
