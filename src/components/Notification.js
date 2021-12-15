@@ -9,15 +9,17 @@ const Notification = () => {
     (state) => state.modalReducer.notificationModal
   );
   const dispatch = useDispatch();
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const [notification, setNotification] = useState(null);
   // const [friendRequest, setFriendRequest] = useState([])
   // const [likes, setLikes] = useState([])
   // const [comments, setComments] = useState([])
-  const userLogin = useSelector(state => state.userLogin);
+  const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  useEffect(async() => {
-    const res = await axios.get(`http://localhost:3333/api/users/getNotifications/${userInfo._id}`)
+  useEffect(async () => {
+    const res = await axios.get(
+      `http://localhost:3333/api/users/getNotifications/${userInfo._id}`
+    );
     // setNotification(res.data.data.friends)
   }, []);
 
