@@ -6,7 +6,6 @@ import Link from '@mui/material/Link';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import InputAdornment from '@mui/material/InputAdornment';
 import LockIcon from '@mui/icons-material/Lock';
-import Google from '../images/google.png';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -60,7 +59,7 @@ const Login = () => {
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '15ch' },
+                '& .MuiTextField-root': { m: 1, width: '20rem' },
             }}
             noValidate
             autoComplete="off"
@@ -81,7 +80,7 @@ const Login = () => {
                         }}
                     />
 
-                    <FormControl sx={{ m: 1, width: '15ch' }} variant="outlined">
+                    <FormControl sx={{ m: 1, width: '20rem' }} variant="outlined">
                         <InputLabel required htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput
                             required
@@ -128,12 +127,6 @@ const Login = () => {
                         Login
                     </Button>
                 </div>
-                {/* <div className="Login-google">
-                    <p>Or Login With </p>
-                    <Link href="#" underline="none">
-                        <img src={Google} alt="google icon" />
-                    </Link>
-                </div> */}
                 <div className="Login-register">
                     <p>
                         Don't have an account?

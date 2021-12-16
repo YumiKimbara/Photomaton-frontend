@@ -12,9 +12,8 @@ const Profile = () => {
     const [postData, setPostData] = useState([])
     const [showContext, setShowContext] = useState('posts')
     const [contentWidth, setContentWidth] = useState('100vw')
-    // const token = JSON.parse(localStorage.getItem('userInfo')).token
     const { id } = useParams();
-    
+
     useEffect(async () => {
         // Fetch user data
         try {
@@ -28,7 +27,6 @@ const Profile = () => {
         try {
             const postsRes = await axios.get(`http://localhost:3333/api/post/getPost/${id}`)
             setPostData(postsRes.data.data)
-            console.log(postsRes.data.data)
         } catch (error) {
             console.log(error)
         }
@@ -50,15 +48,12 @@ const Profile = () => {
         )
     })
 
-    // const handleChange = (e, newValue) => {
-    //     console.log(e, newValue)
-    // }
 
     return (userData) ? (
-        <Grid container className="profileWrapper" direction="column" spacing={2} sx={{width: contentWidth, margin: '0 auto'}}>
+        <Grid container className="profileWrapper" direction="column" spacing={2} sx={{ width: contentWidth, margin: '0 auto' }}>
             <UserInfo user={userData} />
             <TabContext value={showContext}>
-                <Box sx={{width:'100%'}}>
+                <Box sx={{ width: '100%' }}>
                     <TabList
                         variant='fullWidth'
                         textColor='inherit'
@@ -66,20 +61,20 @@ const Profile = () => {
                         onChange={(e, newValue) => setShowContext(newValue)}
                     >
                         <Tab sx={{ color: 'whitesmoke' }} label="Posts" value="posts" />
-                        <Tab sx={{ color: 'whitesmoke' }} label="Friends" value="friends"/>
+                        <Tab sx={{ color: 'whitesmoke' }} label="Friends" value="friends" />
                     </TabList>
                 </Box>
-                <TabPanel sx={{width:'100%', padding: 0}} value="posts">
+                <TabPanel sx={{ width: '100%', padding: 0 }} value="posts">
                     <PostPhotos user={userData} img={postData} />
                 </TabPanel>
-                <TabPanel sx={{width:'100%', padding: 0}} value="friends">
+                <TabPanel sx={{ width: '100%', padding: 0 }} value="friends">
                     <Friends user={userData} />
                 </TabPanel>
             </TabContext>
-            
+
         </Grid>
-    ):(<div></div>)
-    
+    ) : (<div></div>)
+
 }
 
 export default Profile

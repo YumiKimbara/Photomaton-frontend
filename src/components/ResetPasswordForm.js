@@ -58,7 +58,7 @@ const ResetPasswordForm = () => {
             <Box
                 component="form"
                 sx={{
-                    '& .MuiTextField-root': { m: 1, width: '15ch' },
+                    '& .MuiTextField-root': { m: 1, width: '20rem' },
                 }}
                 noValidate
                 autoComplete="off"
@@ -70,7 +70,7 @@ const ResetPasswordForm = () => {
                         <h2>Reset Your Password</h2>
                     </div>
                     <div className="Register-form">
-                        <FormControl sx={{ m: 1, width: '15ch' }} variant="outlined">
+                        <FormControl sx={{ m: 1, width: '20rem' }} variant="outlined">
                             <InputLabel required htmlFor="outlined-adornment-password">Password</InputLabel>
                             <OutlinedInput
                                 required
@@ -92,7 +92,7 @@ const ResetPasswordForm = () => {
                                 label="Password"
                             />
                         </FormControl>
-                        <FormControl sx={{ m: 1, width: '15ch' }} variant="outlined">
+                        <FormControl sx={{ m: 1, width: '20rem' }} variant="outlined">
                             <InputLabel required htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
                             <OutlinedInput
                                 required
