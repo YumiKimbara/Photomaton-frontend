@@ -38,7 +38,7 @@
     .Register-button {
         text-align: center;
         margin: 10px 0;
-        .MuiButton-root{
+        .MuiButton-root {
             background-color: $alternateColor;
         }
     }
@@ -71,5 +71,19 @@
 
     .MuiSvgIcon-root {
         color: $secondaryColor;
+    }
+}
+
+@media screen and (min-width: 376px) {
+    .Register-Area {
+        width: 390px;
+    }
+}
+
+@media screen and (max-height: 780px) {
+    .Register-Area {
+        .Register-title {
+            margin: 2px 0;
+        }
     }
 }

@@ -117,7 +117,7 @@ const NewPost = () => {
 
   const navigate = useNavigate();
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const { userInfo } = userLogin;
 
   // User Login Check, if the user is not logged in, redirect to login page
   useEffect(() => {
@@ -203,7 +203,6 @@ const NewPost = () => {
               <TextField
                 id="standard-multiline-flexible"
                 className="postContent"
-                // label="Say something..."
                 multiline
                 placeholder="Write a caption"
                 rows={4}

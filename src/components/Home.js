@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Grid, Box, Modal, Fade, Button, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import HomeCard from "./HomeCard.js";
-// import Story from "./Story.js";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { v4 as uuidv4 } from "uuid";
@@ -24,7 +23,7 @@ const Home = () => {
   const [loadedPosts, setLoadedPosts] = useState("");
   const [comment, setComment] = useState(null);
   const [objectId, setObjectId] = useState(null);
-  const [avatarAndUserId, setAvatarAndUserId] = useState(null);
+  const [avatarAndUserId, setAvatarAndUserId] = useState([]);
 
   const userID = JSON.parse(localStorage.getItem("userInfo"))
     ? JSON.parse(localStorage.getItem("userInfo"))._id
@@ -64,13 +63,13 @@ const Home = () => {
     const selectedPost =
       allPosts && !allPosts.data
         ? allPosts.filter((post) => {
-            return post._id === objectId;
-          })
+          return post._id === objectId;
+        })
         : allPosts.data
-        ? allPosts.data.filter((post) => {
+          ? allPosts.data.filter((post) => {
             return post._id === objectId;
           })
-        : "";
+          : "";
 
     if (comment) {
       axios
@@ -162,36 +161,36 @@ const Home = () => {
               <div>
                 {allPosts && !allPosts.data
                   ? allPosts.map((post) => {
-                      if (post._id === objectId) {
-                        return (
-                          post.comment &&
-                          post.comment.map((comm) => {
-                            return (
-                              <div className="modalLayout">
-                                {avatarAndUserId.map((data) => {
-                                  return (
-                                    data.id === comm.postedBy && (
-                                      <Avatar
-                                        className="avatar"
-                                        onClick={() => {
-                                          dispatch(commentModal());
-                                          navigate(`/profile/${comm.postedBy}`);
-                                        }}
-                                        alt="User's picture"
-                                        src={data.avatarUrl}
-                                      />
-                                    )
-                                  );
-                                })}
-                                <p>{comm.text}</p>
-                              </div>
-                            );
-                          })
-                        );
-                      }
-                    })
+                    if (post._id === objectId) {
+                      return (
+                        post.comment &&
+                        post.comment.map((comm) => {
+                          return (
+                            <div className="modalLayout">
+                              {avatarAndUserId.map((data) => {
+                                return (
+                                  data.id === comm.postedBy && (
+                                    <Avatar
+                                      className="avatar"
+                                      onClick={() => {
+                                        dispatch(commentModal());
+                                        navigate(`/profile/${comm.postedBy}`);
+                                      }}
+                                      alt="User's picture"
+                                      src={data.avatarUrl}
+                                    />
+                                  )
+                                );
+                              })}
+                              <p>{comm.text}</p>
+                            </div>
+                          );
+                        })
+                      );
+                    }
+                  })
                   : allPosts.data
-                  ? allPosts.data.map((post) => {
+                    ? allPosts.data.map((post) => {
                       if (post._id === objectId) {
                         return (
                           post.comment &&
@@ -219,7 +218,7 @@ const Home = () => {
                         );
                       }
                     })
-                  : ""}
+                    : ""}
               </div>
             </Box>
           </Fade>

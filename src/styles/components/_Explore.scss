@@ -9,7 +9,7 @@
             width: 60%;
             text-align: center;
             margin: 10px;
-            font-size: 5.5vw;
+            font-size: 20px;
             padding: 12.5px 14px;
             border: 1px solid $secondaryColor;
             border-radius: 4px;
@@ -64,6 +64,21 @@
                 font-weight: bold;
                 font-size: 20px;
             }
+        }
+    }
+}
+
+@media screen and (min-width: 376px) {
+    .Explore {
+        .Explore-Searchbar {
+            input {
+                width: 250px;
+            }
+        }
+        .Explore-Body {
+            width: 450px;
+            margin: 0 auto;
+            margin-top: 10px;
         }
     }
 }

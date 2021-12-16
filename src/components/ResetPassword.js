@@ -5,10 +5,6 @@ import Button from '@mui/material/Button';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useNavigate } from "react-router-dom";
-// import Dialog from '@mui/material/Dialog';
-// import DialogActions from '@mui/material/DialogActions';
-// import DialogContent from '@mui/material/DialogContent';
-// import DialogContentText from '@mui/material/DialogContentText';
 import { useDispatch, useSelector } from 'react-redux';
 import { userForgotPassword } from '../actions/userActions';
 import ErrorMessage from './errorMessage/ErrorMessage';
@@ -19,10 +15,8 @@ const ResetPassword = () => {
 
     const [userEmail, setUserEmail] = useState("")
     const [message, setMessage] = useState("")
-    // const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const regExp = /[a-zA-Z]/g;
 
     const forgotPassword = useSelector(state => state.forgotPassword)
     const { error } = forgotPassword;
@@ -40,22 +34,12 @@ const ResetPassword = () => {
             }, 3000);
         }
     }
-    // const handleClose = () => {
-    //     setOpen(false);
-    //     if (error) {
-    //         setMessage(error)
-    //     } else {
-    //         setMessage("We've received your request. Please check your inbox.")
-    //         navigate("/login");
-    //     };
-
-    // }
 
     return (
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '15ch' },
+                '& .MuiTextField-root': { m: 1, width: '20rem' },
             }}
             noValidate
             autoComplete="off"
@@ -85,26 +69,6 @@ const ResetPassword = () => {
                     </Button>
                 </div>
             </div>
-
-            {/* <Dialog
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                    style: {
-                        backgroundColor: "#151515",
-                        boxShadow: "0px 0px 15px 10px rgb(43 194 14 / 20%)"
-                    },
-                }}
-            >
-                <DialogContent>
-                    <DialogContentText>
-                        {message}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Close</Button>
-                </DialogActions>
-            </Dialog> */}
         </Box>
     )
 }

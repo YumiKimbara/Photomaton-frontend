@@ -1,4 +1,4 @@
-import { USER_FIND_FAIL, USER_FIND_REQUEST, USER_FIND_SUCCESS, USER_FORGOTPASSWORD_FAIL, USER_FORGOTPASSWORD_REQUEST, USER_FORGOTPASSWORD_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCES, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from "../constants/userConstants";
+import { USER_FORGOTPASSWORD_FAIL, USER_FORGOTPASSWORD_REQUEST, USER_FORGOTPASSWORD_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCES, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
     switch (action.type) {
@@ -40,17 +40,4 @@ export const forgotPasswordReducer = (state = {}, action) => {
             return state;
     };
 };
-
-export const userFindReducer = (state = {}, action) => {
-    switch (action.type) {
-        case USER_FIND_REQUEST:
-            return { loading: true };
-        case USER_FIND_SUCCESS:
-            return { loading: false, userName: action.payload }
-        case USER_FIND_FAIL:
-            return { loading: false, error: action.payload }
-        default:
-            return state;
-    }
-}
 
