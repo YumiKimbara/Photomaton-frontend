@@ -9,9 +9,7 @@ const Notification = () => {
   const dispatch = useDispatch();
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   const [friendReq, setFriendReq] = useState([])
-  // const [friendRequest, setFriendRequest] = useState([])
-  // const [likes, setLikes] = useState([])
-  // const [comments, setComments] = useState([])
+  const [modalWidth, setModalWidth] = useState('')
   
   
   useEffect(async() => {
@@ -19,6 +17,11 @@ const Notification = () => {
     setFriendReq(res.data.data.friends.request)
     console.log(res)
     
+    if (window.innerWidth <= 450) {
+      setModalWidth('90%')
+    } else {
+      setModalWidth('40%')
+    }
   }, [])
 
   const handleAccept = async(senderID) => {
@@ -41,6 +44,14 @@ const Notification = () => {
     console.log(res)
   }
 
+  window.addEventListener('resize', () => {
+    if (window.innerWidth <= 450) {
+      setModalWidth('90%')
+    } else {
+      setModalWidth('40%')
+    }
+  })
+
   return (
         <Modal
           aria-labelledby="transition-modal-title"
@@ -51,20 +62,28 @@ const Notification = () => {
           BackdropProps={{
             timeout: 500,
           }}
+          
+    
         >
           <Fade in={modalSelecor}>
-            <Box className="modalWindow">
-            {friendReq.map((obj) => {
-              return (
-                <div key={obj.userID} className="friendRequest">
-                  <Avatar alt='' src={obj.avatarUrl} />
-                  <Typography variant='body2'>{obj.userName} sent a friend request</Typography>
-                  <Button onClick={()=>handleAccept(obj.userID)}>Accept</Button>
-                  <Button onClick={()=>handleReject(obj.userID)}>Reject</Button>
-                </div>
-                  )
-            })}
-            <hr/>
+            <Box
+              className="modalWindow"
+              sx={{
+                width: modalWidth
+              }}
+            >
+              {friendReq.map((obj) => {
+                return (
+                  <div key={obj.userID} className="friendRequest">
+                    <Avatar className="friReqAvatar" alt='' src={obj.avatarUrl} />
+                    <Typography variant='body2'>{obj.userName} sent a friend request</Typography>
+                    <Box>
+                      <Button className="requestBtn" variant='contained' color='primary' onClick={()=>handleAccept(obj.userID)}>Accept</Button>
+                      <Button className="requestBtn" variant='contained' color='error' onClick={()=>handleReject(obj.userID)}>Reject</Button>
+                    </Box>
+                  </div>
+                )
+              })}
               <div className="latestEvent">
 
               </div>

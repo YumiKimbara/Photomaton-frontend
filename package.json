@@ -8,6 +8,7 @@
     "@emotion/styled": "^11.3.0",
     "@material-ui/icons": "^4.11.2",
     "@mui/icons-material": "^5.1.0",
+    "@mui/lab": "^5.0.0-alpha.60",
     "@mui/material": "^5.1.0",
     "@mui/styles": "^5.2.2",
     "@reduxjs/toolkit": "^1.6.2",

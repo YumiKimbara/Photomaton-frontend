@@ -1,47 +1,57 @@
-import { Edit, PeopleAlt } from '@mui/icons-material';
-import { Avatar, Button, Grid, IconButton, Typography } from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Avatar, Button, Grid, Box, Typography, IconButton } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../actions/userActions';
 // import { io } from 'socket.io-client';
 
 const UserInfo = (props) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    const [friendRequestBtn, setFriendRequestBtn] = useState(<div></div>)
+    const [showButton, setShowButton] = useState(<div></div>)
     // const socket = io('http://localhost:5000')
 
     useEffect(() => {
         if (userInfo._id === props.user._id) {
-            setFriendRequestBtn(
-                <Grid item display="flex" justifyContent="start">
-                    <Button onClick={()=>navigate(`/friends/${props.user._id}`)}>Friends</Button>
-                    <Button onClick={()=>navigate(`/editProfile`)}>Edit profile</Button>
+            setShowButton(
+                <Grid container space={2} display="flex" justifyContent="start" alignItems='center'>
+                    <Button className='infoButton' variant='outlined' onClick={() => navigate(`/editProfile`)}>Edit profile</Button>
+                    <IconButton className='iconButton' onClick={handleLogout}>
+                        <LogoutIcon />
+                    </IconButton>
                 </Grid>
             )
         } else {
             if (props.user.friends.friendsList.some((item) => item.userID === userInfo._id)) {
-                setFriendRequestBtn(
-                    <Grid item display="flex" justifyContent="start">
-                        <Button onClick={()=>navigate(`/friends/${props.user._id}`)}>Friends</Button>
-                        <Button onClick={removeFriend}>Unfriend</Button>
-                    </Grid>
+                setShowButton(
+                    <Button
+                        className='infoButton'
+                        variant='outlined'
+                        onClick={removeFriend}>Unfollow</Button>
                 )
             } else if (props.user.friends.request.some((item)=>item.userID === userInfo._id)){
-                setFriendRequestBtn(
-                    <Grid item display="flex" justifyContent="start">
-                        <Button disabled='true'>Pending</Button>
-                    </Grid>
+                setShowButton(
+                    // <Button sx={{height: '30px'}} style={{color: '#2BC20E'}} variant='outlined' disabled='true'>Pending</Button>
+                    <Typography
+                        variant='body2'
+                        className='iconButton'
+                    >Pending</Typography>
                 )
             } else {
-                setFriendRequestBtn(
-                    <Grid item display="flex" justifyContent="start">
-                        <Button onClick={addFriend}>Add Friend</Button>
-                    </Grid>
+                setShowButton(
+                    <Button className='infoButton' variant='outlined' onClick={addFriend}>Follow</Button>
                 )
             }
         }
-    }, [])
+    }, [props.user._id])
+
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/login')
+    }
 
     const removeFriend = async() => {
         const res = await axios.put('http://localhost:3333/api/users/friendRemove', {
@@ -61,15 +71,23 @@ const UserInfo = (props) => {
     }
 
     return (
-        <Grid container spacing={2} sx={{ width:"96vw", margin:"3vh auto" }}>
-            <Grid item xs={4} alignSelf="center">
+        <Grid container spacing={0} sx={{ width:"100%", padding: '1vh 5vw'}}>
+            <Grid item xs={3.2} sm={1.5} alignSelf="center">
                 <Avatar sx={{height: '90px', width: '90px'}} src={props.user.avatarUrl} />
             </Grid>
-            <Grid item xs={8}>
-                <Typography variant="h6" color="white">{props.user.userName}</Typography>
-                {friendRequestBtn}
+            <Grid item xs={8} sm={10}>
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'start',
+                    gap: '10px'
+                }}>
+                    <Typography variant="h6" color="white">{props.user.userName}</Typography>
+                    {showButton}
+                </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{overflow:'hidden', margin: '3vh 0'}}>
                 <Typography
                     variant='body2'
                     sx={{
@@ -77,7 +95,12 @@ const UserInfo = (props) => {
                         maxHeight: '20vh',
                         whiteSpace: 'pre-line',
                         wordWrap:'break-word',
-                        overflow: 'scroll'
+                        overflowY: 'scroll',
+                        position: 'relative',
+                        top: '0',
+                        left: '0',
+                        paddingRight: '15px',
+                        width:'100%'
                     }}>{props.user.bio}</Typography>
                 {/* <Button>Show more...</Button> */}
             </Grid>

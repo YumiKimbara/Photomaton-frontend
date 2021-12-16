@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 import Profile from "./components/profile/Profile";
 import NewPost from "./components/newPost/NewPost";
 import EditProfile from "./components/profile/EditProfile";
-import Friends from "./components/Friends";
 import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
@@ -32,7 +31,6 @@ function App() {
           <Route path="profile/:id" element={<Profile />} />
           <Route path="newPost" element={<NewPost />} />
           <Route path="editProfile" element={<EditProfile />} />
-          <Route path="friends/:id" element={<Friends />} />
           <Route path="explore" element={<Explore />} />
           {/* <Route path="/" element={<Home />} /> 
           <Route path="forgotPassword" element={<ForgotPassword />} />
