@@ -6,11 +6,6 @@ import PostPhotos from './PostPhotos';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import Friends from './Friends';
-// import { green } from '@mui/material/colors';
-
-
-// const color = green[500]
-
 
 const Profile = () => {
     const [userData, setUserData] = useState(null)

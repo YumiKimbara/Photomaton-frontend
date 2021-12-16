@@ -17,7 +17,7 @@
             box-shadow: 0px 0px 15px -1px rgba(43, 194, 14, 0.5);
             background: transparent;
             color: $secondaryColor;
-            ::placeholder{
+            ::placeholder {
                 color: $secondaryColor;
             }
         }
@@ -37,28 +37,33 @@
             margin: 0 0 4px 0;
         }
     }
-    .Explore-Area {
+    .Explore-Body {
         text-align: center;
         color: $secondaryColor;
-        position: relative;
         width: 100%;
         margin-top: 10px;
-        .Explore-Images {
-            width: 80%;
-            margin: 10px;
-            filter: blur(1px);
-            opacity: 50%;
-            border-radius: 4px;
+        :hover {
+            background-color: $alternateColor;
+            cursor: pointer;
         }
-        .Explore-Label {
-            position: absolute;
-            width: 100%;
-            top: 50%;
-            left: 50%;
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-            font-weight: bold;
-            font-size: 6vw;
+        .Explore-Users {
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            vertical-align: middle;
+            .Explore-Images {
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+                margin: 10px;
+                border-radius: 50%;
+            }
+            .Explore-Label {
+                display: block;
+                margin: auto 10px;
+                font-weight: bold;
+                font-size: 20px;
+            }
         }
     }
 }

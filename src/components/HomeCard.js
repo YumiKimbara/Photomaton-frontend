@@ -1,41 +1,30 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { commentModal } from "../actions/modalActions";
+
+import axios from "axios";
+
 import {
   Card,
   CardHeader,
   CardMedia,
   CardContent,
-  CardActions,
   Avatar,
   IconButton,
-  Rating,
-  Tooltip,
-  tooltipClasses,
-  Button,
 } from "@mui/material";
-import { MoreVertIcon } from "@mui/icons-material/MoreVert";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Collapse from "@mui/material/Collapse";
+import Carousel from "react-material-ui-carousel";
 
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
-import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
-import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
-import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
-const LightTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.white,
-    color: "rgba(0, 0, 0, 0.87)",
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
-  },
-}));
+import { v4 as uuidv4 } from "uuid";
+
+const moment = require("moment-timezone");
 
 const customButtonTheme = createTheme({
   components: {
@@ -72,77 +61,117 @@ const customCardTheme = createTheme({
   },
 });
 
-const HomeCard = ({ postedData }) => {
-  const customIcons = {
-    1: {
-      icon: <ThumbUpAltOutlinedIcon />,
-      label: "ThumbUp",
-    },
-    2: {
-      icon: <FavoriteIcon />,
-      label: "Favorite",
-    },
-    3: {
-      icon: <SentimentVeryDissatisfiedIcon />,
-      label: "sad",
-    },
-    4: {
-      icon: <SentimentSatisfiedAltIcon />,
-      label: "Satisfied",
-    },
-    5: {
-      icon: <SentimentVerySatisfiedIcon />,
-      label: "Very Satisfied",
-    },
+const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userID = JSON.parse(localStorage.getItem("userInfo"))
+    ? JSON.parse(localStorage.getItem("userInfo"))._id
+    : "";
+  const [like, setLike] = useState(postedData.likes);
+  const [likeNumber, setLikeNumber] = useState(postedData.likes.length);
+  const timestamp = moment(postedData.createdAt)
+    .utc()
+    .local()
+    .format("YYYY/MM/DD HH:mm");
+
+  const postLikeHandler = (id) => {
+    axios
+      .put("api/postLike", {
+        ...postedData,
+        likedBy: userID,
+        likedPostId: id,
+      })
+      .then((res) => {
+        setLike(res.data.data.likes);
+        setLikeNumber(res.data.data.likes.length);
+      })
+      .catch((err) => console.error(err));
   };
 
-  function IconContainer({ value, ...other }) {
-    return <span {...other}>{customIcons[value].icon}</span>;
-  }
+  const deleteLikeHandler = (id) => {
+    axios
+      .put("api/deleteLike", {
+        ...postedData,
+        likedBy: userID,
+        likedPostId: id,
+      })
+      .then((res) => {
+        console.log("res", res);
+        setLike(res.data.data.likes);
+        setLikeNumber(res.data.data.likes.length);
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
     <>
       <ThemeProvider theme={customCardTheme}>
-        <Card sx={{ maxWidth: 414 }}>
-          <CardHeader
-            variant="cardText"
-            avatar={
-              <Avatar alt="User's picture" src={postedData.userImageUrl}>
-                R
-              </Avatar>
+        <Card sx={{ maxWidth: 414 }} className="cardWrapper">
+          {avatarAndUserId &&
+            avatarAndUserId.map((data) => {
+              return (
+                data.id === postedData.userId && (
+                  <CardHeader
+                    variant="cardText"
+                    title={postedData.userName}
+                    avatar={
+                      <Avatar
+                        onClick={() => navigate(`/profile/${data.id}`)}
+                        alt="User's picture"
+                        src={data.avatarUrl}
+                        className="avatar"
+                      />
+                    }
+                    subheader={timestamp}
+                  />
+                )
+              );
+            })}
+          <Carousel
+            autoPlay={false}
+            animation="slide"
+            indicators={postedData.imageUrl.length === 1 ? false : true}
+            navButtonsAlwaysInvisible={
+              postedData.imageUrl.length === 1 ? true : false
             }
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
-          />
-          <CardMedia
-            component="img"
-            height="194"
-            image={postedData.imgUrl}
-            alt="Posted image"
-          />
+          >
+            {postedData.imageUrl.map((image) => {
+              return (
+                <CardMedia
+                  key={uuidv4()}
+                  component="img"
+                  height="220"
+                  image={image}
+                  alt="Posted image"
+                />
+              );
+            })}
+          </Carousel>
           <ThemeProvider theme={customButtonTheme}>
             <IconButton aria-label="add to favorites">
-              <LightTooltip
-                title={
-                  <>
-                    <Rating
-                      name="highlight-selected-only"
-                      IconContainerComponent={IconContainer}
-                      highlightSelectedOnly
-                    />
-                  </>
-                }
-                placement="top"
-              >
-                <div className="buttonWrapper">
-                  <Button variant="neonBtn">Like</Button>
-                </div>
-              </LightTooltip>
+              {like.includes(userID) ? (
+                <FavoriteIcon
+                  onClick={() => deleteLikeHandler(postedData._id)}
+                />
+              ) : (
+                <FavoriteBorderIcon
+                  onClick={() => postLikeHandler(postedData._id)}
+                />
+              )}
+            </IconButton>
+            <IconButton aria-label="open chatbox">
+              <ChatBubbleOutlineIcon
+                onClick={() => {
+                  dispatch(commentModal());
+                  setObjectId(postedData._id);
+                }}
+              />
             </IconButton>
           </ThemeProvider>
-          <CardContent>
+          <div className="likesNumber">{likeNumber && likeNumber} likes</div>
+          <CardContent className="content">
             <Typography variant="cardText" color="text.secondary">
-              {postedData.text}
+              {postedData.content}
             </Typography>
           </CardContent>
         </Card>

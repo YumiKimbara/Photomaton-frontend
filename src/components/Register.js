@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
@@ -13,6 +13,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../actions/userActions';
+import ErrorMessage from './errorMessage/ErrorMessage';
 
 const Register = () => {
     const [firstName, setFirstName] = useState("");
@@ -21,6 +22,7 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [message, setMessage] = useState("")
 
     const navigate = useNavigate();
 
@@ -30,36 +32,22 @@ const Register = () => {
     const { loading, error, userInfo } = userRegister;
 
     // Password visibility eventhandlers
-    // const [values, setValues] = React.useState({
-    //     password: '',
-    //     confirmPassword: '',
-    //     showConfirmPassword: false,
-    //     showPassword: false,
-    // });
+    const [visibility1, setVisibility1] = useState(false)
+    const [visibility2, setVisibility2] = useState(false)
 
-    // const handleChange = (prop) => (event) => {
-    //     setValues({ ...values, [prop]: event.target.value });
-    // };
+    const handleClickShowPassword = () => {
+        setVisibility1(!visibility1)
+    };
 
-    // const handleClickShowPassword = () => {
-    //     setValues({
-    //         ...values,
-    //         showPassword: !values.showPassword,
-    //     });
-    // };
-
-    // const handleClickShowConfirmPassword = () => {
-    //     setValues({
-    //         ...values,
-    //         showConfirmPassword: !values.showConfirmPassword,
-    //     });
-    // };
+    const handleClickShowConfirmPassword = () => {
+        setVisibility2(!visibility2)
+    };
 
     const submitHandler = async (e) => {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            console.log("Passwords Do Not Match");
+            setMessage("Passwords Do Not Match");
         } else {
             dispatch(register(firstName, lastName, userName, email, password))
         };
@@ -69,7 +57,7 @@ const Register = () => {
         if (userInfo) {
             navigate("/")
         }
-    }, [userInfo])
+    }, [userInfo, navigate])
 
 
     return (
@@ -81,6 +69,8 @@ const Register = () => {
             noValidate
             autoComplete="off"
         >
+            {error && <ErrorMessage error={error} />}
+            {message && <ErrorMessage error={message} />}
             <div className="Register-Area">
                 <div className="Register-title">
                     <h2>Signup</h2>
@@ -96,19 +86,17 @@ const Register = () => {
                         <OutlinedInput
                             required
                             id="outlined-adornment-password"
-                            // type={values.showPassword ? 'text' : 'password'}
+                            type={visibility1 ? 'text' : 'password'}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            // value={values.password}
-                            // onChange={handleChange('password')}
                             endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
                                         aria-label="toggle password visibility"
-                                        // onClick={handleClickShowPassword}
+                                        onClick={handleClickShowPassword}
                                         edge="end"
                                     >
-                                        {/* {values.showPassword ? <VisibilityOff /> : <Visibility />} */}
+                                        {visibility1 ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
                                 </InputAdornment>
                             }
@@ -121,19 +109,17 @@ const Register = () => {
                         <OutlinedInput
                             required
                             id="outlined-adornment-password"
-                            // type={values.showConfirmPassword ? 'text' : 'password'}
-                            // value={values.confirmPassword}
-                            // onChange={handleChange('confirmPassword')}
+                            type={visibility2 ? 'text' : 'password'}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
                                         aria-label="toggle password visibility"
-                                        // onClick={handleClickShowConfirmPassword}
+                                        onClick={handleClickShowConfirmPassword}
                                         edge="end"
                                     >
-                                        {/* {values.showConfirmPassword ? <VisibilityOff /> : <Visibility />} */}
+                                        {visibility2 ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
                                 </InputAdornment>
                             }

@@ -14,16 +14,19 @@ import { useSelector } from "react-redux";
 import Profile from "./components/profile/Profile";
 import NewPost from "./components/newPost/NewPost";
 import EditProfile from "./components/profile/EditProfile";
-import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
+import ResetPasswordForm from "./components/ResetPasswordForm";
 
 function App() {
-  const toggleNotification = useSelector((state) => state.modalReducer);
+  const toggleNotification = useSelector(
+    (state) => state.modalReducer.notificationModal
+  );
 
   return (
     <>
       <BrowserRouter>
         <Header />
-        {toggleNotification.modal && <Notification />}
+        {toggleNotification && <Notification />}
         <Routes>
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
@@ -32,8 +35,9 @@ function App() {
           <Route path="newPost" element={<NewPost />} />
           <Route path="editProfile" element={<EditProfile />} />
           <Route path="explore" element={<Explore />} />
+          <Route path="resetpassword/:userId/:token" element={<ResetPasswordForm />} />
+          <Route path="resetpassword" element={<ResetPassword />} />
           {/* <Route path="/" element={<Home />} /> 
-          <Route path="forgotPassword" element={<ForgotPassword />} />
           <Route path="/" element={<Home />} />
           <Route path="explore" element={<Explore />} />
           {/* <Route path="profile" element={<Profile />} />

@@ -1,14 +1,20 @@
 const initialModalState = {
-  modal: false,
+  notificationModal: false,
+  commentModal: false,
   newPost: [],
 };
 
 const reducer = (state = initialModalState, action) => {
   switch (action.type) {
-    case "TOGGLE_MODAL":
+    case "NOTIFICATION_MODAL":
       return {
         ...state,
-        modal: !state.modal,
+        notificationModal: !state.notificationModal,
+      };
+    case "COMMENT_MODAL":
+      return {
+        ...state,
+        commentModal: !state.commentModal,
       };
     default:
       return state;

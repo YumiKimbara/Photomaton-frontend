@@ -1,11 +1,13 @@
 import { Box, Button, Modal, Fade, Avatar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleModal } from "../actions/modalActions";
-import axios from 'axios';
+import { notificationModal } from "../actions/modalActions";
+import axios from "axios";
 
 const Notification = () => {
-  const modalSelecor = useSelector((state) => state.modalReducer);
+  const notificationSelector = useSelector(
+    (state) => state.modalReducer.notificationModal
+  );
   const dispatch = useDispatch();
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   const [friendReq, setFriendReq] = useState([])

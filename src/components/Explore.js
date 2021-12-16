@@ -1,78 +1,70 @@
-import * as React from 'react';
-
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import ErrorMessage from "./errorMessage/ErrorMessage";
 
 const Explore = () => {
-  const itemData = [
-    {
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      title: 'Breakfast',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-      title: 'Burger',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-      title: 'Camera',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-      title: 'Coffee',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-      title: 'Hats',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-      title: 'Honey',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-      title: 'Basketball',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-      title: 'Fern',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-      title: 'Mushrooms',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-      title: 'Tomato basil',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-      title: 'Sea star',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-      title: 'Bike',
-    },
-  ];
 
+  const [userName, setUserName] = useState("")
+  const [message, setMessage] = useState("")
+  const [users, setUsers] = useState([])
+
+
+  const navigate = useNavigate();
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+
+  // user find in database based on username
+  const findUser = async (e) => {
+    if (userName === ("")) {
+      setMessage(<ErrorMessage error={"Input value cannot be empty"} />)
+    } else {
+      try {
+        const { data } = await axios.post("api/users/explore", { userName })
+        setUsers(
+          data.user.map((foundUsers) => {
+            return (
+              <div className="Explore-Users" key={foundUsers._id} onClick={() => navigate(`../profile/${foundUsers._id}`)}>
+                <img className="Explore-Images" src={foundUsers.avatarUrl} alt={foundUsers.userName + 'Profile Photo'} />
+                <span className="Explore-Label">{foundUsers.userName}</span>
+              </div>
+            )
+          })
+        )
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+  console.log(users)
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      findUser()
+      setUserName("")
+    }
+  }
+
+  // User Login Check, if the user is not logged in, redirect to login page
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/explore")
+    } else {
+      navigate("/login")
+    }
+  }, [userInfo, navigate])
 
   return (
     <>
+      {message}
       <div className="Explore">
         <div className="Explore-Searchbar">
-          <input type="text" id="Search-Tag" placeholder="Search" />
+          <input type="text" id="Search-Tag" onKeyPress={handleKeyPress} value={userName} onChange={(e) => setUserName(e.target.value)} placeholder="Find User by Username" />
         </div>
-        <div className="Explore-Title">
-          <h1>Popular Tags</h1>
+        <div className="Explore-Body">
+          {users}
         </div>
-        {itemData.map((images) => {
-          const img = images.img;
-          const tag = images.title;
-          return (
-            <div className="Explore-Area">
-              <img className="Explore-Images" src={img} alt={tag} />
-              <span className="Explore-Label">{tag}</span>
-            </div>
-          )
-        })}
       </div>
     </>
   )

@@ -3,9 +3,7 @@
     color: white;
   }
   .imgUpload {
-    // background-color: white;
     width: 100vw;
-    // height: 30vh;
     display: grid;
     place-items: center;
   }
@@ -26,6 +24,11 @@
     border-radius: 12px;
     padding: 6%;
   }
+}
+
+.previewImageWrapper {
+  margin-left: 15%;
+  margin-right: 15%;
 }
 
 .previewImages {
