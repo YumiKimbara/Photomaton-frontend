@@ -44,8 +44,8 @@ const Home = () => {
   useEffect(() => {
     const getAllPosts = async () => {
       const { data } = await axios.get("api/post");
-      setAllPosts(data);
-      setLoadedPosts(data.reverse().slice(0, loadedPostsNum));
+      setAllPosts(data.reverse());
+      setLoadedPosts(data.slice(0, loadedPostsNum));
     };
     getAllPosts();
   }, []);
@@ -56,7 +56,7 @@ const Home = () => {
       return;
     } else if (loadedPosts.length <= allPosts.length) {
       setLoadedPostsNum((prev) => (prev += 5));
-      setLoadedPosts(allPosts.reverse().slice(0, loadedPostsNum));
+      setLoadedPosts(allPosts.slice(0, loadedPostsNum));
     }
   };
 
@@ -84,7 +84,7 @@ const Home = () => {
         .then((res) => {
           console.log("res", res);
           axios.get("api/post").then((data) => {
-            setAllPosts(data);
+            setAllPosts(data.reverse());
             setComment("");
           });
         })
@@ -129,33 +129,37 @@ const Home = () => {
         >
           <Fade in={modalSelecor}>
             <Box className="modalWindow">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  submitCommentHandler();
-                }}
-              >
-                <div className="commentsInput">
-                  <label htmlFor="comment"></label>
-                  <input
-                    type="text"
-                    name="comment"
-                    id="comment"
-                    placeholder="Add a comment..."
-                    onChange={(e) => setComment(e.target.value)}
-                  />
-                  <Button
-                    className="postButton"
-                    variant="contained"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      submitCommentHandler();
-                    }}
-                  >
-                    Post
-                  </Button>
-                </div>
-              </form>
+              <div className="comments">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    submitCommentHandler();
+                  }}
+                >
+                  <div className="commentsInput">
+                    <label htmlFor="comment"></label>
+                    <input
+                      type="text"
+                      name="comment"
+                      id="comment"
+                      placeholder="Add a comment..."
+                      onChange={(e) => setComment(e.target.value)}
+                    />
+                  </div>
+                  <div className="commentsButton">
+                    <Button
+                      variant="contained"
+                      color="success"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        submitCommentHandler();
+                      }}
+                    >
+                      Post
+                    </Button>
+                  </div>
+                </form>
+              </div>
               <div>
                 {allPosts && !allPosts.data
                   ? allPosts.map((post) => {
