@@ -253,6 +253,8 @@ const Home = () => {
                       <HomeCard
                         postedData={post}
                         setObjectId={setObjectId}
+                        allPosts={allPosts}
+                        setAllPosts={setAllPosts}
                         avatarAndUserId={avatarAndUserId}
                       />
                     </Grid>

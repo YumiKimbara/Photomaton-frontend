@@ -67,16 +67,13 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
   const userID = JSON.parse(localStorage.getItem("userInfo"))
     ? JSON.parse(localStorage.getItem("userInfo"))._id
     : "";
-  const [favorite, setFavorite] = useState(false);
+  const [like, setLike] = useState(postedData.likes);
+  const [likeNumber, setLikeNumber] = useState(postedData.likes.length);
 
   const timestamp = moment(postedData.createdAt)
     .utc()
     .local()
     .format("YYYY/MM/DD HH:mm");
-
-  const favoriteHandler = () => {
-    setFavorite((prev) => !prev);
-  };
 
   const postLikeHandler = (id) => {
     axios
@@ -86,14 +83,13 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
         likedPostId: id,
       })
       .then((res) => {
-        console.log("res", res);
-        if (postedData.likes.includes(userID)) return;
+        setLike(res.data.data.likes);
+        setLikeNumber(res.data.data.likes.length);
       })
       .catch((err) => console.error(err));
   };
 
   const deleteLikeHandler = (id) => {
-    alert("deleted");
     axios
       .put("api/deleteLike", {
         ...postedData,
@@ -102,14 +98,14 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
       })
       .then((res) => {
         console.log("res", res);
-        if (!postedData.likes.includes(userID)) return;
+        setLike(res.data.data.likes);
+        setLikeNumber(res.data.data.likes.length);
       })
       .catch((err) => console.error(err));
   };
 
   return (
     <>
-      {console.log("postedData.likes", postedData.likes)}
       <ThemeProvider theme={customCardTheme}>
         <Card sx={{ maxWidth: 414 }} className="cardWrapper">
           {avatarAndUserId &&
@@ -154,23 +150,13 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
           </Carousel>
           <ThemeProvider theme={customButtonTheme}>
             <IconButton aria-label="add to favorites">
-              {favorite ? (
+              {like.includes(userID) ? (
                 <FavoriteIcon
-                  variant="neonBtn"
-                  onClick={() => (
-                    console.log(favorite),
-                    favoriteHandler(),
-                    deleteLikeHandler(postedData._id)
-                  )}
+                  onClick={() => deleteLikeHandler(postedData._id)}
                 />
               ) : (
                 <FavoriteBorderIcon
-                  variant="neonBtn"
-                  onClick={() => (
-                    console.log(favorite),
-                    favoriteHandler(),
-                    postLikeHandler(postedData._id)
-                  )}
+                  onClick={() => postLikeHandler(postedData._id)}
                 />
               )}
             </IconButton>
@@ -183,7 +169,7 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
               />
             </IconButton>
           </ThemeProvider>
-          <div>{postedData.likes.length} likes</div>
+          <div>{likeNumber && likeNumber} likes</div>
           <CardContent className="content">
             <Typography variant="cardText" color="text.secondary">
               {postedData.content}
