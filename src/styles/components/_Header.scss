@@ -1,43 +1,25 @@
 .headerWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 70px;
 
-    // background-color: $primaryColor;
-    // color: $alternateColor;
-    width: 100%;
-    height: 70px;
-    // box-sizing: border-box;
-    // overflow: hidden;
-    // position: fixed;
-    // top: 0;
-    // z-index: 100;
-    // text-align: center;
-    // padding: 1rem 0 1rem 0;
-    // h1 {
-    //     font-size: 2rem;
-    // }
-    // .neon {
-    //     margin: 0;
-    //     padding: 0 20px;
-    //     color: #fff;
-    //     text-shadow: 0 0 20px $alternateColor;
-    // }
-    .textLogo {
-        height: 3vh;
-        margin-left: 10px;
+  .textLogo {
+    height: 3vh;
+    margin-left: 10px;
+  }
+  .headerIcon {
+    margin-right: 10px;
+    color: $secondaryColor;
+    background-color: transparent;
+    border: none;
+    text-shadow: 0px 0px 5px rgba(43, 194, 14, 0.75);
+  }
+  button {
+    :hover {
+      color: $alternateColor;
+      cursor: pointer;
     }
-    .headerIcon {
-        margin-right: 10px;
-        color: $secondaryColor;
-        background-color: transparent;
-        border: none;
-        text-shadow: 0px 0px 5px rgba(43, 194, 14, 0.75);
-    }
-    button {
-        :hover {
-            color: $alternateColor;
-            cursor: pointer;
-        }
-    }
+  }
 }

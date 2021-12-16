@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Grid, Box, Modal, Fade, Button, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import HomeCard from "./HomeCard.js";
-import Story from "./Story.js";
+// import Story from "./Story.js";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { v4 as uuidv4 } from "uuid";
@@ -44,8 +44,8 @@ const Home = () => {
   useEffect(() => {
     const getAllPosts = async () => {
       const { data } = await axios.get("api/post");
-      setAllPosts(data);
-      setLoadedPosts(data.reverse().slice(0, loadedPostsNum));
+      setAllPosts(data.reverse());
+      setLoadedPosts(data.slice(0, loadedPostsNum));
     };
     getAllPosts();
   }, []);
@@ -56,7 +56,7 @@ const Home = () => {
       return;
     } else if (loadedPosts.length <= allPosts.length) {
       setLoadedPostsNum((prev) => (prev += 5));
-      setLoadedPosts(allPosts.reverse().slice(0, loadedPostsNum));
+      setLoadedPosts(allPosts.slice(0, loadedPostsNum));
     }
   };
 
@@ -130,6 +130,7 @@ const Home = () => {
           <Fade in={modalSelecor}>
             <Box className="modalWindow">
               <form
+                className="comments"
                 onSubmit={(e) => {
                   e.preventDefault();
                   submitCommentHandler();
@@ -144,9 +145,11 @@ const Home = () => {
                     placeholder="Add a comment..."
                     onChange={(e) => setComment(e.target.value)}
                   />
+                </div>
+                <div className="commentsButton">
                   <Button
-                    className="postButton"
                     variant="contained"
+                    color="success"
                     onClick={(e) => {
                       e.preventDefault();
                       submitCommentHandler();
@@ -169,6 +172,7 @@ const Home = () => {
                                   return (
                                     data.id === comm.postedBy && (
                                       <Avatar
+                                        className="avatar"
                                         onClick={() => {
                                           dispatch(commentModal());
                                           navigate(`/profile/${comm.postedBy}`);
@@ -263,16 +267,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// {allPosts.length !== 0
-// ? allPosts.map((post) => {
-//     if (post._id === objectId) {
-//       return (
-//         post.comment &&
-//         post.comment.map((comm) => {
-//           return <p>{comm.text}</p>;
-//         })
-//       );
-//     }
-//   })
-// : ""}
