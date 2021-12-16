@@ -4,26 +4,23 @@ import {
   Grid,
   Input,
   InputLabel,
-  Button,
   IconButton,
   Typography,
   Modal,
   Box,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
-// import TitleBar from '../TitleBar';
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { Check, Close } from "@mui/icons-material";
 
 const EditProfile = () => {
-  // const [info, setInfo] = useState(null)
+
   const [userData, setUserData] = useState(null);
   const [imgDetails, setImgDetails] = useState(null);
   const [preImgUrl, setPreImgUrl] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-  // const token = JSON.parse(localStorage.getItem('userInfo')).token
   const navigate = useNavigate();
   const userID = JSON.parse(localStorage.getItem("userInfo"))._id;
 
@@ -92,13 +89,6 @@ const EditProfile = () => {
 
   return userData ? (
     <Grid container className="editProfileWrapper">
-      {/* Passing parameters to Child component not working??? */}
-      {/* <TitleBar
-                title="Edit Profile"
-                leftBtn={{ type: "close", url: "/profile" }}
-                rightBtn={{ type: "submit" }}
-                onClick={()=>handleSubmit()}
-            /> */}
 
       <Grid container className="titleBarWrapper" margin="10px 0">
         <Grid
