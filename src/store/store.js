@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 import modalReducer from "../reducers/modalReducers.js";
 import {
   forgotPasswordReducer,
+  userFindReducer,
   userLoginReducer,
   userRegisterReducer,
 } from "../reducers/userReducers.js";
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   modalReducer: modalReducer,
   forgotPassword: forgotPasswordReducer,
+  userFind: userFindReducer
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

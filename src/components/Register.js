@@ -57,7 +57,7 @@ const Register = () => {
         if (userInfo) {
             navigate("/")
         }
-    }, [userInfo])
+    }, [userInfo, navigate])
 
 
     return (

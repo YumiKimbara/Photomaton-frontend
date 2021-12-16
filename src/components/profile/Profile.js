@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Avatar, Button, Grid} from '@mui/material'
+import { Avatar, Button, Grid } from '@mui/material'
 import UserInfo from './UserInfo';
 import PostPhotos from './PostPhotos';
 import axios from 'axios';
@@ -14,7 +14,15 @@ const Profile = () => {
     // const token = JSON.parse(localStorage.getItem('userInfo')).token
     const { id } = useParams();
 
-    
+    // User Login Check, if the user is not logged in, redirect to login page
+
+    const navigate = useNavigate();
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInfo } = userLogin;
+
+
+
+
     useEffect(async () => {
         // Fetch user data
         try {
@@ -35,7 +43,7 @@ const Profile = () => {
     }, [id])
 
     return (userData) ? (
-        <Grid container className="profileWrapper" direction="column" spacing={2} sx={{width:'100vw', margin: '0'}}>
+        <Grid container className="profileWrapper" direction="column" spacing={2} sx={{ width: '100vw', margin: '0' }}>
 
             <UserInfo user={userData} />
             <PostPhotos img={postData} />

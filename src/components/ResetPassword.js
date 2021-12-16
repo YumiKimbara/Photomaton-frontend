@@ -5,10 +5,10 @@ import Button from '@mui/material/Button';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useNavigate } from "react-router-dom";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+// import Dialog from '@mui/material/Dialog';
+// import DialogActions from '@mui/material/DialogActions';
+// import DialogContent from '@mui/material/DialogContent';
+// import DialogContentText from '@mui/material/DialogContentText';
 import { useDispatch, useSelector } from 'react-redux';
 import { userForgotPassword } from '../actions/userActions';
 import ErrorMessage from './errorMessage/ErrorMessage';
@@ -19,7 +19,7 @@ const ResetPassword = () => {
 
     const [userEmail, setUserEmail] = useState("")
     const [message, setMessage] = useState("")
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     // const regExp = /[a-zA-Z]/g;
