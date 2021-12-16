@@ -43,13 +43,18 @@ const Login = () => {
         if (userInfo) {
             navigate("/")
         }
-    }, [userInfo])
+    }, [userInfo, navigate])
 
     const submitHandler = async (e) => {
         e.preventDefault();
         dispatch(login(email, password))
     }
 
+    const onKeyPressHandler = (e) => {
+        if (e.key === 'Enter') {
+            submitHandler(e)
+        }
+    }
 
     return (
         <Box
@@ -66,7 +71,7 @@ const Login = () => {
                     <h2>Login</h2>
                 </div>
                 <div className="Login-form">
-                    <TextField required id="outlined-basic" label="Email" value={email} onChange={(e) => setEmail(e.target.value)} variant="outlined" helperText="Please type your email or username"
+                    <TextField required id="outlined-basic" label="Email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyPress={onKeyPressHandler} variant="outlined" helperText="Please type your email or username"
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -84,7 +89,7 @@ const Login = () => {
                             type={visibility ? 'text' : 'password'}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-
+                            onKeyPress={onKeyPressHandler}
                             startAdornment={
                                 <InputAdornment position="start">
                                     <LockIcon />
@@ -119,16 +124,16 @@ const Login = () => {
                     </Link>
                 </div>
                 <div className="Login-button">
-                    <Button variant="contained" color="success" onClick={submitHandler}>
+                    <Button variant="contained" color="success" onClick={submitHandler} >
                         Login
                     </Button>
                 </div>
-                <div className="Login-google">
+                {/* <div className="Login-google">
                     <p>Or Login With </p>
                     <Link href="#" underline="none">
                         <img src={Google} alt="google icon" />
                     </Link>
-                </div>
+                </div> */}
                 <div className="Login-register">
                     <p>
                         Don't have an account?

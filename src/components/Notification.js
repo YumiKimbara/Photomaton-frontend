@@ -16,6 +16,7 @@ const Notification = () => {
   // const [comments, setComments] = useState([])
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
   useEffect(async () => {
     const res = await axios.get(
       `http://localhost:3333/api/users/getNotifications/${userInfo._id}`
