@@ -84,7 +84,7 @@ const Home = () => {
         .then((res) => {
           console.log("res", res);
           axios.get("api/post").then((data) => {
-            setAllPosts(data.reverse());
+            setAllPosts(data);
             setComment("");
           });
         })
@@ -129,37 +129,36 @@ const Home = () => {
         >
           <Fade in={modalSelecor}>
             <Box className="modalWindow">
-              <div className="comments">
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    submitCommentHandler();
-                  }}
-                >
-                  <div className="commentsInput">
-                    <label htmlFor="comment"></label>
-                    <input
-                      type="text"
-                      name="comment"
-                      id="comment"
-                      placeholder="Add a comment..."
-                      onChange={(e) => setComment(e.target.value)}
-                    />
-                  </div>
-                  <div className="commentsButton">
-                    <Button
-                      variant="contained"
-                      color="success"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        submitCommentHandler();
-                      }}
-                    >
-                      Post
-                    </Button>
-                  </div>
-                </form>
-              </div>
+              <form
+                className="comments"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  submitCommentHandler();
+                }}
+              >
+                <div className="commentsInput">
+                  <label htmlFor="comment"></label>
+                  <input
+                    type="text"
+                    name="comment"
+                    id="comment"
+                    placeholder="Add a comment..."
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                </div>
+                <div className="commentsButton">
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      submitCommentHandler();
+                    }}
+                  >
+                    Post
+                  </Button>
+                </div>
+              </form>
               <div>
                 {allPosts && !allPosts.data
                   ? allPosts.map((post) => {
@@ -173,6 +172,7 @@ const Home = () => {
                                   return (
                                     data.id === comm.postedBy && (
                                       <Avatar
+                                        className="avatar"
                                         onClick={() => {
                                           dispatch(commentModal());
                                           navigate(`/profile/${comm.postedBy}`);

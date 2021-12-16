@@ -124,6 +124,7 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
                         onClick={() => navigate(`/profile/${data.id}`)}
                         alt="User's picture"
                         src={data.avatarUrl}
+                        className="avatar"
                       />
                     }
                     subheader={timestamp}
