@@ -69,7 +69,6 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
     : "";
   const [like, setLike] = useState(postedData.likes);
   const [likeNumber, setLikeNumber] = useState(postedData.likes.length);
-
   const timestamp = moment(postedData.createdAt)
     .utc()
     .local()
@@ -169,7 +168,7 @@ const HomeCard = ({ postedData, setObjectId, avatarAndUserId }) => {
               />
             </IconButton>
           </ThemeProvider>
-          <div>{likeNumber && likeNumber} likes</div>
+          <div className="likesNumber">{likeNumber && likeNumber} likes</div>
           <CardContent className="content">
             <Typography variant="cardText" color="text.secondary">
               {postedData.content}

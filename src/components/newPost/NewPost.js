@@ -11,7 +11,6 @@ import MuiAlert from "@mui/material/Alert";
 import Carousel from "react-material-ui-carousel";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { storeNewPost } from "../../actions/modalActions";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
@@ -23,14 +22,9 @@ const NewPost = () => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
   const [newPostError, setNewPostError] = useState(false);
 
-  const dispatch = useDispatch();
   const logIn = useSelector((state) => state.userLogin);
   const userId = logIn.userInfo._id;
   let imgUrls = [];
-
-  useEffect(() => {
-    console.log(content);
-  }, [content]);
 
   const setImagePreviewUrlHandler = (e) => {
     if (e.target.files.length !== 0 && content.length !== 0)

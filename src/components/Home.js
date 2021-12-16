@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Grid, Box, Modal, Fade, Button, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import HomeCard from "./HomeCard.js";
-import Story from "./Story.js";
+// import Story from "./Story.js";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { v4 as uuidv4 } from "uuid";
@@ -253,8 +253,6 @@ const Home = () => {
                       <HomeCard
                         postedData={post}
                         setObjectId={setObjectId}
-                        allPosts={allPosts}
-                        setAllPosts={setAllPosts}
                         avatarAndUserId={avatarAndUserId}
                       />
                     </Grid>
@@ -269,16 +267,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// {allPosts.length !== 0
-// ? allPosts.map((post) => {
-//     if (post._id === objectId) {
-//       return (
-//         post.comment &&
-//         post.comment.map((comm) => {
-//           return <p>{comm.text}</p>;
-//         })
-//       );
-//     }
-//   })
-// : ""}
