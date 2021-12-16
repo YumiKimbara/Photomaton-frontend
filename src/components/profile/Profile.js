@@ -70,7 +70,7 @@ const Profile = () => {
                     </TabList>
                 </Box>
                 <TabPanel sx={{width:'100%', padding: 0}} value="posts">
-                    <PostPhotos img={postData} />
+                    <PostPhotos user={userData} img={postData} />
                 </TabPanel>
                 <TabPanel sx={{width:'100%', padding: 0}} value="friends">
                     <Friends user={userData} />

@@ -31,7 +31,7 @@ const Notification = () => {
       senderID: senderID,
       receiverID: userInfo._id
     })
-    dispatch(toggleModal())
+    dispatch(notificationModal())
     console.log('Accept:', senderID, userInfo._id)
     console.log(res)
   }
@@ -41,7 +41,7 @@ const Notification = () => {
       senderID: senderID,
       receiverID: userInfo._id
     })
-    dispatch(toggleModal())
+    dispatch(notificationModal())
     console.log('Reject', senderID, userInfo._id)
     console.log(res)
   }
@@ -58,8 +58,8 @@ const Notification = () => {
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
-          open={modalSelecor}
-          onClose={() => dispatch(toggleModal())}
+          open={notificationSelector}
+          onClose={() => dispatch(notificationModal())}
           closeAfterTransition
           BackdropProps={{
             timeout: 500,
@@ -67,7 +67,7 @@ const Notification = () => {
           
     
         >
-          <Fade in={modalSelecor}>
+          <Fade in={notificationSelector}>
             <Box
               className="modalWindow"
               sx={{
